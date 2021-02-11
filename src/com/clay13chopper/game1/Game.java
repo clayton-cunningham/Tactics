@@ -119,7 +119,8 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void update() {
-		if (room.getChangeRoom() != null) setRoom(room.getChangeRoom());
+		Room r = room.getChangeRoom();
+		if (r != null) setRoom(r);
 		
 		key.update();
 		screen.update(room.getFocus());

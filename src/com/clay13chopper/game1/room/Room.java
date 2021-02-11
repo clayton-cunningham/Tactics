@@ -72,8 +72,20 @@ public class Room {
 		changeRoom = r;
 	}
 	
+	/**
+	 *  IMPORTANT: This function signals the Game to change rooms
+	 *             The name might not make that clear
+	 * @return	room to change to
+	 */
 	public Room getChangeRoom() {
-		return changeRoom;
+		Room r = changeRoom;
+		if (r != null) reset();
+		return r;
+	}
+	
+	public void reset() {
+		changeRoom = null;
+		entities = new ArrayList<Entity>();
 	}
 
 }

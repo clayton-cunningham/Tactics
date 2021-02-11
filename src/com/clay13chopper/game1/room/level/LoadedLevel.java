@@ -18,18 +18,11 @@ public class LoadedLevel extends Level {
 		super();
 		loadLevel(path);
 		locations = new Unit[width * height];
-		add(new Soldier(24, 24, Team.BLUE));
-		add(new Soldier(56, 88, Team.BLUE));
-		add(new Soldier(88, 56, Team.BLUE));
-		add(new Soldier(168, 136, Team.RED));
-		add(new Soldier(56, 24, Team.RED));
-		add(new Soldier(136, 56, Team.RED));
 		pathFinder= new PathFinder(width, height, this);
 		scale = 5;
 		tileSize = 16;
 		tileSizeShift = 4;
-		focus = new MapCursor(8,8);
-		add(focus);
+		loadEntities();
 	}
 	
 	protected void loadLevel(String path) {
@@ -62,6 +55,22 @@ public class LoadedLevel extends Level {
 		else if (tiles[x + (y * width)] == Tile.colMountain) return Tile.mountain;
 		else if (tiles[x + (y * width)] == Tile.colSand) return Tile.sand;
 		return Tile.voidTile;
+	}
+	
+	public void loadEntities() {
+		add(new Soldier(24, 24, Team.BLUE));
+		add(new Soldier(56, 88, Team.BLUE));
+		add(new Soldier(88, 56, Team.BLUE));
+		add(new Soldier(168, 136, Team.RED));
+		add(new Soldier(56, 24, Team.RED));
+		add(new Soldier(136, 56, Team.RED));
+		focus = new MapCursor(8,8);
+		add(focus);
+	}
+	
+	public void reset() {
+		super.reset();
+		loadEntities();
 	}
 
 }

@@ -181,5 +181,18 @@ public abstract class Level extends Room {
 	public int getTileSize() {
 		return tileSize;
 	}
+	
+	public int getLevelComplete() {
+		return levelComplete;
+	}
+	
+	public void reset() {
+		super.reset();
+		Arrays.fill(locations, null);
+		unitActing = null;
+		activeTeam = Team.BLUE;
+		Arrays.fill(teamNumAlive, 0);
+		levelComplete = 0;
+	}
 
 }

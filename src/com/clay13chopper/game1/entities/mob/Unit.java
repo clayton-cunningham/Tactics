@@ -22,23 +22,25 @@ public abstract class Unit extends Mob {
 		if (health < 1) remove();
 		
 		//Enemy or other non-playable units
-		if (!isPlayable() && team == level.getActiveTeam() && !turnDone 
+		if (!isPlayable() && team == level.getActiveTeam() && !turnDone && level.getLevelComplete() == 0
 				&& (level.getUnitActing() == null || level.getUnitActing() == this)) {
 			
 			if (level.getUnitActing() == null) {
 				delay = 0;
-				level.pathFinder.calcPath(movement, x >> 4, y >> 4);
 				level.setUnitActing(this);
 			}
 			
-			delay++;
-			if (delay > 80) {
+			if (delay == 2) {
+				level.pathFinder.calcPath(movement, x >> 4, y >> 4);
+			}
+			else if (delay > 80) {
 				level.pathFinder.reset();
 				act();
 				turnDone = true;
 				delay++;
 				level.setUnitActing(null);
 			}
+			delay++;
 			
 		}
 		

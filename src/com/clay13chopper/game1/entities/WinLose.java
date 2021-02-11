@@ -1,6 +1,8 @@
 package com.clay13chopper.game1.entities;
 
 import com.clay13chopper.game1.graphics.Sprite;
+import com.clay13chopper.game1.input.Keyboard;
+import com.clay13chopper.game1.room.StartMenu;
 
 public class WinLose extends Entity{
 	
@@ -9,6 +11,14 @@ public class WinLose extends Entity{
 		else sprite = Sprite.lose;
 		this.x = x;
 		this.y = y;
+	}
+	
+	public void update() {
+		
+		// Select a level
+		if (Keyboard.getSelectStart()) {
+			room.changeRoom(new StartMenu());
+		}
 	}
 
 }
