@@ -72,7 +72,15 @@ public class PathFinder {
 		
 		int target = attackAddr;
 		int reqMove = moveLimit - move;
-		int curTile = prevTile[target];
+		int curTile = -1;
+		try {
+			curTile = prevTile[target];
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("PathFinder tried to use attackAddr of -1.");
+			System.out.println("This means a pathfinding unit could not find a target.");
+			throw e;
+		}
 		
 		while (distances[curTile] < reqMove || (activeMove[curTile] != PathType.MOVE && activeMove[curTile] != PathType.HOME)) {
 			target = -1;
