@@ -16,7 +16,7 @@ public class Soldier extends Unit {
 	}
 
 	public Sprite getSpriteDown() {
-		if (anim / 40 == 0) {
+		if (anim % 100 == 50) {
 			if (team == Team.BLUE) {
 				if (turnDone) return Sprite.blueSoldierDown0Done;
 				else return Sprite.blueSoldierDown0;
@@ -26,19 +26,21 @@ public class Soldier extends Unit {
 				else return Sprite.redSoldierDown0;
 			}
 		}
-		if (team == Team.BLUE) {
-			if (turnDone) return Sprite.blueSoldierDown2Done;
-			else return Sprite.blueSoldierDown2;
+		else if (anim % 100 == 0) {
+			if (team == Team.BLUE) {
+				if (turnDone) return Sprite.blueSoldierDown2Done;
+				else return Sprite.blueSoldierDown2;
+			}
+			else {
+				if (turnDone) return Sprite.redSoldierDown2Done;
+				else return Sprite.redSoldierDown2;
+			}
 		}
-		else {
-			if (turnDone) return Sprite.redSoldierDown2Done;
-			else return Sprite.redSoldierDown2;
-		}
+		else return sprite;
 	}
 	
 	public void update() {
 		super.update();
-		if (anim > 80) anim = 0;
 		sprite = getSpriteDown();
 	}
 

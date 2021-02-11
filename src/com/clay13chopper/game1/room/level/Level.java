@@ -5,16 +5,13 @@ package com.clay13chopper.game1.room.level;
  * 				Assists running of every object's function, such as updating and rendering
  */
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.tiles.Tile;
-import com.clay13chopper.game1.entities.Cursor;
 import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.entities.WinLose;
 import com.clay13chopper.game1.entities.mob.Unit;
@@ -29,17 +26,16 @@ public abstract class Level extends Room {
 	
 	public PathFinder pathFinder;
 	protected int[] tiles;
+	protected int tileSize;
+	protected int tileSizeShift;
 	protected Unit[] locations;
 	protected Team activeTeam;
 	protected int[] teamNumAlive;
 	protected int levelComplete;
 	protected Unit unitActing;
-
-	protected List<Entity> entities = new ArrayList<Entity>();
 	
 	public Level() {
-		focus = new Cursor(8,8);
-		add(focus);
+		super();
 		activeTeam = Team.BLUE;
 		teamNumAlive = new int[Unit.Team.values().length];
 		Arrays.fill(teamNumAlive, 0);
@@ -47,7 +43,6 @@ public abstract class Level extends Room {
 	}
 	
 	public void update() {
-		if (levelComplete != 0) return;
 		boolean nextTurn = true;
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -85,7 +80,12 @@ public abstract class Level extends Room {
 				 * Works by using the (address / 16) to get the tile from the array.
 				 * Since we need that coordinate, he uses (that * 16) to get the top left corner of the tile location
 				 */
-				getTile(x, y).render(x, y, screen, pathFinder.getType(x, y));
+				getTile(x, y).render(x, y, screen, pathFinder.getType(x, y)); 
+				// TODO: Do I want to do this todo?  Could be better to call e.render() for all e
+				// 			Then, all e could be at small-number locations at the top-left of the tile
+				//			Would this conflict with other rooms?
+				// TODO: Call screen directly instead of calling the tiles
+				// 	TODO: (related) Move PathType rendering here
 			}
 		}
 		
@@ -130,16 +130,21 @@ public abstract class Level extends Room {
 		int x = u.getX() >> 4;
 		int y = u.getY() >> 4;
 		locations[x + (y * width)] = null;
+		
+		// Check if the level is complete
 		int teamId = u.getTeam().getId();
 		teamNumAlive[ teamId ]--;
 		if (teamNumAlive[ teamId ] < 1) {
 			if (teamId != 0) {
 				levelComplete = 1;
 				add(new WinLose(1, (width << 4) / 2, (height << 4) / 2));
+				entities.remove(focus);
 			}
 			else {
 				levelComplete = -1;
 				add(new WinLose(-1, (width << 4) / 2, (height << 4) / 2));
+				entities.remove(focus);
+				
 			}
 		}
 	}
@@ -163,6 +168,18 @@ public abstract class Level extends Room {
 	
 	public Unit getUnitActing() {
 		return unitActing;
+	}
+	
+	public int getWidthbyPixel() {
+		return width * tileSize;
+	}
+	
+	public int getHeightbyPixel() {
+		return height * tileSize;
+	}
+	
+	public int getTileSize() {
+		return tileSize;
 	}
 
 }

@@ -1,23 +1,31 @@
 package com.clay13chopper.game1.entities;
 
 import com.clay13chopper.game1.graphics.Sprite;
+import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.room.level.Level;
 
 public abstract class Entity {
 
 	protected Sprite sprite;
-	protected int x, y, xd, yd;
+	protected int x, y, xOld, yOld;
+	protected int movement;
 	protected int anim;
 	protected int delay;
 	protected boolean removed = false;
 	protected Level level;
-	
+	protected Room room;
+
 	public void init(Level l) {
 		level = l;
+		room = l;
+	}
+	
+	public void init(Room r) {
+		room = r;
 	}
 
 	public void update() {
-		anim++;
+		if (anim < 3000) anim++; else anim = 0;
 	}
 	
 	public void remove() {

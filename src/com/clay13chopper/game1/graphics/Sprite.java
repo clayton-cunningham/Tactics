@@ -68,20 +68,28 @@ public class Sprite {
 	public static Sprite particle1 = new Sprite(1, 1, 0, 0, SpriteSheet.background_tiles);
 	
 	//Cursors
-	public static Sprite cursor1 = new Sprite(16, 16, 0, 1, SpriteSheet.cursors);
-	public static Sprite cursor2 = new Sprite(16, 16, 1, 1, SpriteSheet.cursors);
-	public static Sprite cursorError1 = new Sprite(16, 16, 0, 2, SpriteSheet.cursors);
-	public static Sprite cursorError2 = new Sprite(16, 16, 1, 2, SpriteSheet.cursors);
+	public static Sprite cursor1 = new Sprite(16, 16, 0, 0, SpriteSheet.cursors);
+	public static Sprite cursor2 = new Sprite(16, 16, 1, 0, SpriteSheet.cursors);
+	public static Sprite cursorError1 = new Sprite(16, 16, 0, 1, SpriteSheet.cursors);
+	public static Sprite cursorError2 = new Sprite(16, 16, 1, 1, SpriteSheet.cursors);
+	
+	public static Sprite menuCursorLarge = new Sprite(80, 80, 0, 2, SpriteSheet.cursorsLarge);
 	
 	//UI
 	public static Sprite healthBar = new Sprite(16, 16, 0, 0, SpriteSheet.UI);
 	public static Sprite health = new Sprite(16, 1, 1, 0, SpriteSheet.UI);
 	public static Sprite win = new Sprite(16, 16, 0, 1, SpriteSheet.UI);
 	public static Sprite lose = new Sprite(16, 16, 1, 1, SpriteSheet.UI);
+	public static Sprite level1 = new Sprite(320, 141, 0, 0, SpriteSheet.startMenu);
+	public static Sprite level2 = new Sprite(320, 141, 0, 1, SpriteSheet.startMenu);
+	public static Sprite level3 = new Sprite(320, 141, 0, 2, SpriteSheet.startMenu);
 	
 	//Void
 	public static Sprite voidSprite = new Sprite(16, 16, 6, 7, SpriteSheet.background_tiles);
 	public static Sprite emptySprite = new Sprite(0, 0, 0, 0, SpriteSheet.background_tiles);
+	
+	//Backgrounds
+	public static Sprite background_start = new Sprite(1920, 1080, 0, 0, SpriteSheet.background_start);
 	
 	public Sprite(int w, int h, int x, int y, SpriteSheet sheet) {
 		width = w;

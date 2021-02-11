@@ -8,6 +8,7 @@ public abstract class Tile {
 
 	protected Sprite sprite;
 	protected Sprite spriteMovable;
+	protected int spriteScale = 1;
 	
 	public final static Tile grass0 = new GrassTile(Sprite.grass0);
 	public final static Tile grass1 = new GrassTile(Sprite.grass1);

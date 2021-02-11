@@ -7,7 +7,6 @@ public abstract class Unit extends Mob {
 	protected Team team;
 	protected int maxHealth;
 	protected int health;
-	protected int movement;
 	protected boolean turnDone;
 	protected int attack;
 	protected int range;

@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.input.Keyboard;
 import com.clay13chopper.game1.room.Room;
+import com.clay13chopper.game1.room.StartMenu;
 import com.clay13chopper.game1.room.level.Level;
 
 /**
@@ -35,7 +36,7 @@ public class Game extends Canvas implements Runnable {
 	
 	private static int width = 500;
 	private static int height = width * 9 / 16;
-	private static int scale = 5;
+	private static int scale = 3;
 
 	private static String title = "Game1";
 	
@@ -52,25 +53,43 @@ public class Game extends Canvas implements Runnable {
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
 	public Game() {
-		
+
+		setRoom(new StartMenu());
+//		setRoom(Level.level1);
 		// TODO: Create a "start level x" method that resets all this:
 		// Need to update all occurrences of width & height
-		room = Level.level1;
-		width = room.getWidth() * 16; // TODO: add static final sprite size somewhere
-		height = room.getHeight() * 16;
+//		room = Level.level1;
+//		width = room.getWidth() * 16; // TODO: add static final sprite size somewhere
+//		height = room.getHeight() * 16;
+//		
+//		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+//		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		
+//		Dimension size = new Dimension(width * scale, height * scale);
+//		setPreferredSize(size);
+
+//		frame = new JFrame();
+//		screen = new Screen(width, height);
+		// end of todo
+		
+		key = new Keyboard();
+		addKeyListener(key);
+	}
+	
+	public void setRoom(Room r) {
+		room = r;
+		width = room.getWidthbyPixel(); // TODO: add static final sprite size somewhere
+		height = room.getHeightbyPixel();
+		scale = room.getScale();
 		
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-		// end of todo
 		
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 
 		frame = new JFrame();
 		screen = new Screen(width, height);
-		
-		key = new Keyboard();
-		addKeyListener(key);
 	}
 	
 	@Override

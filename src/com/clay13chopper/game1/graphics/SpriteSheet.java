@@ -16,7 +16,12 @@ public class SpriteSheet {
 	public final static SpriteSheet example_player_done = new SpriteSheet("/spritesheets/rpg_16x16_done.png", 128, 144);
 	public final static SpriteSheet projectiles1 = new SpriteSheet("/spritesheets/projectiles1.png", 48, 48);
 	public final static SpriteSheet cursors = new SpriteSheet("/spritesheets/cursors.png", 48, 48);
+	public final static SpriteSheet cursorsLarge = new SpriteSheet("/spritesheets/cursorsLarge.png", 240, 240);
 	public final static SpriteSheet UI = new SpriteSheet("/spritesheets/UI.png", 48, 48);
+	public final static SpriteSheet startMenu = new SpriteSheet("/spritesheets/startMenu.png", 320, 564);
+	
+	// Backgrounds - maybe change to different class?
+	public final static SpriteSheet background_start = new SpriteSheet("/spritesheets/background_start.png", 1920, 1080);
 	
 	public SpriteSheet(String p, int w, int h) {
 		path = p;

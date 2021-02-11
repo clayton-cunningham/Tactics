@@ -21,6 +21,8 @@ public class Screen {
 	}
 	
 	public void update(Entity focus) {
+		if (focus == null) return;
+		
 		int x = focus.getX();
 		int y = focus.getY();
 		int sW = focus.getSprite().getWidth();

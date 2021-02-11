@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.clay13chopper.game1.entities.cursors.MapCursor;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
 import com.clay13chopper.game1.entities.mob.player_units.Soldier;
@@ -24,6 +25,11 @@ public class LoadedLevel extends Level {
 		add(new Soldier(56, 24, Team.RED));
 		add(new Soldier(136, 56, Team.RED));
 		pathFinder= new PathFinder(width, height, this);
+		scale = 5;
+		tileSize = 16;
+		tileSizeShift = 4;
+		focus = new MapCursor(8,8);
+		add(focus);
 	}
 	
 	protected void loadLevel(String path) {
