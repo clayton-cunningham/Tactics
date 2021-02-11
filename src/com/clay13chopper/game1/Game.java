@@ -13,7 +13,6 @@ import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.input.Keyboard;
 import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.room.StartMenu;
-import com.clay13chopper.game1.room.level.Level;
 
 /**
  * Tactics game
@@ -54,23 +53,9 @@ public class Game extends Canvas implements Runnable {
 
 	public Game() {
 
-		setRoom(new StartMenu());
-//		setRoom(Level.level1);
-		// TODO: Create a "start level x" method that resets all this:
-		// Need to update all occurrences of width & height
-//		room = Level.level1;
-//		width = room.getWidth() * 16; // TODO: add static final sprite size somewhere
-//		height = room.getHeight() * 16;
-//		
-//		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-//		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		frame = new JFrame();
 		
-//		Dimension size = new Dimension(width * scale, height * scale);
-//		setPreferredSize(size);
-
-//		frame = new JFrame();
-//		screen = new Screen(width, height);
-		// end of todo
+		setRoom(new StartMenu());
 		
 		key = new Keyboard();
 		addKeyListener(key);
@@ -78,7 +63,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public void setRoom(Room r) {
 		room = r;
-		width = room.getWidthbyPixel(); // TODO: add static final sprite size somewhere
+		width = room.getWidthbyPixel();
 		height = room.getHeightbyPixel();
 		scale = room.getScale();
 		
@@ -88,8 +73,10 @@ public class Game extends Canvas implements Runnable {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 
-		frame = new JFrame();
 		screen = new Screen(width, height);
+
+		this.frame.setSize(size);
+		
 	}
 	
 	@Override
@@ -132,9 +119,12 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void update() {
+		if (room.getChangeRoom() != null) setRoom(room.getChangeRoom());
+		
 		key.update();
 		screen.update(room.getFocus());
 		room.update();
+		
 	}
 	
 	public void render() {
@@ -163,7 +153,7 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args) {
 		Game game = new Game();
 
-		game.frame.setResizable(false);
+		game.frame.setResizable(true);
 		game.frame.setTitle(Game.title);
 		game.frame.add(game);
 		game.frame.pack();

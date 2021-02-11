@@ -15,6 +15,8 @@ public class Room {
 	
 	protected List<Entity> entities = new ArrayList<Entity>();
 	
+	protected Room changeRoom = null;
+	
 	public Room() {
 		
 	}
@@ -64,6 +66,14 @@ public class Room {
 	
 	public int getScale() {
 		return scale;
+	}
+	
+	public void changeRoom(Room r) {
+		changeRoom = r;
+	}
+	
+	public Room getChangeRoom() {
+		return changeRoom;
 	}
 
 }

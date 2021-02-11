@@ -2,6 +2,7 @@ package com.clay13chopper.game1.entities.cursors;
 
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.input.Keyboard;
+import com.clay13chopper.game1.room.level.Level;
 
 public class MenuCursor extends Cursor {
 	
@@ -24,7 +25,7 @@ public class MenuCursor extends Cursor {
 		
 		// Select a level
 		if (Keyboard.getSelectStart()) {
-			System.out.print("Click");
+			room.changeRoom(Level.level1);
 		}
 		
 	}

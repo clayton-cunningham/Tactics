@@ -16,7 +16,7 @@ public class Soldier extends Unit {
 	}
 
 	public Sprite getSpriteDown() {
-		if (anim % 100 == 50) {
+		if (anim % 100 >= 50) {
 			if (team == Team.BLUE) {
 				if (turnDone) return Sprite.blueSoldierDown0Done;
 				else return Sprite.blueSoldierDown0;
@@ -26,7 +26,7 @@ public class Soldier extends Unit {
 				else return Sprite.redSoldierDown0;
 			}
 		}
-		else if (anim % 100 == 0) {
+		else if (anim % 100 < 50) {
 			if (team == Team.BLUE) {
 				if (turnDone) return Sprite.blueSoldierDown2Done;
 				else return Sprite.blueSoldierDown2;
