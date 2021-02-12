@@ -20,8 +20,6 @@ public class LoadedLevel extends Level {
 		locations = new Unit[width * height];
 		pathFinder= new PathFinder(width, height, this);
 		scale = 5;
-		tileSize = 16;
-		tileSizeShift = 4;
 		loadEntities();
 	}
 	

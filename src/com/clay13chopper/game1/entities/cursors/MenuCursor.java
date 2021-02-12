@@ -25,7 +25,7 @@ public class MenuCursor extends Cursor {
 		
 		// Select a level
 		if (Keyboard.getSelectStart()) {
-			if (currSelect == 1) room.changeRoom(Level.level1);
+			if (currSelect == 0) room.changeRoom(Level.level1);
 			if (currSelect == 1) room.changeRoom(Level.level2);
 		}
 		

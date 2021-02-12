@@ -115,6 +115,7 @@ public class PathFinder {
 		}  			// Cannot attack from another unit's space, so keep moving
 		else if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() == level.getActiveTeam()) { 
 			activeMove[x + (y * width)] = PathType.PASS;
+			//TODO: Mark attackblocked from these spaces
 		}
 		else {		// Mark move, calculate attack
 			activeMove[x + (y * width)] = PathType.MOVE;
@@ -145,7 +146,7 @@ public class PathFinder {
 	// Labels nearby titles that can be attacked
 	public void calcAttack(int move, int range, int x, int y) {
 		
-		for (int i = -2; i < 2; i++) {
+		for (int i = -2; i < 2; i++) { // Change from just x & y to full-circle
 			int xa = x + (range * (i % 2));
 			int ya = y + (range * ((i + 1) % 2));
 			

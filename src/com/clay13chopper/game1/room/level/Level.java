@@ -26,8 +26,8 @@ public abstract class Level extends Room {
 	
 	public PathFinder pathFinder;
 	protected int[] tiles;
-	protected int tileSize;
-	protected int tileSizeShift;
+	protected static final int TILE_SIZE = 16;
+	protected static final int TILE_SIZE_SHIFT = 4;
 	protected Unit[] locations;
 	protected Team activeTeam;
 	protected int[] teamNumAlive;
@@ -171,15 +171,15 @@ public abstract class Level extends Room {
 	}
 	
 	public int getWidthbyPixel() {
-		return width * tileSize;
+		return width * TILE_SIZE;
 	}
 	
 	public int getHeightbyPixel() {
-		return height * tileSize;
+		return height * TILE_SIZE;
 	}
 	
 	public int getTileSize() {
-		return tileSize;
+		return TILE_SIZE;
 	}
 	
 	public int getLevelComplete() {
