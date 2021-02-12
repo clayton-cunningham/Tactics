@@ -21,8 +21,8 @@ import com.clay13chopper.game1.entities.mob.Unit.Team;
 public abstract class Level extends Room {
 
 	public static Level random = new RandomLevel(10, 10);
-	public static Level level1 = new LoadedLevel("/levels/map1.png");
-	public static Level level2 = new LoadedLevel("/levels/map2.png");
+	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
+	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities1.png");
 	
 	public PathFinder pathFinder;
 	protected int[] tiles;

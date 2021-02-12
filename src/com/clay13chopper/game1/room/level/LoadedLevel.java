@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.entities.cursors.MapCursor;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
@@ -14,13 +15,15 @@ import com.clay13chopper.game1.tiles.Tile;
 
 public class LoadedLevel extends Level {
 	
-	public LoadedLevel(String path) {
+	private int[] loadedEntities = new int[0];
+	
+	public LoadedLevel(String path, String pathE) {
 		super();
 		loadLevel(path);
 		locations = new Unit[width * height];
 		pathFinder= new PathFinder(width, height, this);
 		scale = 5;
-		loadEntities();
+		loadEntities(pathE);
 	}
 	
 	protected void loadLevel(String path) {
@@ -55,20 +58,46 @@ public class LoadedLevel extends Level {
 		return Tile.voidTile;
 	}
 	
-	public void loadEntities() {
-		add(new Soldier(24, 24, Team.BLUE));
-		add(new Soldier(56, 88, Team.BLUE));
-		add(new Soldier(88, 56, Team.BLUE));
-		add(new Soldier(168, 136, Team.RED));
-		add(new Soldier(56, 24, Team.RED));
-		add(new Soldier(136, 56, Team.RED));
-		focus = new MapCursor(8,8);
-		add(focus);
+	protected void loadEntities(String path) {
+		try {
+			System.out.print("Trying to load: " + path + "...");
+			BufferedImage image = ImageIO.read(LoadedLevel.class.getResource(path));
+			width = image.getWidth();
+			height = image.getHeight();
+			loadedEntities = new int[width * height];
+			image.getRGB(0, 0, width, height, loadedEntities, 0, width);
+			System.out.println(" succeeded!");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(" failed!");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" failed!");
+		}
+		
+		getEntityTypes(loadedEntities);
+	}
+	
+	public void getEntityTypes(int[] loadedEntities) {
+		
+		for (int i = 0; i < loadedEntities.length; i++) {
+			int e = loadedEntities[i];
+			if (e == Entity.colBlueUnit) add(new Soldier((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
+			else if (e == Entity.colRedUnit) add(new Soldier((i%16)*16 + 8, (i/16)*16 + 8, Team.RED)) ;
+			else if (e == Entity.colYellowUnit) ;
+			else if (e == Entity.colGreenUnit) ;
+			else if (e == Entity.colCursor) {
+				focus = new MapCursor((i%16)*16 + 8, (i/16)*16 + 8);
+				add(focus);
+			}
+		}
 	}
 	
 	public void reset() {
 		super.reset();
-		loadEntities();
+		getEntityTypes(loadedEntities);
 	}
 
 }

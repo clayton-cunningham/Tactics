@@ -14,6 +14,12 @@ public abstract class Entity {
 	protected boolean removed = false;
 	protected Level level;
 	protected Room room;
+	
+	public final static int colBlueUnit = 0xff0000ff;
+	public final static int colRedUnit = 0xffff0000;
+	public final static int colYellowUnit = 0xff00ffdd;
+	public final static int colGreenUnit = 0xff00ff00;
+	public final static int colCursor = 0xff01aaff;
 
 	public void init(Level l) {
 		level = l;
