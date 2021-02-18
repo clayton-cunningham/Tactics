@@ -9,14 +9,16 @@ public class PathFinder {
 	protected Level level;
 	protected int width;
 	protected int height;
-	protected PathType[] activeMove; // Holds type of action available for space
-	protected int[] prevTile;		 // Holds previous tile for space
-	protected int[] distances;		 // Holds move amount left at space
-	protected boolean homeSet;       // Holds starting tile
-	protected QueueMap<int[]> map;   // Map of Queues - holds possible yet-to-be calculated movement
-	
+	protected PathType[] activeMove; 		// Holds type of action available for space
+	protected int[] prevTile;		 		// Holds previous tile for space
+	protected int[] distances;		 		// Holds move amount left at space
+	protected boolean homeSet;      		// Holds starting tile
+	protected QueueMap<int[]> map;   		// Map of Queues - holds possible yet-to-be calculated movement
+
 	protected boolean attackSet;
 	protected int attackAddr;  	// TODO: Should I toss these variables in, or just make a switch for when we're using calcDesiredPath?
+	protected boolean attackBlockedSet;
+	protected int attackBlockedAddr;
 	
 	
 	public PathFinder(int width, int height, Level l) {
@@ -31,6 +33,8 @@ public class PathFinder {
 		homeSet = false;
 		attackSet = false;
 		attackAddr = -1;
+		attackBlockedSet = false;
+		attackBlockedAddr = -1;
 		map = new QueueMap<int[]>();
 	}
 	
@@ -68,7 +72,9 @@ public class PathFinder {
 			calcMove(next[0], next[1], next[2], next[3], next[4]);
 		}
 		
-//		if (attackAddr == -1) return new int[] {-1, x + (y * width)}; //SHOULD NOT EVER RUN but will if unit cannot find enemies
+		if (!attackSet) attackAddr = attackBlockedAddr;
+		
+		if (attackAddr == -1) return new int[] {-1, x + (y * width)}; // If unit cannot find enemies - should only happen for ranged units that can't move enough to get an enemy in range
 		
 		int target = attackAddr;
 		int reqMove = moveLimit - move;
@@ -115,7 +121,8 @@ public class PathFinder {
 		}  			// Cannot attack from another unit's space, so keep moving
 		else if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() == level.getActiveTeam()) { 
 			activeMove[x + (y * width)] = PathType.PASS;
-			//TODO: Mark attackblocked from these spaces
+			calcAttackBlocked(move, 1, x, y);
+			
 		}
 		else {		// Mark move, calculate attack
 			activeMove[x + (y * width)] = PathType.MOVE;
@@ -123,11 +130,6 @@ public class PathFinder {
 		}
 		
 		prevTile[x + ((y) * width)] = (px + (py * width));
-		
-//		calcPath(move - 1, x, y + 1);
-//		calcPath(move - 1, x, y - 1);
-//		calcPath(move - 1, x + 1, y);
-//		calcPath(move - 1, x - 1, y);
 
 		// Queue all possible moves (breadth-first)
 		// Better than recursion (depth-first)
@@ -140,13 +142,13 @@ public class PathFinder {
 		map.add(move - 1, right);
 		map.add(move - 1, left);
 		
-		
 	}
 	
 	// Labels nearby titles that can be attacked
-	public void calcAttack(int move, int range, int x, int y) {
+	// TODO: why do I have move here?
+	private void calcAttack(int move, int range, int x, int y) {
 		
-		for (int i = -2; i < 2; i++) { // Change from just x & y to full-circle
+		for (int i = -2; i < 2; i++) { // TODO: Change from just x & y to full-circle
 			int xa = x + (range * (i % 2));
 			int ya = y + (range * ((i + 1) % 2));
 			
@@ -154,12 +156,35 @@ public class PathFinder {
 			
 			int index = xa + (ya * width);
 			if (activeMove[index] == PathType.NONE) {
-				distances[index] = -1;
 				activeMove[index] = PathType.ATTACK;
 				prevTile[index] = (x + (y * width));
 				if (level.getUnit(xa, ya) != null && level.getUnit(xa, ya).getTeam() != level.getActiveTeam()) {
 					attackSet = true;
 					attackAddr = index;
+				}
+			}
+			
+		}
+		
+	}
+	
+	private void calcAttackBlocked(int move, int range, int x, int y) {
+		
+		if (attackBlockedSet) return;
+		
+		for (int i = -2; i < 2; i++) { // TODO: Change from just x & y to full-circle
+			int xa = x + (range * (i % 2));
+			int ya = y + (range * ((i + 1) % 2));
+			
+			if (xa < 0 || ya < 0 || xa >= width || ya >= height) continue;
+			
+			int index = xa + (ya * width);
+			if (activeMove[index] == PathType.NONE) {
+				prevTile[index] = (x + (y * width));
+				if (level.getUnit(xa, ya) != null && level.getUnit(xa, ya).getTeam() != level.getActiveTeam()) {
+					attackBlockedSet = true;
+					attackBlockedAddr = index;
+					return;
 				}
 			}
 			
@@ -174,6 +199,8 @@ public class PathFinder {
 		homeSet = false;
 		attackSet = false;
 		attackAddr = -1;
+		attackBlockedSet = false;
+		attackBlockedAddr = -1;
 		map.clear();
 	}
 	
@@ -191,6 +218,7 @@ public class PathFinder {
 		MOVE,
 		ATTACK,
 		PASS,
-		HOME
+		HOME 		// Same as MOVE, but doesn't render blue on tiles
+//		MOVEBLOCKED
 	}
 }

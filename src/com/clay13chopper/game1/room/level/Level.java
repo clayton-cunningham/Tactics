@@ -6,6 +6,7 @@ package com.clay13chopper.game1.room.level;
  */
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
@@ -45,11 +46,12 @@ public abstract class Level extends Room {
 	
 	public void update() {
 		boolean nextTurn = true;
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
+		// We need to use an iterator to safely remove from the list in this loop
+		for (Iterator<Entity> iterator = entities.iterator(); iterator.hasNext();) {
+			Entity e = iterator.next();
 			e.update();
 			if (e.isRemoved()) {
-				entities.remove(i);
+				iterator.remove();
 				if (e instanceof Unit) removeUnit((Unit)e);
 				if (levelComplete != 0) return;
 			}
