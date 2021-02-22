@@ -71,6 +71,26 @@ public class Sprite {
 	public static Sprite redMageDown2 = new Sprite(16, 16,  5, 1, SpriteSheet.example_player);
 	public static Sprite redMageDown0Done = new Sprite(16, 16,  3, 1, SpriteSheet.example_player_done);
 	public static Sprite redMageDown2Done = new Sprite(16, 16,  5, 1, SpriteSheet.example_player_done);
+
+	public static Sprite blueHeavyDown0 = new Sprite(16, 16,  0, 4, SpriteSheet.example_player);
+	public static Sprite blueHeavyDown2 = new Sprite(16, 16,  2, 4, SpriteSheet.example_player);
+	public static Sprite blueHeavyDown0Done = new Sprite(16, 16,  0, 4, SpriteSheet.example_player_done);
+	public static Sprite blueHeavyDown2Done = new Sprite(16, 16,  2, 4, SpriteSheet.example_player_done);
+	
+	public static Sprite redHeavyDown0 = new Sprite(16, 16,  3, 4, SpriteSheet.example_player);
+	public static Sprite redHeavyDown2 = new Sprite(16, 16,  5, 4, SpriteSheet.example_player);
+	public static Sprite redHeavyDown0Done = new Sprite(16, 16,  3, 4, SpriteSheet.example_player_done);
+	public static Sprite redHeavyDown2Done = new Sprite(16, 16,  5, 4, SpriteSheet.example_player_done);
+
+	public static Sprite blueRunnerDown0 = new Sprite(16, 16,  0, 6, SpriteSheet.example_player);
+	public static Sprite blueRunnerDown2 = new Sprite(16, 16,  2, 6, SpriteSheet.example_player);
+	public static Sprite blueRunnerDown0Done = new Sprite(16, 16,  0, 6, SpriteSheet.example_player_done);
+	public static Sprite blueRunnerDown2Done = new Sprite(16, 16,  2, 6, SpriteSheet.example_player_done);
+	
+	public static Sprite redRunnerDown0 = new Sprite(16, 16,  3, 6, SpriteSheet.example_player);
+	public static Sprite redRunnerDown2 = new Sprite(16, 16,  5, 6, SpriteSheet.example_player);
+	public static Sprite redRunnerDown0Done = new Sprite(16, 16,  3, 6, SpriteSheet.example_player_done);
+	public static Sprite redRunnerDown2Done = new Sprite(16, 16,  5, 6, SpriteSheet.example_player_done);
 	
 	//Projectiles
 	public static Sprite wizardProjectile1 = new Sprite(16, 16, 0, 0, SpriteSheet.projectiles1);

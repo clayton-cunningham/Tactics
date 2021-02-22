@@ -10,7 +10,9 @@ import com.clay13chopper.game1.entities.cursors.MapCursor;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
 import com.clay13chopper.game1.entities.mob.player_units.Archer;
+import com.clay13chopper.game1.entities.mob.player_units.Heavy;
 import com.clay13chopper.game1.entities.mob.player_units.Mage;
+import com.clay13chopper.game1.entities.mob.player_units.Runner;
 import com.clay13chopper.game1.entities.mob.player_units.Soldier;
 import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.tiles.Tile;
@@ -89,9 +91,13 @@ public class LoadedLevel extends Level {
 			if (e == Entity.colBlueSoldierUnit) add(new Soldier((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
 			else if (e == Entity.colBlueArcherUnit) add(new Archer((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
 			else if (e == Entity.colBlueMageUnit) add(new Mage((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
-			else if (e == Entity.colRedSoldierUnit) add(new Soldier((i%16)*16 + 8, (i/16)*16 + 8, Team.RED)) ;
-			else if (e == Entity.colRedArcherUnit) add(new Archer((i%16)*16 + 8, (i/16)*16 + 8, Team.RED)) ;
-			else if (e == Entity.colRedMageUnit) add(new Mage((i%16)*16 + 8, (i/16)*16 + 8, Team.RED)) ;
+			else if (e == Entity.colBlueHeavyUnit) add(new Heavy((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
+			else if (e == Entity.colBlueRunnerUnit) add(new Runner((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
+			else if (e == Entity.colRedSoldierUnit) add(new Soldier((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
+			else if (e == Entity.colRedArcherUnit) add(new Archer((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
+			else if (e == Entity.colRedMageUnit) add(new Mage((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
+			else if (e == Entity.colRedHeavyUnit) add(new Heavy((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
+			else if (e == Entity.colRedRunnerUnit) add(new Runner((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
 			else if (e == Entity.colYellowUnit) ;
 			else if (e == Entity.colGreenUnit) ;
 			else if (e == Entity.colCursor) {

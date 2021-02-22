@@ -9,7 +9,7 @@ public class Mage extends Unit {
 		super(x, y);
 		team = t;
 		sprite = getSpriteDown();
-		maxHealth = health = 10;
+		maxHealth = health = 6;
 		movement = 3;
 		attack = 3;
 		minRange = 1;

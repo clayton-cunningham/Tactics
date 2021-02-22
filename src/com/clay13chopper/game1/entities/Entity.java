@@ -21,6 +21,10 @@ public abstract class Entity {
 	public final static int colRedArcherUnit = 0xffff5050;
 	public final static int colBlueMageUnit = 0xff9090ff;
 	public final static int colRedMageUnit = 0xffff9090;
+	public final static int colBlueHeavyUnit = 0xff0000a0;
+	public final static int colRedHeavyUnit = 0xffa00000;
+	public final static int colBlueRunnerUnit = 0xff000060;
+	public final static int colRedRunnerUnit = 0xff600000;
 	public final static int colYellowUnit = 0xff00ffdd;
 	public final static int colGreenUnit = 0xff00ff00;
 	public final static int colCursor = 0xff01aaff;
