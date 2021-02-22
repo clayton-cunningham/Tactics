@@ -20,46 +20,51 @@ public class Sprite {
 	public static Sprite water = new Sprite(16, 16,  6, 0, SpriteSheet.background_tiles);
 	public static Sprite sand = new Sprite(16, 16,  7, 0, SpriteSheet.background_tiles);
 
-//	public static Sprite grass0Selected = new Sprite(16, 16, 0, 1, SpriteSheet.background_tiles);
-//	public static Sprite grass1Selected = new Sprite(16, 16,  1, 1, SpriteSheet.background_tiles);
-//	public static Sprite grass2Selected = new Sprite(16, 16,  2, 1, SpriteSheet.background_tiles);
-//	public static Sprite snowSelected = new Sprite(16, 16,  3, 1, SpriteSheet.background_tiles);
-//	public static Sprite iceSelected = new Sprite(16, 16,  4, 1, SpriteSheet.background_tiles);
-//	public static Sprite mountainSelected = new Sprite(16, 16,  5, 1, SpriteSheet.background_tiles);
-//	public static Sprite waterSelected = new Sprite(16, 16,  6, 1, SpriteSheet.background_tiles);
-//	public static Sprite sandSelected = new Sprite(16, 16,  7, 1, SpriteSheet.background_tiles);
-
 	public static Sprite moveSpace = new Sprite(16, 16,  0, 7, SpriteSheet.background_tiles);
 	public static Sprite attackSpace = new Sprite(16, 16,  1, 7, SpriteSheet.background_tiles);
 
 	//Mobs
-	public static Sprite blueSoldierDown0 = new Sprite(16, 16,  6, 0, SpriteSheet.example_player);
-	public static Sprite blueSoldierDown1 = new Sprite(16, 16,  7, 0, SpriteSheet.example_player);
-	public static Sprite blueSoldierDown2 = new Sprite(16, 16,  0, 1, SpriteSheet.example_player);
-	public static Sprite blueSoldierRight0 = new Sprite(16, 16,  2, 2, SpriteSheet.example_player);
-	public static Sprite blueSoldierRight1 = new Sprite(16, 16,  3, 2, SpriteSheet.example_player);
-	public static Sprite blueSoldierRight2 = new Sprite(16, 16,  4, 2, SpriteSheet.example_player);
-	public static Sprite blueSoldierUp0 = new Sprite(16, 16,  6, 3, SpriteSheet.example_player);
-	public static Sprite blueSoldierUp1 = new Sprite(16, 16,  7, 3, SpriteSheet.example_player);
-	public static Sprite blueSoldierUp2 = new Sprite(16, 16,  0, 4, SpriteSheet.example_player);
+	public static Sprite blueSoldierDown0 = new Sprite(16, 16,  0, 0, SpriteSheet.example_player);
+	public static Sprite blueSoldierDown1 = new Sprite(16, 16,  1, 0, SpriteSheet.example_player);
+	public static Sprite blueSoldierDown2 = new Sprite(16, 16,  2, 0, SpriteSheet.example_player);
+	public static Sprite blueSoldierRight0 = new Sprite(16, 16,  3, 2, SpriteSheet.example_player);
+	public static Sprite blueSoldierRight1 = new Sprite(16, 16,  4, 2, SpriteSheet.example_player);
+	public static Sprite blueSoldierRight2 = new Sprite(16, 16,  5, 2, SpriteSheet.example_player);
+	public static Sprite blueSoldierUp0 = new Sprite(16, 16,  3, 3, SpriteSheet.example_player);
+	public static Sprite blueSoldierUp1 = new Sprite(16, 16,  4, 3, SpriteSheet.example_player);
+	public static Sprite blueSoldierUp2 = new Sprite(16, 16,  5, 3, SpriteSheet.example_player);
 
-	public static Sprite blueSoldierDown0Done = new Sprite(16, 16,  6, 0, SpriteSheet.example_player_done);
-	public static Sprite blueSoldierDown1Done = new Sprite(16, 16,  7, 0, SpriteSheet.example_player_done);
-	public static Sprite blueSoldierDown2Done = new Sprite(16, 16,  0, 1, SpriteSheet.example_player_done);
+	public static Sprite blueSoldierDown0Done = new Sprite(16, 16,  0, 0, SpriteSheet.example_player_done);
+	public static Sprite blueSoldierDown1Done = new Sprite(16, 16,  1, 0, SpriteSheet.example_player_done);
+	public static Sprite blueSoldierDown2Done = new Sprite(16, 16,  2, 0, SpriteSheet.example_player_done);
 	
-	public static Sprite redSoldierDown0 = new Sprite(16, 16,  0, 0, SpriteSheet.example_player);
-	public static Sprite redSoldierDown1 = new Sprite(16, 16,  1, 0, SpriteSheet.example_player);
-	public static Sprite redSoldierDown2 = new Sprite(16, 16,  2, 0, SpriteSheet.example_player);
-	public static Sprite redSoldierRight0 = new Sprite(16, 16,  4, 1, SpriteSheet.example_player);
-	public static Sprite redSoldierRight1 = new Sprite(16, 16,  5, 1, SpriteSheet.example_player);
-	public static Sprite redSoldierRight2 = new Sprite(16, 16,  6, 1, SpriteSheet.example_player);
+	public static Sprite redSoldierDown0 = new Sprite(16, 16,  3, 0, SpriteSheet.example_player);
+	public static Sprite redSoldierDown1 = new Sprite(16, 16,  4, 0, SpriteSheet.example_player);
+	public static Sprite redSoldierDown2 = new Sprite(16, 16,  5, 0, SpriteSheet.example_player);
+	public static Sprite redSoldierRight0 = new Sprite(16, 16,  0, 2, SpriteSheet.example_player);
+	public static Sprite redSoldierRight1 = new Sprite(16, 16,  1, 2, SpriteSheet.example_player);
+	public static Sprite redSoldierRight2 = new Sprite(16, 16,  2, 2, SpriteSheet.example_player);
 	public static Sprite redSoldierUp0 = new Sprite(16, 16,  0, 3, SpriteSheet.example_player);
 	public static Sprite redSoldierUp1 = new Sprite(16, 16,  1, 3, SpriteSheet.example_player);
 	public static Sprite redSoldierUp2 = new Sprite(16, 16,  2, 3, SpriteSheet.example_player);
 
-	public static Sprite redSoldierDown0Done = new Sprite(16, 16,  0, 0, SpriteSheet.example_player_done);
-	public static Sprite redSoldierDown1Done = new Sprite(16, 16,  1, 0, SpriteSheet.example_player_done);
-	public static Sprite redSoldierDown2Done = new Sprite(16, 16,  2, 0, SpriteSheet.example_player_done);
+	public static Sprite redSoldierDown0Done = new Sprite(16, 16,  3, 0, SpriteSheet.example_player_done);
+	public static Sprite redSoldierDown1Done = new Sprite(16, 16,  4, 0, SpriteSheet.example_player_done);
+	public static Sprite redSoldierDown2Done = new Sprite(16, 16,  5, 0, SpriteSheet.example_player_done);
+	
+	public static Sprite blueArcherDown0 = new Sprite(16, 16,  0, 5, SpriteSheet.example_player);
+	public static Sprite blueArcherDown1 = new Sprite(16, 16,  1, 5, SpriteSheet.example_player);
+	public static Sprite blueArcherDown2 = new Sprite(16, 16,  2, 5, SpriteSheet.example_player);
+	public static Sprite blueArcherDown0Done = new Sprite(16, 16,  0, 5, SpriteSheet.example_player_done);
+	public static Sprite blueArcherDown1Done = new Sprite(16, 16,  1, 5, SpriteSheet.example_player_done);
+	public static Sprite blueArcherDown2Done = new Sprite(16, 16,  2, 5, SpriteSheet.example_player_done);
+	
+	public static Sprite redArcherDown0 = new Sprite(16, 16,  3, 5, SpriteSheet.example_player);
+	public static Sprite redArcherDown1 = new Sprite(16, 16,  4, 5, SpriteSheet.example_player);
+	public static Sprite redArcherDown2 = new Sprite(16, 16,  5, 5, SpriteSheet.example_player);
+	public static Sprite redArcherDown0Done = new Sprite(16, 16,  3, 5, SpriteSheet.example_player_done);
+	public static Sprite redArcherDown1Done = new Sprite(16, 16,  4, 5, SpriteSheet.example_player_done);
+	public static Sprite redArcherDown2Done = new Sprite(16, 16,  5, 5, SpriteSheet.example_player_done);
 	
 	//Projectiles
 	public static Sprite wizardProjectile1 = new Sprite(16, 16, 0, 0, SpriteSheet.projectiles1);

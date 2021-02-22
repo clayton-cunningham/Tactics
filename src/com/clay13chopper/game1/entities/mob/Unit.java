@@ -1,6 +1,7 @@
 package com.clay13chopper.game1.entities.mob;
 
 import com.clay13chopper.game1.entities.mob.Mob;
+import com.clay13chopper.game1.graphics.Sprite;
 
 public abstract class Unit extends Mob {
 
@@ -10,6 +11,11 @@ public abstract class Unit extends Mob {
 	protected boolean turnDone;
 	protected int attack;
 	protected int range;
+
+	protected Sprite down0;
+	protected Sprite down2;
+	protected Sprite downDone0;
+	protected Sprite downDone2;
 	
 	protected boolean hovered = false;
 	
@@ -31,7 +37,7 @@ public abstract class Unit extends Mob {
 			}
 			
 			if (delay == 2) {
-				level.pathFinder.calcPath(movement, x >> 4, y >> 4);
+				level.pathFinder.calcPath(movement, range, x >> 4, y >> 4);
 			}
 			else if (delay > 80) {
 				level.pathFinder.reset();
@@ -43,11 +49,13 @@ public abstract class Unit extends Mob {
 			delay++;
 			
 		}
+
+		sprite = getSpriteDown();
 		
 	}
 	
 	private void act() {
-		int[] path = level.pathFinder.calcDesiredPath(movement, x >> 4, y >> 4);
+		int[] path = level.pathFinder.calcDesiredPath(movement, range, x >> 4, y >> 4);
 		if (path[0] == -1)  {
 			int mX = path[1] % 16;
 			int mY = path[1] / 16;
@@ -61,6 +69,18 @@ public abstract class Unit extends Mob {
 			int mY = path[1] / 16;
 			move((mX << 4) + 8, (mY << 4) + 8);
 		}
+	}
+
+	public Sprite getSpriteDown() {
+		if (anim % 100 >= 50) {
+			if (turnDone) return downDone0;
+			else return down0;
+		}
+		else if (anim % 100 < 50) {
+			if (turnDone) return downDone2;
+			else return down2;
+		}
+		else return sprite;
 	}
 	
 	public void attack(Unit target) {
@@ -77,8 +97,19 @@ public abstract class Unit extends Mob {
 		return team == Team.BLUE;
 	}
 	
+	public void move(int x, int y) {
+		level.moveUnit(this, getX() >> 4, getY() >> 4, x >> 4, y >> 4);
+		super.move(x, y);
+//		super.move((x << 4) + 8, (y << 4) + 8);
+		turnDone = true;
+	}
+	
 	public int getMovement() {
 		return movement;
+	}
+	
+	public int getRange() {
+		return range;
 	}
 	
 	public boolean getTurnDone() {
@@ -87,13 +118,6 @@ public abstract class Unit extends Mob {
 	
 	public void resetTurn() {
 		turnDone = false;
-	}
-	
-	public void move(int x, int y) {
-		level.moveUnit(this, getX() >> 4, getY() >> 4, x >> 4, y >> 4);
-		super.move(x, y);
-//		super.move((x << 4) + 8, (y << 4) + 8);
-		turnDone = true;
 	}
 	
 	public int getHealthPercent() {

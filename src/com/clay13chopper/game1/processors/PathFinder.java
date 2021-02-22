@@ -40,53 +40,49 @@ public class PathFinder {
 	
 	// Calculates the paths available
 	// Calls calcMove repeatedly until QueueMap is empty
-	public void calcPath(int move, int x, int y) {
+	public void calcPath(int move, int range, int x, int y) {
 		
 		reset();
 		
-		calcMove(move, x, y, x, y);
+		calcMove(move, range, x, y, x, y);
 		
 		while (true) {
 			int[] next = map.next();
 			if (next == null) {
 				break;
 			}
-			calcMove(next[0], next[1], next[2], next[3], next[4]);
+			calcMove(next[0], range, next[1], next[2], next[3], next[4]);
 		}
 		
 	}
 	
-	public int[] calcDesiredPath(int move, int x, int y) {
+	public int[] calcDesiredPath(int move, int range, int x, int y) {
 		
 		reset();
 		
 		int moveLimit = width * height;
 		
-		calcMove(moveLimit, x, y, x, y);
+		calcMove(moveLimit, range, x, y, x, y);
 		
 		while (!attackSet) {
 			int[] next = map.next();
 			if (next == null) {
 				break;
 			}
-			calcMove(next[0], next[1], next[2], next[3], next[4]);
+			calcMove(next[0], range, next[1], next[2], next[3], next[4]);
 		}
 		
 		if (!attackSet) attackAddr = attackBlockedAddr;
 		
-		if (attackAddr == -1) return new int[] {-1, x + (y * width)}; // If unit cannot find enemies - should only happen for ranged units that can't move enough to get an enemy in range
+		if (attackAddr == -1) {
+			reset();
+			return new int[] {-1, x + (y * width)}; // If unit cannot find enemies - should only happen for ranged units blocked by enemies
+		}
 		
 		int target = attackAddr;
 		int reqMove = moveLimit - move;
 		int curTile = -1;
-		try {
-			curTile = prevTile[target];
-		}
-		catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("PathFinder tried to use attackAddr of -1.");
-			System.out.println("This means a pathfinding unit could not find a target.");
-			throw e;
-		}
+		curTile = prevTile[target];
 		
 		while (distances[curTile] < reqMove || (activeMove[curTile] != PathType.MOVE && activeMove[curTile] != PathType.HOME)) {
 			target = -1;
@@ -104,7 +100,7 @@ public class PathFinder {
 	//		receive input to move the unit.
 	// Also labels those spaces with amount of movement left
 	// Every iteration is for a spot to move to
-	private void calcMove(int move, int x, int y, int px, int py) {
+	private void calcMove(int move, int range, int x, int y, int px, int py) {
 
 		if (x < 0 || y < 0 || x >= width || y >= height) return; // Check bounds of level
 		if (move <= -1) return;                          // Check if too far
@@ -116,17 +112,17 @@ public class PathFinder {
 		
 		if (!homeSet) {  // First space - can attack from here, but this unit is here too
 			activeMove[x + (y * width)] = PathType.HOME;
-			calcAttack(move, 1, x, y);
+			calcAttack(range, x, y);
 			homeSet = true;
 		}  			// Cannot attack from another unit's space, so keep moving
 		else if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() == level.getActiveTeam()) { 
 			activeMove[x + (y * width)] = PathType.PASS;
-			calcAttackBlocked(move, 1, x, y);
+			calcAttackBlocked(range, x, y);
 			
 		}
 		else {		// Mark move, calculate attack
 			activeMove[x + (y * width)] = PathType.MOVE;
-			calcAttack(move, 1, x, y);
+			calcAttack(range, x, y);
 		}
 		
 		prevTile[x + ((y) * width)] = (px + (py * width));
@@ -145,20 +141,26 @@ public class PathFinder {
 	}
 	
 	// Labels nearby titles that can be attacked
-	// TODO: why do I have move here?
-	private void calcAttack(int move, int range, int x, int y) {
+	private void calcAttack(int range, int x, int y) {
 		
-		for (int i = -2; i < 2; i++) { // TODO: Change from just x & y to full-circle
-			int xa = x + (range * (i % 2));
-			int ya = y + (range * ((i + 1) % 2));
+		int xDir = -1;
+		int yDir = 1;
+		
+		// xi and yi cycle through all relative locations for attack range - i.e. 2,1; 1,2; 0,3; -1,2; etc.
+		for (int xi = range - 1, yi = 1; Math.abs(xi) <= range; xi += xDir, yi += yDir) {
+			if (xi == -1 * range) xDir *= -1;
+			if (xi == 0) yDir *= -1;
 			
-			if (xa < 0 || ya < 0 || xa >= width || ya >= height) continue;
+			// Actual tile locations
+			int xTile = x + xi;
+			int yTile = y + yi;
+			if (xTile < 0 || yTile < 0 || xTile >= width || yTile >= height) continue;
 			
-			int index = xa + (ya * width);
+			int index = xTile + (yTile * width);
 			if (activeMove[index] == PathType.NONE) {
 				activeMove[index] = PathType.ATTACK;
 				prevTile[index] = (x + (y * width));
-				if (level.getUnit(xa, ya) != null && level.getUnit(xa, ya).getTeam() != level.getActiveTeam()) {
+				if (level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != level.getActiveTeam()) {
 					attackSet = true;
 					attackAddr = index;
 				}
@@ -168,23 +170,29 @@ public class PathFinder {
 		
 	}
 	
-	private void calcAttackBlocked(int move, int range, int x, int y) {
+	private void calcAttackBlocked(int range, int x, int y) {
 		
 		if (attackBlockedSet) return;
 		
-		for (int i = -2; i < 2; i++) { // TODO: Change from just x & y to full-circle
-			int xa = x + (range * (i % 2));
-			int ya = y + (range * ((i + 1) % 2));
+		int xDir = -1;
+		int yDir = 1;
+		
+		// xi and yi cycle through all relative locations for attack range - i.e. 2,1; 1,2; 0,3; -1,2; etc.
+		for (int xi = range - 1, yi = 1; Math.abs(xi) <= range; xi += xDir, yi += yDir) {
+			if (xi == -1 * range) xDir *= -1;
+			if (xi == 0) yDir *= -1;
 			
-			if (xa < 0 || ya < 0 || xa >= width || ya >= height) continue;
+			// Actual tile locations
+			int xTile = x + xi;
+			int yTile = y + yi;
+			if (xTile < 0 || yTile < 0 || xTile >= width || yTile >= height) continue;
 			
-			int index = xa + (ya * width);
+			int index = xTile + (yTile * width);
 			if (activeMove[index] == PathType.NONE) {
 				prevTile[index] = (x + (y * width));
-				if (level.getUnit(xa, ya) != null && level.getUnit(xa, ya).getTeam() != level.getActiveTeam()) {
+				if (level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != level.getActiveTeam()) {
 					attackBlockedSet = true;
 					attackBlockedAddr = index;
-					return;
 				}
 			}
 			

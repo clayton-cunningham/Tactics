@@ -12,8 +12,8 @@ public class SpriteSheet {
 
 	//int is (sprites * pixels) = 8 * 16 = 128
 	public final static SpriteSheet background_tiles = new SpriteSheet("/spritesheets/background_tiles.png", 128, 128);
-	public final static SpriteSheet example_player = new SpriteSheet("/spritesheets/rpg_16x16.png", 128, 144);
-	public final static SpriteSheet example_player_done = new SpriteSheet("/spritesheets/rpg_16x16_done.png", 128, 144);
+	public final static SpriteSheet example_player = new SpriteSheet("/spritesheets/rpg_16x16.png", 96, 144);
+	public final static SpriteSheet example_player_done = new SpriteSheet("/spritesheets/rpg_16x16_done.png", 96, 144);
 	public final static SpriteSheet projectiles1 = new SpriteSheet("/spritesheets/projectiles1.png", 48, 48);
 	public final static SpriteSheet cursors = new SpriteSheet("/spritesheets/cursors.png", 48, 48);
 	public final static SpriteSheet cursorsLarge = new SpriteSheet("/spritesheets/cursorsLarge.png", 240, 240);

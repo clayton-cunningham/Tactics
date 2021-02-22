@@ -14,9 +14,11 @@ public abstract class Entity {
 	protected boolean removed = false;
 	protected Level level;
 	protected Room room;
-	
-	public final static int colBlueUnit = 0xff0000ff;
-	public final static int colRedUnit = 0xffff0000;
+
+	public final static int colBlueSoldierUnit = 0xff0000ff;
+	public final static int colRedSoldierUnit = 0xffff0000;
+	public final static int colBlueArcherUnit = 0xff5050ff;
+	public final static int colRedArcherUnit = 0xffff5050;
 	public final static int colYellowUnit = 0xff00ffdd;
 	public final static int colGreenUnit = 0xff00ff00;
 	public final static int colCursor = 0xff01aaff;

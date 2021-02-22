@@ -44,7 +44,7 @@ public class MapCursor extends Cursor {
 			}
 			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { //10 && playable // selecting a unit
 				unitChosen = unitViewed;
-				level.pathFinder.calcPath(unitChosen.getMovement(), x >> 4, y >> 4);
+				level.pathFinder.calcPath(unitChosen.getMovement(), unitChosen.getRange(), x >> 4, y >> 4);
 			}
 			else if ((unitViewed == null || unitViewed == unitChosen) 
 					&& (level.pathFinder.getType(x>>4, y>>4) == PathType.MOVE || level.pathFinder.getType(x>>4, y>>4) == PathType.HOME)) {  // 01 or == // move a unit
