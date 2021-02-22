@@ -12,7 +12,7 @@ public class Soldier extends Unit {
 		maxHealth = health = 10;
 		movement = 3;
 		attack = 3;
-		range = 1;
+		minRange = maxRange = 1;
 		if (t == Team.BLUE) {
 			down0 = Sprite.blueSoldierDown0;
 			down2 = Sprite.blueSoldierDown2;

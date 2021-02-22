@@ -12,7 +12,7 @@ public class Archer extends Unit {
 		maxHealth = health = 8;
 		movement = 3;
 		attack = 3;
-		range = 2;
+		minRange = maxRange = 2;
 		if (t == Team.BLUE) {
 			down0 = Sprite.blueArcherDown0;
 			down2 = Sprite.blueArcherDown2;

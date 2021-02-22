@@ -53,18 +53,24 @@ public class Sprite {
 	public static Sprite redSoldierDown2Done = new Sprite(16, 16,  5, 0, SpriteSheet.example_player_done);
 	
 	public static Sprite blueArcherDown0 = new Sprite(16, 16,  0, 5, SpriteSheet.example_player);
-	public static Sprite blueArcherDown1 = new Sprite(16, 16,  1, 5, SpriteSheet.example_player);
 	public static Sprite blueArcherDown2 = new Sprite(16, 16,  2, 5, SpriteSheet.example_player);
 	public static Sprite blueArcherDown0Done = new Sprite(16, 16,  0, 5, SpriteSheet.example_player_done);
-	public static Sprite blueArcherDown1Done = new Sprite(16, 16,  1, 5, SpriteSheet.example_player_done);
 	public static Sprite blueArcherDown2Done = new Sprite(16, 16,  2, 5, SpriteSheet.example_player_done);
 	
 	public static Sprite redArcherDown0 = new Sprite(16, 16,  3, 5, SpriteSheet.example_player);
-	public static Sprite redArcherDown1 = new Sprite(16, 16,  4, 5, SpriteSheet.example_player);
 	public static Sprite redArcherDown2 = new Sprite(16, 16,  5, 5, SpriteSheet.example_player);
 	public static Sprite redArcherDown0Done = new Sprite(16, 16,  3, 5, SpriteSheet.example_player_done);
-	public static Sprite redArcherDown1Done = new Sprite(16, 16,  4, 5, SpriteSheet.example_player_done);
 	public static Sprite redArcherDown2Done = new Sprite(16, 16,  5, 5, SpriteSheet.example_player_done);
+
+	public static Sprite blueMageDown0 = new Sprite(16, 16,  0, 1, SpriteSheet.example_player);
+	public static Sprite blueMageDown2 = new Sprite(16, 16,  2, 1, SpriteSheet.example_player);
+	public static Sprite blueMageDown0Done = new Sprite(16, 16,  0, 1, SpriteSheet.example_player_done);
+	public static Sprite blueMageDown2Done = new Sprite(16, 16,  2, 1, SpriteSheet.example_player_done);
+	
+	public static Sprite redMageDown0 = new Sprite(16, 16,  3, 1, SpriteSheet.example_player);
+	public static Sprite redMageDown2 = new Sprite(16, 16,  5, 1, SpriteSheet.example_player);
+	public static Sprite redMageDown0Done = new Sprite(16, 16,  3, 1, SpriteSheet.example_player_done);
+	public static Sprite redMageDown2Done = new Sprite(16, 16,  5, 1, SpriteSheet.example_player_done);
 	
 	//Projectiles
 	public static Sprite wizardProjectile1 = new Sprite(16, 16, 0, 0, SpriteSheet.projectiles1);

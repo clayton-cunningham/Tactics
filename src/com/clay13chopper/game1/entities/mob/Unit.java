@@ -10,7 +10,8 @@ public abstract class Unit extends Mob {
 	protected int health;
 	protected boolean turnDone;
 	protected int attack;
-	protected int range;
+	protected int minRange;
+	protected int maxRange;
 
 	protected Sprite down0;
 	protected Sprite down2;
@@ -37,7 +38,7 @@ public abstract class Unit extends Mob {
 			}
 			
 			if (delay == 2) {
-				level.pathFinder.calcPath(movement, range, x >> 4, y >> 4);
+				level.pathFinder.calcPath(movement, minRange, maxRange, x >> 4, y >> 4);
 			}
 			else if (delay > 80) {
 				level.pathFinder.reset();
@@ -55,7 +56,7 @@ public abstract class Unit extends Mob {
 	}
 	
 	private void act() {
-		int[] path = level.pathFinder.calcDesiredPath(movement, range, x >> 4, y >> 4);
+		int[] path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, x >> 4, y >> 4);
 		if (path[0] == -1)  {
 			int mX = path[1] % 16;
 			int mY = path[1] / 16;
@@ -108,8 +109,12 @@ public abstract class Unit extends Mob {
 		return movement;
 	}
 	
-	public int getRange() {
-		return range;
+	public int getMinRange() {
+		return minRange;
+	}
+	
+	public int getMaxRange() {
+		return maxRange;
 	}
 	
 	public boolean getTurnDone() {
