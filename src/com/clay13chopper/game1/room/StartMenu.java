@@ -1,6 +1,7 @@
 package com.clay13chopper.game1.room;
 
 import com.clay13chopper.game1.entities.cursors.MenuCursor;
+import com.clay13chopper.game1.entities.text.GenericUI;
 import com.clay13chopper.game1.entities.text.LevelSelector;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
@@ -19,6 +20,7 @@ public class StartMenu extends Room {
 		add(new LevelSelector(960, 250, Sprite.level1));
 		add(new LevelSelector(960, 500, Sprite.level2));
 		add(new LevelSelector(960, 750, Sprite.level3));
+		add(new GenericUI(350, 500, Sprite.controls));
 		focus = new MenuCursor(750, 250, levels.length);
 		add(focus);
 	}

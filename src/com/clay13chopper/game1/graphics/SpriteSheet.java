@@ -19,6 +19,7 @@ public class SpriteSheet {
 	public final static SpriteSheet cursorsLarge = new SpriteSheet("/spritesheets/cursorsLarge.png", 240, 240);
 	public final static SpriteSheet UI = new SpriteSheet("/spritesheets/UI.png", 48, 48);
 	public final static SpriteSheet startMenu = new SpriteSheet("/spritesheets/startMenu.png", 320, 564);
+	public final static SpriteSheet controls = new SpriteSheet("/spritesheets/controls.png", 1200, 1200);
 	
 	// Backgrounds - maybe change to different class?
 	public final static SpriteSheet background_start = new SpriteSheet("/spritesheets/background_start.png", 1920, 1080);

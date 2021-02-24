@@ -114,6 +114,7 @@ public class Sprite {
 	public static Sprite level1 = new Sprite(320, 141, 0, 0, SpriteSheet.startMenu);
 	public static Sprite level2 = new Sprite(320, 141, 0, 1, SpriteSheet.startMenu);
 	public static Sprite level3 = new Sprite(320, 141, 0, 2, SpriteSheet.startMenu);
+	public static Sprite controls = new Sprite(600, 600, 0, 0, SpriteSheet.controls);
 	
 	//Void
 	public static Sprite voidSprite = new Sprite(16, 16, 6, 7, SpriteSheet.background_tiles);
