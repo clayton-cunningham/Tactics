@@ -7,7 +7,7 @@ import com.clay13chopper.game1.room.level.Level;
 public abstract class Entity {
 
 	protected Sprite sprite;
-	protected int x, y, xOld, yOld;
+	protected int x, y, xGrid, yGrid, xOld, yOld;
 	protected int movement;
 	protected int anim;
 	protected int delay;
@@ -32,6 +32,8 @@ public abstract class Entity {
 	public void init(Level l) {
 		level = l;
 		room = l;
+		xGrid = x >> l.getShift();
+		yGrid = y >> l.getShift();
 	}
 	
 	public void init(Room r) {

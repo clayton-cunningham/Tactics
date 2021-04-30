@@ -9,7 +9,6 @@ import com.clay13chopper.game1.room.level.Level;
 
 public class MapCursor extends Cursor {
 
-	protected int xGrid, yGrid;
 	private Unit unitChosen = null;
 	
 	public MapCursor(int x, int y) {
@@ -38,27 +37,27 @@ public class MapCursor extends Cursor {
 		if (Keyboard.getSelectStart()  && level.getActiveTeam() == Team.BLUE) {
 
 			//Recover unit at location
-			Unit unitViewed = level.getUnit(x >> 4, y >> 4);
+			Unit unitViewed = level.getUnit(xGrid, yGrid);
 			
 			if (unitChosen == null && unitViewed == null) {
 				//TODO: enable showing menu info
 			}
 			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { //10 && playable // selecting a unit
 				unitChosen = unitViewed;
-				level.pathFinder.calcPath(unitChosen.getMovement(), unitChosen.getMinRange(), unitChosen.getMaxRange(), x >> 4, y >> 4);
+				level.pathFinder.calcPath(unitChosen.getMovement(), unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid);
 			}
 			else if ((unitViewed == null || unitViewed == unitChosen) 
-					&& (level.pathFinder.getType(x>>4, y>>4) == PathType.MOVE || level.pathFinder.getType(x>>4, y>>4) == PathType.HOME)) {  // 01 or == // move a unit
-				unitChosen.move(x, y);
+					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE || level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  // 01 or == // move a unit
+				unitChosen.move(xGrid, yGrid);
 				unitChosen = null;
 				level.pathFinder.reset();
 			}
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
-					&& level.pathFinder.getType(x >> 4, y >> 4) == PathType.ATTACK) { //11 && not playable // attacking
-				int ua = level.pathFinder.prev(x >> 4, y >> 4);
-				int uXa = ua % 16;
-				int uYa = ua / 16;
-				unitChosen.move((uXa << 4) + 8, (uYa << 4) + 8);
+					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { //11 && not playable // attacking
+				int ua = level.pathFinder.prev(xGrid, yGrid);
+				int uXa = ua % level.getWidth();
+				int uYa = ua / level.getWidth();
+				unitChosen.move(uXa, uYa);
 				unitChosen.attack(unitViewed);
 				unitChosen = null;
 				level.pathFinder.reset();

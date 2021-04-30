@@ -33,9 +33,9 @@ public abstract class Tile {
 	}
 
 	public void render(int x, int y, Screen screen, PathType type) {
-		screen.renderSprite(x << 4, y << 4, this.sprite, false, false);
-		if (type == PathType.MOVE) screen.renderSprite(x << 4, y << 4, Sprite.moveSpace, false, false);
-		else if (type == PathType.ATTACK) screen.renderSprite(x << 4, y << 4, Sprite.attackSpace, false, false);
+		screen.renderSprite(x, y, this.sprite, false, false);
+		if (type == PathType.MOVE) screen.renderSprite(x, y, Sprite.moveSpace, false, false);
+		else if (type == PathType.ATTACK) screen.renderSprite(x, y, Sprite.attackSpace, false, false);
 	}
 	
 	public boolean solid() {

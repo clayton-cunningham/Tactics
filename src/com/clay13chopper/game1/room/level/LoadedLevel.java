@@ -87,24 +87,33 @@ public class LoadedLevel extends Level {
 	public void getEntityTypes(int[] loadedEntities) {
 		
 		for (int i = 0; i < loadedEntities.length; i++) {
+			//TODO: skip if no color stored
 			int e = loadedEntities[i];
-			if (e == Entity.colBlueSoldierUnit) add(new Soldier((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
-			else if (e == Entity.colBlueArcherUnit) add(new Archer((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
-			else if (e == Entity.colBlueMageUnit) add(new Mage((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
-			else if (e == Entity.colBlueHeavyUnit) add(new Heavy((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
-			else if (e == Entity.colBlueRunnerUnit) add(new Runner((i%16)*16 + 8, (i/16)*16 + 8, Team.BLUE));
-			else if (e == Entity.colRedSoldierUnit) add(new Soldier((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
-			else if (e == Entity.colRedArcherUnit) add(new Archer((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
-			else if (e == Entity.colRedMageUnit) add(new Mage((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
-			else if (e == Entity.colRedHeavyUnit) add(new Heavy((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
-			else if (e == Entity.colRedRunnerUnit) add(new Runner((i%16)*16 + 8, (i/16)*16 + 8, Team.RED));
+			if (e == Entity.colBlueSoldierUnit) add(new Soldier(iToX(i), iToY(i), Team.BLUE));
+			else if (e == Entity.colBlueArcherUnit) add(new Archer(iToX(i), iToY(i), Team.BLUE));
+			else if (e == Entity.colBlueMageUnit) add(new Mage(iToX(i), iToY(i), Team.BLUE));
+			else if (e == Entity.colBlueHeavyUnit) add(new Heavy(iToX(i), iToY(i), Team.BLUE));
+			else if (e == Entity.colBlueRunnerUnit) add(new Runner(iToX(i), iToY(i), Team.BLUE));
+			else if (e == Entity.colRedSoldierUnit) add(new Soldier(iToX(i), iToY(i), Team.RED));
+			else if (e == Entity.colRedArcherUnit) add(new Archer(iToX(i), iToY(i), Team.RED));
+			else if (e == Entity.colRedMageUnit) add(new Mage(iToX(i), iToY(i), Team.RED));
+			else if (e == Entity.colRedHeavyUnit) add(new Heavy(iToX(i), iToY(i), Team.RED));
+			else if (e == Entity.colRedRunnerUnit) add(new Runner(iToX(i), iToY(i), Team.RED));
 			else if (e == Entity.colYellowUnit) ;
 			else if (e == Entity.colGreenUnit) ;
 			else if (e == Entity.colCursor) {
-				focus = new MapCursor((i%16)*16 + 8, (i/16)*16 + 8);
+				focus = new MapCursor(iToX(i), iToY(i));
 				add(focus);
 			}
 		}
+	}
+	
+	private int iToX(int i) {
+		return (i % width) * TILE_SIZE + (TILE_SIZE / 2);
+	}
+	
+	private int iToY(int i) {
+		return (i / width) * TILE_SIZE + (TILE_SIZE / 2);
 	}
 	
 	public void reset() {

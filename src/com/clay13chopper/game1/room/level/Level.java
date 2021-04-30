@@ -72,10 +72,10 @@ public abstract class Level extends Room {
 	public void render(Screen screen) {
 		int xOff = screen.getXOffset();
 		int yOff = screen.getYOffset();
-		int x0 = xOff >> 4;
-		int y0 = yOff >> 4;
-		int xF = ((screen.getWidth() - 1) + xOff) >> 4;
-		int yF = ((screen.getHeight() - 1) + yOff) >> 4;
+		int x0 = xOff >> TILE_SIZE_SHIFT;
+		int y0 = yOff >> TILE_SIZE_SHIFT;
+		int xF = ((screen.getWidth() - 1) + xOff) >> TILE_SIZE_SHIFT;
+		int yF = ((screen.getHeight() - 1) + yOff) >> TILE_SIZE_SHIFT;
 		
 		for (int y = y0; y <= yF; y++) {
 			for (int x = x0; x <= xF; x++) {
@@ -83,7 +83,7 @@ public abstract class Level extends Room {
 				 * Works by using the (address / 16) to get the tile from the array.
 				 * Since we need that coordinate, he uses (that * 16) to get the top left corner of the tile location
 				 */
-				getTile(x, y).render(x, y, screen, pathFinder.getType(x, y)); 
+				getTile(x, y).render(x << TILE_SIZE_SHIFT, y << TILE_SIZE_SHIFT, screen, pathFinder.getType(x, y)); 
 				// TODO: Do I want to do this todo?  Could be better to call e.render() for all e
 				// 			Then, all e could be at small-number locations at the top-left of the tile
 				//			Would this conflict with other rooms?
@@ -117,9 +117,9 @@ public abstract class Level extends Room {
 		
 		//If is a unit, place in the array
 		if (e instanceof Unit) {
-			locations[(e.getX() >> 4) + ((e.getY() >> 4) * width)] = (Unit) e;
-			teamNumAlive[ ((Unit) e).getTeam().getId() ]++;
-			
+			Unit u = (Unit) e;
+			locations[u.getXGrid() + (u.getYGrid() * width)] = u;
+			teamNumAlive[ u.getTeam().getId() ]++;
 		}
 		
 	}
@@ -130,8 +130,8 @@ public abstract class Level extends Room {
 	}
 	
 	public void removeUnit(Unit u) {
-		int x = u.getX() >> 4;
-		int y = u.getY() >> 4;
+		int x = u.getXGrid();
+		int y = u.getYGrid();
 		locations[x + (y * width)] = null;
 		
 		// Check if the level is complete
@@ -140,12 +140,12 @@ public abstract class Level extends Room {
 		if (teamNumAlive[ teamId ] < 1) {
 			if (teamId != 0) {
 				levelComplete = 1;
-				add(new WinLose(1, (width << 4) / 2, (height << 4) / 2));
+				add(new WinLose(1, getWidthbyPixel() / 2, getHeightbyPixel() / 2));
 				entities.remove(focus);
 			}
 			else {
 				levelComplete = -1;
-				add(new WinLose(-1, (width << 4) / 2, (height << 4) / 2));
+				add(new WinLose(-1, getWidthbyPixel() / 2, getHeightbyPixel() / 2));
 				entities.remove(focus);
 				
 			}
@@ -173,6 +173,14 @@ public abstract class Level extends Room {
 		return unitActing;
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
 	public int getWidthbyPixel() {
 		return width * TILE_SIZE;
 	}
@@ -183,6 +191,10 @@ public abstract class Level extends Room {
 	
 	public int getTileSize() {
 		return TILE_SIZE;
+	}
+	
+	public int getShift() {
+		return TILE_SIZE_SHIFT;
 	}
 	
 	public int getLevelComplete() {

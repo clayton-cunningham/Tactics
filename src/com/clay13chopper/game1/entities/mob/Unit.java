@@ -38,7 +38,7 @@ public abstract class Unit extends Mob {
 			}
 			
 			if (delay == 2) {
-				level.pathFinder.calcPath(movement, minRange, maxRange, x >> 4, y >> 4);
+				level.pathFinder.calcPath(movement, minRange, maxRange, xGrid, yGrid);
 			}
 			else if (delay > 80) {
 				act();
@@ -55,15 +55,15 @@ public abstract class Unit extends Mob {
 	
 	private void act() {
 		level.pathFinder.reset();
-		int[] path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, x >> 4, y >> 4);
+		int[] path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, xGrid, yGrid);
 		if (path[0] != -1)  {
-			int aX = path[0] % 16;
-			int aY = path[0] / 16;
+			int aX = path[0] % level.getWidth();
+			int aY = path[0] / level.getWidth();
 			attack(level.getUnit(aX, aY));
 		}
-		int mX = path[1] % 16;
-		int mY = path[1] / 16;
-		move((mX << 4) + 8, (mY << 4) + 8);
+		int mX = path[1] % level.getWidth();
+		int mY = path[1] / level.getWidth();
+		move(mX, mY);
 	}
 
 	public Sprite getSpriteDown() {
@@ -92,11 +92,24 @@ public abstract class Unit extends Mob {
 		return team == Team.BLUE;
 	}
 	
-	public void move(int x, int y) {
-		level.moveUnit(this, getX() >> 4, getY() >> 4, x >> 4, y >> 4);
-		super.move(x, y);
-//		super.move((x << 4) + 8, (y << 4) + 8);
+	public void move(int xG, int yG) {
+		level.moveUnit(this, xGrid, yGrid, xG, yG);
+		int shift = level.getShift();
+		int halfTile = level.getTileSize() / 2;
+		super.move((xG << shift) + halfTile, (yG << shift) + halfTile);
+		xGrid = xG;
+		yGrid = yG;
+		System.out.println("Moved :  ");
+		System.out.println(xGrid + "  :  " + yGrid);
 		turnDone = true;
+	}
+	
+	public int getXGrid() {
+		return xGrid;
+	}
+	
+	public int getYGrid() {
+		return yGrid;
 	}
 	
 	public int getMovement() {

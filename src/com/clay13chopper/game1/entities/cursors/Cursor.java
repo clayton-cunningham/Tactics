@@ -79,9 +79,11 @@ public class Cursor extends Entity {
 	public void move(int xC, int yC) {
 		if (xC != 0) {
 			x += xC * movement;
+			xGrid += xC;
 		}
 		if (yC != 0) {
 			y += yC * movement;
+			yGrid += yC;
 		}
 	}
 
