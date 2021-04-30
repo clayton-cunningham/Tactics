@@ -3,6 +3,7 @@ package com.clay13chopper.game1;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -37,6 +38,9 @@ public class Game extends Canvas implements Runnable {
 	private static int height = width * 9 / 16;
 	private static int scale = 3;
 
+	private static double screenWidth = 0;
+	private static double screenHeight = 0;
+
 	private static String title = "Game1";
 	
 	private Thread thread;
@@ -52,6 +56,10 @@ public class Game extends Canvas implements Runnable {
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
 	public Game() {
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenWidth = screenSize.getWidth();
+		screenHeight = screenSize.getHeight();
 
 		frame = new JFrame();
 		
@@ -63,9 +71,19 @@ public class Game extends Canvas implements Runnable {
 	
 	public void setRoom(Room r) {
 		room = r;
-		width = room.getWidthbyPixel();
-		height = room.getHeightbyPixel();
+		width = room.getWidthbyPixel(); //TODO: This sets the screen size to the room size.  Shouldn't we use a set screen size?
+		height = room.getHeightbyPixel(); //Could use (width * 9 / 16) instead?
 		scale = room.getScale();
+
+		// Reduces the scale if necessary to make sure the room fits on screen
+		double widthDif = screenWidth / width;
+		double heightDif = screenHeight / height;
+		for (int i = scale; i > 0; i--) {
+			if (widthDif >= i && heightDif >= i) {
+				scale = i;
+				break;
+			}
+		}
 		
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();

@@ -41,10 +41,8 @@ public abstract class Unit extends Mob {
 				level.pathFinder.calcPath(movement, minRange, maxRange, x >> 4, y >> 4);
 			}
 			else if (delay > 80) {
-				level.pathFinder.reset();
 				act();
 				turnDone = true;
-				delay++;
 				level.setUnitActing(null);
 			}
 			delay++;
@@ -56,20 +54,16 @@ public abstract class Unit extends Mob {
 	}
 	
 	private void act() {
+		level.pathFinder.reset();
 		int[] path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, x >> 4, y >> 4);
-		if (path[0] == -1)  {
-			int mX = path[1] % 16;
-			int mY = path[1] / 16;
-			move((mX << 4) + 8, (mY << 4) + 8);
-		}
-		else {
+		if (path[0] != -1)  {
 			int aX = path[0] % 16;
 			int aY = path[0] / 16;
 			attack(level.getUnit(aX, aY));
-			int mX = path[1] % 16;
-			int mY = path[1] / 16;
-			move((mX << 4) + 8, (mY << 4) + 8);
 		}
+		int mX = path[1] % 16;
+		int mY = path[1] / 16;
+		move((mX << 4) + 8, (mY << 4) + 8);
 	}
 
 	public Sprite getSpriteDown() {

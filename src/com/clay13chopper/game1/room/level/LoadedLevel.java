@@ -26,7 +26,7 @@ public class LoadedLevel extends Level {
 		loadLevel(path);
 		locations = new Unit[width * height];
 		pathFinder= new PathFinder(width, height, this);
-		scale = 5;
+		scale = 6;
 		loadEntities(pathE);
 	}
 	

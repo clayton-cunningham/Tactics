@@ -9,6 +9,7 @@ import com.clay13chopper.game1.room.level.Level;
 
 public class MapCursor extends Cursor {
 
+	protected int xGrid, yGrid;
 	private Unit unitChosen = null;
 	
 	public MapCursor(int x, int y) {
@@ -48,7 +49,6 @@ public class MapCursor extends Cursor {
 			}
 			else if ((unitViewed == null || unitViewed == unitChosen) 
 					&& (level.pathFinder.getType(x>>4, y>>4) == PathType.MOVE || level.pathFinder.getType(x>>4, y>>4) == PathType.HOME)) {  // 01 or == // move a unit
-//				level.moveUnit(unitChosen, unitChosen.getX() >> 4, unitChosen.getY() >> 4, x >> 4, y >> 4);
 				unitChosen.move(x, y);
 				unitChosen = null;
 				level.pathFinder.reset();
@@ -58,7 +58,6 @@ public class MapCursor extends Cursor {
 				int ua = level.pathFinder.prev(x >> 4, y >> 4);
 				int uXa = ua % 16;
 				int uYa = ua / 16;
-//				level.moveUnit(unitChosen, unitChosen.getX() >> 4, unitChosen.getY() >> 4, uXa, uYa);
 				unitChosen.move((uXa << 4) + 8, (uYa << 4) + 8);
 				unitChosen.attack(unitViewed);
 				unitChosen = null;
@@ -78,16 +77,6 @@ public class MapCursor extends Cursor {
 		}
 		
 	}
-	
-	//xC, yC is the change
-//	public void move(int xC, int yC) {
-//		if (xC != 0) {
-//			x += xC * movement;
-//		}
-//		if (yC != 0) {
-//			y += yC * movement;
-//		}
-//	}
 	
 	public void cursorError() {
 		anim = 25;

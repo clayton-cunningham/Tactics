@@ -11,7 +11,7 @@ public class Room {
 	
 	protected int width, height;
 	protected Entity focus;
-	protected int scale;
+	protected int scale = 1;
 	
 	protected List<Entity> entities = new ArrayList<Entity>();
 	
