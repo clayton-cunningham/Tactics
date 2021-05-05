@@ -28,8 +28,8 @@ public abstract class Level extends Room {
 	
 	public PathFinder pathFinder;
 	protected int[] tiles;
-	protected static final int TILE_SIZE = 16;
-	protected static final int TILE_SIZE_SHIFT = 4;
+	protected static int TILE_SIZE;
+	protected static int TILE_SIZE_SHIFT;
 	protected Unit[] locations;
 	protected Team activeTeam;
 	protected int[] teamNumAlive;
@@ -84,11 +84,6 @@ public abstract class Level extends Room {
 				 * Since we need that coordinate, he uses (that * 16) to get the top left corner of the tile location
 				 */
 				getTile(x, y).render(x << TILE_SIZE_SHIFT, y << TILE_SIZE_SHIFT, screen, pathFinder.getType(x, y)); 
-				// TODO: Do I want to do this todo?  Could be better to call e.render() for all e
-				// 			Then, all e could be at small-number locations at the top-left of the tile
-				//			Would this conflict with other rooms?
-				// TODO: Call screen directly instead of calling the tiles
-				// 	TODO: (related) Move PathType rendering here
 			}
 		}
 		

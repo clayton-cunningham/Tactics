@@ -99,8 +99,6 @@ public abstract class Unit extends Mob {
 		super.move((xG << shift) + halfTile, (yG << shift) + halfTile);
 		xGrid = xG;
 		yGrid = yG;
-		System.out.println("Moved :  ");
-		System.out.println(xGrid + "  :  " + yGrid);
 		turnDone = true;
 	}
 	
