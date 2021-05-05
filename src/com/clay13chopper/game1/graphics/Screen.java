@@ -11,6 +11,8 @@ import com.clay13chopper.game1.entities.Entity;
 public class Screen {
 	
 	private int width, height;
+	public static final int MAX_WIDTH = 1920;
+	public static final int MAX_HEIGHT = 1536;
 	private int[] pixels;
 	private int xOffset = 0, yOffset = 0;
 	

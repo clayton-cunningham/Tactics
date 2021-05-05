@@ -38,8 +38,8 @@ public class Game extends Canvas implements Runnable {
 	private static int height = width * 9 / 16;
 	private static int scale = 3;
 
-	private static double screenWidth = 0;
-	private static double screenHeight = 0;
+	private static double computerScreenWidth = 0;
+	private static double computerScreenHeight = 0;
 
 	private static String title = "Game1";
 	
@@ -58,8 +58,8 @@ public class Game extends Canvas implements Runnable {
 	public Game() {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		screenWidth = screenSize.getWidth();
-		screenHeight = screenSize.getHeight();
+		computerScreenWidth = screenSize.getWidth();
+		computerScreenHeight = screenSize.getHeight();
 
 		frame = new JFrame();
 		
@@ -71,13 +71,15 @@ public class Game extends Canvas implements Runnable {
 	
 	public void setRoom(Room r) {
 		room = r;
-		width = room.getWidthbyPixel(); //TODO: This sets the screen size to the room size.  Shouldn't we use a set screen size?
-		height = room.getHeightbyPixel(); //Could use (width * 9 / 16) instead?
+
 		scale = room.getScale();
+		// Sets the game screen's width and height
+		width = Math.min(room.getWidthbyPixel(), Screen.MAX_WIDTH / scale); 
+		height = Math.min(room.getHeightbyPixel(), Screen.MAX_HEIGHT / scale); // Note: could set to dependent on width i.e. (w*9/16)
 
 		// Reduces the scale if necessary to make sure the room fits on screen
-		double widthDif = screenWidth / width;
-		double heightDif = screenHeight / height;
+		double widthDif = computerScreenWidth / width;
+		double heightDif = computerScreenHeight / height;
 		for (int i = scale; i > 0; i--) {
 			if (widthDif >= i && heightDif >= i) {
 				scale = i;
