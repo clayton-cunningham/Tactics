@@ -83,10 +83,11 @@ public class MapCursor extends Cursor {
 		}
 		
 		// TODO: Enable showing path
-		if (unitChosen != null 
+		if ((xa != 0 || ya != 0) && unitChosen != null 
 				&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
 				|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {
-			
+//			System.out.println(x + ":" + y);
+			level.pathFinder.setHoveredTile(xGrid, yGrid);
 		}
 		
 	}

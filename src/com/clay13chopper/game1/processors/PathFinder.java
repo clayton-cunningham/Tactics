@@ -15,10 +15,13 @@ public class PathFinder {
 	protected boolean homeSet;      		// Holds starting tile
 	protected QueueMap<int[]> map;   		// Map of Queues - holds possible yet-to-be calculated movement
 
-	protected boolean attackSet;
-	protected int attackAddr;  	// TODO: Should I toss these variables in, or just make a switch for when we're using calcDesiredPath?
-	protected boolean attackBlockedSet;
-	protected int attackBlockedAddr;
+	// TODO: Should I toss these variables in, or just make a switch for when we're using calcDesiredPath?
+	protected boolean attackSet;			// True if a unit was found to attack
+	protected int attackAddr;  				// Set if a unit was found to attack
+	protected boolean attackBlockedSet;		// True if a unit was found to attack, but is blocked
+	protected int attackBlockedAddr;		// Set  if a unit was found to attack, but is blocked
+
+	protected int hoveredTile;				// Holds what tile the cursor is hovering over, if a path should be shown
 	
 	
 	public PathFinder(int width, int height, Level l) {
@@ -35,6 +38,7 @@ public class PathFinder {
 		attackAddr = -1;
 		attackBlockedSet = false;
 		attackBlockedAddr = -1;
+		hoveredTile = -1;
 		map = new QueueMap<int[]>();
 	}
 	
@@ -44,7 +48,7 @@ public class PathFinder {
 		
 		reset();
 		
-		calcMove(move, minRange, maxRange, x, y, x, y);
+		calcMove(move, minRange, maxRange, x, y, -1, 0);
 		
 		while (true) {
 			int[] next = map.next();
@@ -62,7 +66,7 @@ public class PathFinder {
 		
 		int moveLimit = width * height;
 		
-		calcMove(moveLimit, minRange, maxRange, x, y, x, y);
+		calcMove(moveLimit, minRange, maxRange, x, y, -1, 0);
 		
 		while (!attackSet) {
 			int[] next = map.next();
@@ -215,6 +219,7 @@ public class PathFinder {
 		attackAddr = -1;
 		attackBlockedSet = false;
 		attackBlockedAddr = -1;
+		hoveredTile = -1;
 		map.clear();
 	}
 	
@@ -225,6 +230,14 @@ public class PathFinder {
 	
 	public int prev(int x, int y) {
 		return prevTile[x + (y * width)];
+	}
+	
+	public void setHoveredTile(int x, int y) {
+		hoveredTile = x + (y * width);
+	}
+
+	public int getHoveredTile() {
+		return hoveredTile;
 	}
 
 	public enum PathType {

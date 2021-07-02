@@ -87,6 +87,15 @@ public abstract class Level extends Room {
 			}
 		}
 		
+		// Display player's path
+		int hoveredTile = pathFinder.getHoveredTile();
+		while (hoveredTile != -1) {
+			int hTx = (hoveredTile % width);
+			int hTy = (hoveredTile / width);
+			screen.renderSprite(hTx * TILE_SIZE, hTy * TILE_SIZE, Sprite.sand, false, false);
+			hoveredTile = pathFinder.prev(hTx, hTy);
+		}
+		
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			Sprite s = e.getSprite();
