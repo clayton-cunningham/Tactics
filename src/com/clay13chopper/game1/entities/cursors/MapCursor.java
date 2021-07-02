@@ -40,20 +40,25 @@ public class MapCursor extends Cursor {
 			Unit unitViewed = level.getUnit(xGrid, yGrid);
 			
 			if (unitChosen == null && unitViewed == null) {
-				//TODO: enable showing menu info
+				// 00  // empty space
+				//TODO: enable showing tile info
 			}
-			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { //10 && playable // selecting a unit
+			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { 
+				//10 && playable // selecting a unit
 				unitChosen = unitViewed;
 				level.pathFinder.calcPath(unitChosen.getMovement(), unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid);
 			}
 			else if ((unitViewed == null || unitViewed == unitChosen) 
-					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE || level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  // 01 or == // move a unit
+					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
+					|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  
+				// 01 or == // move a unit
 				unitChosen.move(xGrid, yGrid);
 				unitChosen = null;
 				level.pathFinder.reset();
 			}
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
-					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { //11 && not playable // attacking
+					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { 
+				//11 && not playable // attacking
 				int ua = level.pathFinder.prev(xGrid, yGrid);
 				int uXa = ua % level.getWidth();
 				int uYa = ua / level.getWidth();
@@ -63,17 +68,30 @@ public class MapCursor extends Cursor {
 				level.pathFinder.reset();
 				
 			}
-			else {  // 11 && !=
+			else {  
+				// 11 && !=  // can't attack or move to team-occupied space
 				cursorError();
 			}
 			
 		}
+		
+		// Deselecting a unit
 		if (Keyboard.getDeselectStart()  && level.getActiveTeam() == Team.BLUE) {
-			// Deselect unit
 			unitChosen = null;
 			level.pathFinder.reset();
 			
 		}
+		
+		// TODO: Enable showing path
+		if (unitChosen != null 
+				&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
+				|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {
+			
+		}
+		
+	}
+	
+	public void showPath() {
 		
 	}
 	
