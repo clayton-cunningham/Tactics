@@ -106,6 +106,14 @@ public class Sprite {
 	
 	public static Sprite menuCursorLarge = new Sprite(80, 80, 0, 2, SpriteSheet.cursorsLarge);
 	
+	//Paths
+	public static Sprite pathBlueStartUp = new Sprite(16, 16, 0, 0, SpriteSheet.paths);
+	public static Sprite pathBlueStartDown = new Sprite(16, 16, 1, 0, SpriteSheet.paths);
+	public static Sprite pathBlueStartLeft = new Sprite(16, 16, 2, 0, SpriteSheet.paths);
+	public static Sprite pathBlueStartRight = new Sprite(16, 16, 3, 0, SpriteSheet.paths);
+	public static Sprite pathBlueStart = new Sprite(16, 16, 6, 1, SpriteSheet.paths);
+	
+	
 	//UI
 	public static Sprite healthBar = new Sprite(16, 16, 0, 0, SpriteSheet.UI);
 	public static Sprite health = new Sprite(16, 1, 1, 0, SpriteSheet.UI);

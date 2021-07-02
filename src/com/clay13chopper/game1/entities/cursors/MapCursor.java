@@ -59,7 +59,8 @@ public class MapCursor extends Cursor {
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
 					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { 
 				//11 && not playable // attacking
-				int ua = level.pathFinder.prev(xGrid, yGrid);
+				int ua = level.pathFinder.getHoveredTile();
+				if (ua == -1) ua = level.pathFinder.prev(xGrid, yGrid);
 				int uXa = ua % level.getWidth();
 				int uYa = ua / level.getWidth();
 				unitChosen.move(uXa, uYa);
@@ -82,12 +83,33 @@ public class MapCursor extends Cursor {
 			
 		}
 		
-		// TODO: Enable showing path
-		if ((xa != 0 || ya != 0) && unitChosen != null 
-				&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
-				|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {
-//			System.out.println(x + ":" + y);
-			level.pathFinder.setHoveredTile(xGrid, yGrid);
+		// Behavior from cursor hovering
+		if ((xa != 0 || ya != 0) && unitChosen != null) {
+			
+			// Enable showing path of a unit
+			PathType hoveredTileType = level.pathFinder.getType(xGrid, yGrid);
+			Unit unitViewed = level.getUnit(xGrid, yGrid);
+			if (hoveredTileType == PathType.MOVE 
+					|| hoveredTileType == PathType.HOME) {
+				level.pathFinder.setHoveredTile(xGrid, yGrid);
+			}
+			else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
+				int pastHoveredTile = level.pathFinder.getHoveredTile();
+				if (pastHoveredTile == -1) {
+
+					int newHoveredTile = level.pathFinder.prev(xGrid, yGrid);
+					level.pathFinder.setHoveredTile(newHoveredTile % level.getWidth(), newHoveredTile / level.getWidth());
+				}
+				
+				int distance = Math.abs((pastHoveredTile % level.getWidth()) - xGrid) 
+								+ Math.abs((pastHoveredTile / level.getWidth()) - yGrid);
+				if (distance < unitChosen.getMinRange() || distance > unitChosen.getMaxRange()) {
+					int newHoveredTile = level.pathFinder.prev(xGrid, yGrid);
+					level.pathFinder.setHoveredTile(newHoveredTile % level.getWidth(), newHoveredTile / level.getWidth());
+				}
+				
+			}
+			
 		}
 		
 	}

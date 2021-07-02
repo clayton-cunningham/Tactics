@@ -92,7 +92,7 @@ public abstract class Level extends Room {
 		while (hoveredTile != -1) {
 			int hTx = (hoveredTile % width);
 			int hTy = (hoveredTile / width);
-			screen.renderSprite(hTx * TILE_SIZE, hTy * TILE_SIZE, Sprite.sand, false, false);
+			screen.renderSprite(hTx * TILE_SIZE, hTy * TILE_SIZE, Sprite.pathBlueStart, false, false);
 			hoveredTile = pathFinder.prev(hTx, hTy);
 		}
 		

@@ -16,6 +16,7 @@ public class SpriteSheet {
 	public final static SpriteSheet example_player_done = new SpriteSheet("/spritesheets/rpg_16x16_done.png", 96, 144);
 	public final static SpriteSheet projectiles1 = new SpriteSheet("/spritesheets/projectiles1.png", 48, 48);
 	public final static SpriteSheet cursors = new SpriteSheet("/spritesheets/cursors.png", 48, 48);
+	public final static SpriteSheet paths = new SpriteSheet("/spritesheets/paths.png", 128, 64);
 	public final static SpriteSheet cursorsLarge = new SpriteSheet("/spritesheets/cursorsLarge.png", 240, 240);
 	public final static SpriteSheet UI = new SpriteSheet("/spritesheets/UI.png", 48, 48);
 	public final static SpriteSheet startMenu = new SpriteSheet("/spritesheets/startMenu.png", 320, 564);
