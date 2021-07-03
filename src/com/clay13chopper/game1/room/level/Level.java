@@ -8,6 +8,7 @@ package com.clay13chopper.game1.room.level;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import com.clay13chopper.game1.graphics.PathDisplay;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.processors.PathFinder;
@@ -89,10 +90,13 @@ public abstract class Level extends Room {
 		
 		// Display player's path
 		int hoveredTile = pathFinder.getHoveredTile();
+		int aheadTile = -1;
 		while (hoveredTile != -1) {
 			int hTx = (hoveredTile % width);
 			int hTy = (hoveredTile / width);
-			screen.renderSprite(hTx * TILE_SIZE, hTy * TILE_SIZE, Sprite.pathBlueStart, false, false);
+			screen.renderSprite(hTx * TILE_SIZE, hTy * TILE_SIZE, 
+					PathDisplay.chooseSprite(hoveredTile, hTx, hTy, aheadTile, width, pathFinder), false, false);
+			aheadTile = hoveredTile;
 			hoveredTile = pathFinder.prev(hTx, hTy);
 		}
 		

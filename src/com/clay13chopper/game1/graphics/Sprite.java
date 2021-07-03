@@ -111,6 +111,16 @@ public class Sprite {
 	public static Sprite pathBlueStartDown = new Sprite(16, 16, 1, 0, SpriteSheet.paths);
 	public static Sprite pathBlueStartLeft = new Sprite(16, 16, 2, 0, SpriteSheet.paths);
 	public static Sprite pathBlueStartRight = new Sprite(16, 16, 3, 0, SpriteSheet.paths);
+	public static Sprite pathBlueHorizontal = new Sprite(16, 16, 6, 0, SpriteSheet.paths);
+	public static Sprite pathBlueVertical = new Sprite(16, 16, 7, 0, SpriteSheet.paths);
+	public static Sprite pathBlueCornerDownRight = new Sprite(16, 16, 4, 0, SpriteSheet.paths);
+	public static Sprite pathBlueCornerDownLeft = new Sprite(16, 16, 5, 0, SpriteSheet.paths);
+	public static Sprite pathBlueCornerUpRight = new Sprite(16, 16, 4, 1, SpriteSheet.paths);
+	public static Sprite pathBlueCornerUpLeft = new Sprite(16, 16, 5, 1, SpriteSheet.paths);
+	public static Sprite pathBlueEndUp = new Sprite(16, 16, 0, 1, SpriteSheet.paths);
+	public static Sprite pathBlueEndDown = new Sprite(16, 16, 1, 1, SpriteSheet.paths);
+	public static Sprite pathBlueEndLeft = new Sprite(16, 16, 2, 1, SpriteSheet.paths);
+	public static Sprite pathBlueEndRight = new Sprite(16, 16, 3, 1, SpriteSheet.paths);
 	public static Sprite pathBlueStart = new Sprite(16, 16, 6, 1, SpriteSheet.paths);
 	
 	
