@@ -9,10 +9,38 @@ public class PathDisplay {
 		
 	}
 	
-	public void render() {
-		
+	/**
+	 * Displays the player's path while selecting an action
+	 * 
+	 * @param roomWidth		width of the room
+	 * @param tileSize		size of tiles in the level
+	 * @param pathFinder	a link to the room's path finder
+	 * @param screen		a link to the room's screen
+	 */
+	public static void render(int roomWidth, int tileSize, PathFinder pathFinder, Screen screen) {
+		int hoveredTile = pathFinder.getHoveredTile();
+		int aheadTile = -1;
+		while (hoveredTile != -1) {
+			int hTx = (hoveredTile % roomWidth);
+			int hTy = (hoveredTile / roomWidth);
+			screen.renderSprite(hTx * tileSize, hTy * tileSize, 
+					chooseSprite(hoveredTile, hTx, hTy, aheadTile, roomWidth, pathFinder), false, false);
+			aheadTile = hoveredTile;
+			hoveredTile = pathFinder.prev(hTx, hTy);
+		}
 	}
 	
+	/**
+	 * Selects the sprite for each path spot
+	 * 
+	 * @param hoveredTile	tile being analyzed for a sprite
+	 * @param x				x position
+	 * @param y				y position
+	 * @param aheadTile		tile ahead of this one (also, last tile analyzed)
+	 * @param roomWidth		width of the room
+	 * @param pathFinder	a link to the room's path finder
+	 * @return				the sprite chosen to use
+	 */
 	public static Sprite chooseSprite(int hoveredTile, int x, int y, int aheadTile, int roomWidth, PathFinder pathFinder) {
 		int behindTile = pathFinder.prev(x, y);
 		if (behindTile == -1 && aheadTile == -1) return Sprite.pathBlueStart;

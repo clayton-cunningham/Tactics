@@ -84,6 +84,7 @@ public class MapCursor extends Cursor {
 		}
 		
 		// Behavior from cursor hovering
+		// TODO: the hoveredTile variable shouldn't be in PathFinder - it isn't even used there.  Put it where it's used
 		if ((xa != 0 || ya != 0) && unitChosen != null) {
 			
 			// Enable showing path of a unit
@@ -100,12 +101,13 @@ public class MapCursor extends Cursor {
 					int newHoveredTile = level.pathFinder.prev(xGrid, yGrid);
 					level.pathFinder.setHoveredTile(newHoveredTile % level.getWidth(), newHoveredTile / level.getWidth());
 				}
-				
-				int distance = Math.abs((pastHoveredTile % level.getWidth()) - xGrid) 
-								+ Math.abs((pastHoveredTile / level.getWidth()) - yGrid);
-				if (distance < unitChosen.getMinRange() || distance > unitChosen.getMaxRange()) {
-					int newHoveredTile = level.pathFinder.prev(xGrid, yGrid);
-					level.pathFinder.setHoveredTile(newHoveredTile % level.getWidth(), newHoveredTile / level.getWidth());
+				else {
+					int distance = Math.abs((pastHoveredTile % level.getWidth()) - xGrid) 
+									+ Math.abs((pastHoveredTile / level.getWidth()) - yGrid);
+					if (distance < unitChosen.getMinRange() || distance > unitChosen.getMaxRange()) {
+						int newHoveredTile = level.pathFinder.prev(xGrid, yGrid);
+						level.pathFinder.setHoveredTile(newHoveredTile % level.getWidth(), newHoveredTile / level.getWidth());
+					}
 				}
 				
 			}

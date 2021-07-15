@@ -246,6 +246,5 @@ public class PathFinder {
 		ATTACK,
 		PASS,
 		HOME 		// Same as MOVE, but doesn't render blue on tiles
-//		MOVEBLOCKED
 	}
 }

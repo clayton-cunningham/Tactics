@@ -89,16 +89,7 @@ public abstract class Level extends Room {
 		}
 		
 		// Display player's path
-		int hoveredTile = pathFinder.getHoveredTile();
-		int aheadTile = -1;
-		while (hoveredTile != -1) {
-			int hTx = (hoveredTile % width);
-			int hTy = (hoveredTile / width);
-			screen.renderSprite(hTx * TILE_SIZE, hTy * TILE_SIZE, 
-					PathDisplay.chooseSprite(hoveredTile, hTx, hTy, aheadTile, width, pathFinder), false, false);
-			aheadTile = hoveredTile;
-			hoveredTile = pathFinder.prev(hTx, hTy);
-		}
+		PathDisplay.render(width, TILE_SIZE, pathFinder, screen);
 		
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
