@@ -55,11 +55,12 @@ public class MapCursor extends Cursor {
 				unitChosen.move(xGrid, yGrid);
 				unitChosen = null;
 				level.pathFinder.reset();
+				level.pathDisplay.reset();
 			}
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
 					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { 
 				//11 && not playable // attacking
-				int ua = level.pathFinder.getHoveredTile();
+				int ua = level.pathDisplay.getHoveredTile();
 				if (ua == -1) ua = level.pathFinder.prev(xGrid, yGrid);
 				int uXa = ua % level.getWidth();
 				int uYa = ua / level.getWidth();
@@ -67,6 +68,7 @@ public class MapCursor extends Cursor {
 				unitChosen.attack(unitViewed);
 				unitChosen = null;
 				level.pathFinder.reset();
+				level.pathDisplay.reset();
 				
 			}
 			else {  
@@ -80,11 +82,12 @@ public class MapCursor extends Cursor {
 		if (Keyboard.getDeselectStart()  && level.getActiveTeam() == Team.BLUE) {
 			unitChosen = null;
 			level.pathFinder.reset();
+			level.pathDisplay.reset();
 			
 		}
 		
 		// Behavior from cursor hovering
-		// TODO: the hoveredTile variable shouldn't be in PathFinder - it isn't even used there.  Put it where it's used
+		// TODO: change into new behavior in PathDisplay: remember all past hovered tiles to show the path a user wants to use
 		if ((xa != 0 || ya != 0) && unitChosen != null) {
 			
 			// Enable showing path of a unit
@@ -92,24 +95,10 @@ public class MapCursor extends Cursor {
 			Unit unitViewed = level.getUnit(xGrid, yGrid);
 			if (hoveredTileType == PathType.MOVE 
 					|| hoveredTileType == PathType.HOME) {
-				level.pathFinder.setHoveredTile(xGrid, yGrid);
+				level.pathDisplay.setHoveredTile(xGrid + (yGrid * level.getWidth()));
 			}
 			else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
-				int pastHoveredTile = level.pathFinder.getHoveredTile();
-				if (pastHoveredTile == -1) {
-
-					int newHoveredTile = level.pathFinder.prev(xGrid, yGrid);
-					level.pathFinder.setHoveredTile(newHoveredTile % level.getWidth(), newHoveredTile / level.getWidth());
-				}
-				else {
-					int distance = Math.abs((pastHoveredTile % level.getWidth()) - xGrid) 
-									+ Math.abs((pastHoveredTile / level.getWidth()) - yGrid);
-					if (distance < unitChosen.getMinRange() || distance > unitChosen.getMaxRange()) {
-						int newHoveredTile = level.pathFinder.prev(xGrid, yGrid);
-						level.pathFinder.setHoveredTile(newHoveredTile % level.getWidth(), newHoveredTile / level.getWidth());
-					}
-				}
-				
+				level.pathDisplay.confirmAttackDistance(xGrid, yGrid, level.getWidth(), unitChosen, level.pathFinder);
 			}
 			
 		}

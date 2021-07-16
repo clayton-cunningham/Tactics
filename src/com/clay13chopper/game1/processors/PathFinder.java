@@ -21,8 +21,6 @@ public class PathFinder {
 	protected boolean attackBlockedSet;		// True if a unit was found to attack, but is blocked
 	protected int attackBlockedAddr;		// Set  if a unit was found to attack, but is blocked
 
-	protected int hoveredTile;				// Holds what tile the cursor is hovering over, if a path should be shown
-	
 	
 	public PathFinder(int width, int height, Level l) {
 		this.width = width;
@@ -38,7 +36,6 @@ public class PathFinder {
 		attackAddr = -1;
 		attackBlockedSet = false;
 		attackBlockedAddr = -1;
-		hoveredTile = -1;
 		map = new QueueMap<int[]>();
 	}
 	
@@ -212,14 +209,13 @@ public class PathFinder {
 	
 	public void reset() {
 		Arrays.fill(activeMove, PathType.NONE);
-		Arrays.fill(prevTile, 0);
+		Arrays.fill(prevTile, -1);
 		Arrays.fill(distances, -10);
 		homeSet = false;
 		attackSet = false;
 		attackAddr = -1;
 		attackBlockedSet = false;
 		attackBlockedAddr = -1;
-		hoveredTile = -1;
 		map.clear();
 	}
 	
@@ -230,14 +226,6 @@ public class PathFinder {
 	
 	public int prev(int x, int y) {
 		return prevTile[x + (y * width)];
-	}
-	
-	public void setHoveredTile(int x, int y) {
-		hoveredTile = x + (y * width);
-	}
-
-	public int getHoveredTile() {
-		return hoveredTile;
 	}
 
 	public enum PathType {

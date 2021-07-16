@@ -26,8 +26,9 @@ public abstract class Level extends Room {
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
-	
+
 	public PathFinder pathFinder;
+	public PathDisplay pathDisplay;
 	protected int[] tiles;
 	protected static int TILE_SIZE;
 	protected static int TILE_SIZE_SHIFT;
@@ -39,6 +40,7 @@ public abstract class Level extends Room {
 	
 	public Level() {
 		super();
+		pathDisplay = new PathDisplay();
 		activeTeam = Team.BLUE;
 		teamNumAlive = new int[Unit.Team.values().length];
 		Arrays.fill(teamNumAlive, 0);
@@ -78,6 +80,7 @@ public abstract class Level extends Room {
 		int xF = ((screen.getWidth() - 1) + xOff) >> TILE_SIZE_SHIFT;
 		int yF = ((screen.getHeight() - 1) + yOff) >> TILE_SIZE_SHIFT;
 		
+		// Display background
 		for (int y = y0; y <= yF; y++) {
 			for (int x = x0; x <= xF; x++) {
 				/**
@@ -89,8 +92,9 @@ public abstract class Level extends Room {
 		}
 		
 		// Display player's path
-		PathDisplay.render(width, TILE_SIZE, pathFinder, screen);
+		pathDisplay.render(width, TILE_SIZE, pathFinder, screen);
 		
+		// Display entities
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			Sprite s = e.getSprite();
