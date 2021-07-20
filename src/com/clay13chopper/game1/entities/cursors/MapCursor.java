@@ -47,6 +47,7 @@ public class MapCursor extends Cursor {
 				//10 && playable // selecting a unit
 				unitChosen = unitViewed;
 				level.pathFinder.calcPath(unitChosen.getMovement(), unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid);
+				level.pathDisplay.setHoveredTile(xGrid, yGrid, unitChosen, level.pathFinder);
 			}
 			else if ((unitViewed == null || unitViewed == unitChosen) 
 					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
