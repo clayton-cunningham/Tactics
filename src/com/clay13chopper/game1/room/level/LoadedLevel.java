@@ -14,6 +14,7 @@ import com.clay13chopper.game1.entities.mob.player_units.Heavy;
 import com.clay13chopper.game1.entities.mob.player_units.Mage;
 import com.clay13chopper.game1.entities.mob.player_units.Runner;
 import com.clay13chopper.game1.entities.mob.player_units.Soldier;
+import com.clay13chopper.game1.graphics.PathDisplay;
 import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.tiles.Tile;
 
@@ -26,6 +27,7 @@ public class LoadedLevel extends Level {
 		loadLevel(path);
 		locations = new Unit[width * height];
 		pathFinder= new PathFinder(width, height, this);
+		pathDisplay = new PathDisplay(width);
 		scale = 6;
 		TILE_SIZE_SHIFT = 4;
 		TILE_SIZE = (int) Math.pow(2, TILE_SIZE_SHIFT);
@@ -58,11 +60,13 @@ public class LoadedLevel extends Level {
 	public Tile getTile(int x, int y) {
 		//This will prevent the map from being rendered out of bounds
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
-		if (tiles[x + (y * width)] == Tile.colGrass) return Tile.grass0;
-		else if (tiles[x + (y * width)] == Tile.colSnow) return Tile.snow;
-		else if (tiles[x + (y * width)] == Tile.colIce) return Tile.ice;
-		else if (tiles[x + (y * width)] == Tile.colMountain) return Tile.mountain;
-		else if (tiles[x + (y * width)] == Tile.colSand) return Tile.sand;
+		
+		int index = x + (y * width);
+		if (tiles[index] == Tile.colGrass) return Tile.grass0;
+		else if (tiles[index] == Tile.colSnow) return Tile.snow;
+		else if (tiles[index] == Tile.colIce) return Tile.ice;
+		else if (tiles[index] == Tile.colMountain) return Tile.mountain;
+		else if (tiles[index] == Tile.colSand) return Tile.sand;
 		return Tile.voidTile;
 	}
 	

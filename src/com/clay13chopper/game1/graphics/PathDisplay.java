@@ -1,15 +1,23 @@
 package com.clay13chopper.game1.graphics;
 
+import java.util.Stack;
+
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.processors.PathFinder;
-import com.clay13chopper.game1.processors.PathFinder.PathType;
 
 public class PathDisplay {
+
+	//DoneTODO: Reset path if user leaves movement area (aka. if a cursor select wouldn't do anything)
+	//DoneTODO: Limit path by player's movement
+	//DoneTODO: Decide if I want to hold entire path, or use pathFinder to fill in spots the user didn't go over ---- Done!
+	//OldTODO: Decide if I want to check for path to non-adjacent spot from current path, or just create a new one ---- No, this is a little much.  You're one developer, not a team.  Move on to another part of the development
 	
-	protected int hoveredTile;
+	protected Stack<Integer> path;
+	protected int roomWidth;
 	
-	public PathDisplay() {
-		hoveredTile = -1;
+	public PathDisplay(int width) {
+		path = new Stack<Integer>();
+		roomWidth = width;
 	}
 	
 	/**
@@ -17,20 +25,36 @@ public class PathDisplay {
 	 * 
 	 * @param roomWidth		width of the room
 	 * @param tileSize		size of tiles in the level
-	 * @param pathFinder	a link to the room's path finder
 	 * @param screen		a link to the room's screen
 	 */
-	public void render(int roomWidth, int tileSize, PathFinder pathFinder, Screen screen) {
-		int currTile = hoveredTile;
+	public void render(int tileSize, Screen screen) {
+		if (path.isEmpty()) return;
+		int currTile = -1;
 		int aheadTile = -1;
-		while (currTile != -1) {
-			int hTx = (currTile % roomWidth);
-			int hTy = (currTile / roomWidth);
-			screen.renderSprite(hTx * tileSize, hTy * tileSize, 
-					chooseSprite(currTile, hTx, hTy, aheadTile, roomWidth, pathFinder), false, false);
+		int behindTile = -1;
+		int xGrid = -1, yGrid = -1;
+		
+		for (int i = path.size() - 1; i >= 0; i--) {
+			currTile = path.get(i);
+			xGrid = (currTile % roomWidth);
+			yGrid = (currTile / roomWidth);
+			if (i > 0) behindTile = path.get(i - 1);
+			else behindTile = -1;
+			screen.renderSprite(xGrid * tileSize, yGrid * tileSize, 
+					chooseSprite(currTile, xGrid, yGrid, aheadTile, behindTile), false, false);
 			aheadTile = currTile;
-			currTile = pathFinder.prev(hTx, hTy);
 		}
+		
+//		if (currTile != -1) currTile = pathFinder.prev(xGrid, yGrid);
+//		while (currTile != -1) {
+//			xGrid = (currTile % roomWidth);
+//			yGrid = (currTile / roomWidth);
+//			behindTile = pathFinder.prev(xGrid, yGrid);
+//			screen.renderSprite(xGrid * tileSize, yGrid * tileSize, 
+//					chooseSprite(currTile, xGrid, yGrid, aheadTile, behindTile, pathFinder), false, false);
+//			aheadTile = currTile;
+//			currTile = pathFinder.prev(xGrid, yGrid);
+//		}
 	}
 	
 	/**
@@ -41,13 +65,12 @@ public class PathDisplay {
 	 * @param yGrid				y position
 	 * @param aheadTile		tile ahead of this one (also, last tile analyzed)
 	 * @param roomWidth		width of the room
-	 * @param pathFinder	a link to the room's path finder
 	 * @return				the sprite chosen to use
 	 */
-	public Sprite chooseSprite(int hoveredTile, int xGrid, int yGrid, int aheadTile, int roomWidth, PathFinder pathFinder) {
-		int behindTile = pathFinder.prev(xGrid, yGrid);
+	public Sprite chooseSprite(int hoveredTile, int xGrid, int yGrid, int aheadTile, int behindTile) {
+//		int behindTile = pathFinder.prev(xGrid, yGrid);
 		if (behindTile == -1 && aheadTile == -1) return Sprite.pathBlueStart;
-		if (behindTile == -1 && pathFinder.getType(xGrid, yGrid) == PathType.HOME) {
+		if (behindTile == -1) {
 			int ax = (aheadTile % roomWidth);
 			if (ax > xGrid) return Sprite.pathBlueStartRight;
 			if (ax < xGrid) return Sprite.pathBlueStartLeft;
@@ -80,33 +103,85 @@ public class PathDisplay {
 		return Sprite.voidSprite;
 	}
 	
-	public void setHoveredTile(int addr) {
-		hoveredTile = addr;
+	public void setHoveredTile(int xGrid, int yGrid, Unit unit, PathFinder pathFinder) {
+		
+		int addr = xGrid + (yGrid * roomWidth);
+		if (path.isEmpty()) {
+			recordNewPath(xGrid, yGrid, pathFinder);
+			return;
+		}
+		
+		// Check if address is already part of the path
+		int pastTile = path.peek();
+		if (pastTile == addr) return;
+		if (path.contains(addr)) {
+			while (path.peek() != addr) {
+				path.pop();
+			}
+			return;
+		}
+		
+		// If not adjacent to last spot or too queue is too long, reset the path
+		// Size technically is 1 larger than movement required since it includes the "HOME" space,
+		//   but that's what we want;  we know we're adding a new adjacent space here,
+		//   and this check is done before the addition instead of after
+		int pXGrid = pastTile % roomWidth;
+		int pYGrid = pastTile / roomWidth;
+		if ((Math.abs(pXGrid - xGrid) != 1 || pYGrid != yGrid) && (Math.abs(pYGrid - yGrid) != 1 || pXGrid != xGrid)
+		     || unit.getMovement() < path.size()) {
+			path.clear();
+			recordNewPath(xGrid, yGrid, pathFinder);
+		}
+		else { 
+			// Case: nothing special, simply moving to the new adjacent legal move spot
+			// Add new address
+			path.push(addr);
+		}
+		
+		
 	}
 	
-	public int  getHoveredTile() {
-		return hoveredTile;
+	// Builds a new path whenever we need to reset the queue.
+	// Since this is recursive, we cannot clear the queue in this method.
+	protected void recordNewPath(int xGrid, int yGrid, PathFinder pathFinder) {
+		
+		int pastTile = pathFinder.prev(xGrid, yGrid);
+		if (pastTile == -1) {
+			path.push(xGrid + (yGrid * roomWidth));
+			return;
+		}
+		
+		int pXGrid = pastTile % roomWidth;
+		int pYGrid = pastTile / roomWidth;
+		recordNewPath(pXGrid, pYGrid, pathFinder);
+		path.push(xGrid + (yGrid * roomWidth));
 	}
 	
-	public void confirmAttackDistance(int xGrid, int yGrid, int roomWidth, Unit unit, PathFinder pathFinder) {
-		int pastHoveredTile = hoveredTile;
+	public int getHoveredTile() {
+		return path.peek();
+	}
+	
+	// Check the recorded path for an attack space.  
+	// If the unit can't attack from there, set a new path using the default closest tile.
+	public void confirmAttackDistance(int xGrid, int yGrid, Unit unit, PathFinder pathFinder) {
+		int pastHoveredTile = path.peek();
 		if (pastHoveredTile == -1) {
 
 			int newHoveredTile = pathFinder.prev(xGrid, yGrid);
-			setHoveredTile(newHoveredTile);
+			setHoveredTile(newHoveredTile % roomWidth, newHoveredTile / roomWidth, unit, pathFinder);
 		}
 		else {
 			int distance = Math.abs((pastHoveredTile % roomWidth) - xGrid) 
 							+ Math.abs((pastHoveredTile / roomWidth) - yGrid);
 			if (distance < unit.getMinRange() || distance > unit.getMaxRange()) {
 				int newHoveredTile = pathFinder.prev(xGrid, yGrid);
-				setHoveredTile(newHoveredTile);
+				setHoveredTile(newHoveredTile % roomWidth, newHoveredTile / roomWidth, unit, pathFinder);
 			}
 		}
 	}
 	
 	public void reset() {
-		hoveredTile = -1;
+		path.clear();
 	}
 
 }

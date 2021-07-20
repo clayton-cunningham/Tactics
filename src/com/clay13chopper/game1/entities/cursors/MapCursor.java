@@ -87,18 +87,20 @@ public class MapCursor extends Cursor {
 		}
 		
 		// Behavior from cursor hovering
-		// TODO: change into new behavior in PathDisplay: remember all past hovered tiles to show the path a user wants to use
-		if ((xa != 0 || ya != 0) && unitChosen != null) {
+		if (signalMoved && unitChosen != null) {
 			
 			// Enable showing path of a unit
 			PathType hoveredTileType = level.pathFinder.getType(xGrid, yGrid);
 			Unit unitViewed = level.getUnit(xGrid, yGrid);
 			if (hoveredTileType == PathType.MOVE 
 					|| hoveredTileType == PathType.HOME) {
-				level.pathDisplay.setHoveredTile(xGrid + (yGrid * level.getWidth()));
+				level.pathDisplay.setHoveredTile(xGrid, yGrid, unitChosen, level.pathFinder);
 			}
 			else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
-				level.pathDisplay.confirmAttackDistance(xGrid, yGrid, level.getWidth(), unitChosen, level.pathFinder);
+				level.pathDisplay.confirmAttackDistance(xGrid, yGrid, unitChosen, level.pathFinder);
+			}
+			else {
+				level.pathDisplay.reset();
 			}
 			
 		}

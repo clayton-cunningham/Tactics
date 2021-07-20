@@ -40,7 +40,6 @@ public abstract class Level extends Room {
 	
 	public Level() {
 		super();
-		pathDisplay = new PathDisplay();
 		activeTeam = Team.BLUE;
 		teamNumAlive = new int[Unit.Team.values().length];
 		Arrays.fill(teamNumAlive, 0);
@@ -92,7 +91,7 @@ public abstract class Level extends Room {
 		}
 		
 		// Display player's path
-		pathDisplay.render(width, TILE_SIZE, pathFinder, screen);
+		pathDisplay.render(TILE_SIZE, screen);
 		
 		// Display entities
 		for (int i = 0; i < entities.size(); i++) {

@@ -5,7 +5,8 @@ import com.clay13chopper.game1.input.Keyboard;
 
 public class Cursor extends Entity {
 
-	int xa, ya;
+	int xa, ya, xHeld, yHeld;
+	boolean signalMoved = false;
 	
 	public Cursor(int x, int y) {
 		this.x = x;
@@ -15,6 +16,7 @@ public class Cursor extends Entity {
 	
 	public void update() {
 		super.update();
+		signalMoved = false;
 		
 		xa = 0; ya = 0;
 		if (Keyboard.getUp()) ya--;
@@ -32,10 +34,10 @@ public class Cursor extends Entity {
 	 * @param ya	Input in y direction
 	 */
 	protected void movementEqualize(int xa, int ya) {
-		if (ya != 0 && xa != 0 && Math.abs(yOld) != Math.abs(xOld) && (Math.abs(xOld) > 30 || Math.abs(yOld) > 30)) {
-			int max = Math.max(Math.abs(yOld), Math.abs(xOld));
-			yOld = max * ya;
-			xOld = max * xa;
+		if (ya != 0 && xa != 0 && Math.abs(yHeld) != Math.abs(xHeld) && (Math.abs(xHeld) > 30 || Math.abs(yHeld) > 30)) {
+			int max = Math.max(Math.abs(yHeld), Math.abs(xHeld));
+			yHeld = max * ya;
+			xHeld = max * xa;
 		}
 	}
 	
@@ -45,13 +47,13 @@ public class Cursor extends Entity {
 	 * @param xa	Input in x direction
 	 */
 	protected void movementModerateX(int xa) {
-		if (xa != 0 && (xOld == 0 || ((Math.abs(xOld) > 30) && (xOld % 5 == 0)))) {
+		if (xa != 0 && (xHeld == 0 || ((Math.abs(xHeld) > 30) && (xHeld % 5 == 0)))) {
 			move(xa, 0);
 		}
 	}
 	
 	protected void movementModerateY(int ya) {
-		if (ya != 0 && (yOld == 0 || ((Math.abs(yOld) > 30) && (yOld % 5 == 0)))) {
+		if (ya != 0 && (yHeld == 0 || ((Math.abs(yHeld) > 30) && (yHeld % 5 == 0)))) {
 			move(0, ya);
 		}
 	}
@@ -63,15 +65,15 @@ public class Cursor extends Entity {
 	 * @param xa	Input in x direction
 	 */
 	protected void movementMemoryX(int xa) {
-		if (xa == 0) xOld = 0;
-		else if (xa * xOld > 0) xOld += xa;
-		else xOld = xa;
+		if (xa == 0) xHeld = 0;
+		else if (xa * xHeld > 0) xHeld += xa;
+		else xHeld = xa;
 	}
 	
 	protected void movementMemoryY(int ya) {
-		if (ya == 0) yOld = 0;
-		else if (ya * yOld > 0) yOld += ya;
-		else yOld = ya;
+		if (ya == 0) yHeld = 0;
+		else if (ya * yHeld > 0) yHeld += ya;
+		else yHeld = ya;
 	}
 	
 	
@@ -85,6 +87,7 @@ public class Cursor extends Entity {
 			y += yC * movement;
 			yGrid += yC;
 		}
+		signalMoved = true;
 	}
 
 }

@@ -7,7 +7,7 @@ import com.clay13chopper.game1.room.level.Level;
 public abstract class Entity {
 
 	protected Sprite sprite;
-	protected int x, y, xGrid, yGrid, xOld, yOld;
+	protected int x, y, xGrid, yGrid;
 	protected int movement;
 	protected int anim;
 	protected int delay;
