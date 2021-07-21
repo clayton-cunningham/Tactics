@@ -23,7 +23,7 @@ import com.clay13chopper.game1.entities.text.GenericUI;
 //Can have two types of levels - random generation, and planned data
 public abstract class Level extends Room {
 
-	public static Level random = new RandomLevel(10, 10);
+	public static Level levelRandom = new RandomLevel(10, 10);
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
@@ -104,7 +104,7 @@ public abstract class Level extends Room {
 			screen.renderSprite(xPos, yPos, s, false, false);
 			if (e instanceof Unit && ((Unit) e).getHealthPercent() < 100) {
 				screen.renderSprite(xPos + 1, yPos + 13, Sprite.healthBar, false, false);
-				screen.renderSprite(xPos + 2, yPos + 14, Sprite.makeHealth((Unit) e), false, false);
+				screen.renderSprite(xPos + 2, yPos + 14, Sprite.showHealth((Unit) e), false, false);
 			}
 		}
 	}

@@ -126,7 +126,9 @@ public class Sprite {
 	
 	//UI
 	public static Sprite healthBar = new Sprite(16, 3, 0, 0, SpriteSheet.health_UI);
-	public static Sprite health = new Sprite(16, 1, 1, 0, SpriteSheet.health_UI);
+	public static Sprite healthHigh = new Sprite(16, 1, 1, 0, SpriteSheet.health_UI);
+	public static Sprite healthMid = new Sprite(16, 1, 2, 0, SpriteSheet.health_UI);
+	public static Sprite healthLow = new Sprite(16, 1, 3, 0, SpriteSheet.health_UI);
 	public static Sprite win = new Sprite(48, 16, 0, 0, SpriteSheet.gameEnd_UI);
 	public static Sprite lose = new Sprite(48, 16, 1, 0, SpriteSheet.gameEnd_UI);
 	public static Sprite winContinue = new Sprite(48, 16, 0, 1, SpriteSheet.gameEnd_UI);
@@ -175,9 +177,22 @@ public class Sprite {
 		return pixels[location];
 	}
 	
-	public static Sprite makeHealth(Unit u) {
-		health.width = (u.getHealthPercent() * 12) / 100;
-		return health;
+	public static Sprite showHealth(Unit u) {
+
+		int healthPercent = u.getHealthPercent();
+		int healthWidth = (healthPercent * 12) / 100;
+		if (healthPercent > 66) {
+			healthHigh.width = healthWidth;
+			return healthHigh;
+		}
+		else if (healthPercent > 33) {
+			healthMid.width = healthWidth;
+			return healthMid;
+		}
+		else {
+			healthLow.width = healthWidth;
+			return healthLow;
+		}
 	}
 
 }
