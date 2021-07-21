@@ -13,13 +13,14 @@ public class StartMenu extends Room {
 	
 	public StartMenu() {
 		background = Sprite.background_start;
-		levels = new String[] {"Level 1", "Level 2", "Level 3"};
+		levels = new String[] {"Level 1", "Level 2", "Level 3", "Test"};
 		width = 1920;
 		height = 1080;
 		scale = 1;
 		add(new LevelSelector(960, 250, Sprite.level1));
 		add(new LevelSelector(960, 500, Sprite.level2));
 		add(new LevelSelector(960, 750, Sprite.level3));
+		add(new LevelSelector(960, 1000, Sprite.levelTest));
 		add(new GenericUI(350, 500, Sprite.controls));
 		focus = new MenuCursor(750, 250, levels.length);
 		add(focus);

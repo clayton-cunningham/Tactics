@@ -18,7 +18,8 @@ public class SpriteSheet {
 	public final static SpriteSheet cursors = new SpriteSheet("/spritesheets/cursors.png", 48, 48);
 	public final static SpriteSheet paths = new SpriteSheet("/spritesheets/paths.png", 128, 64);
 	public final static SpriteSheet cursorsLarge = new SpriteSheet("/spritesheets/cursorsLarge.png", 240, 240);
-	public final static SpriteSheet UI = new SpriteSheet("/spritesheets/UI.png", 48, 48);
+	public final static SpriteSheet health_UI = new SpriteSheet("/spritesheets/UI_health.png", 64, 3);
+	public final static SpriteSheet gameEnd_UI = new SpriteSheet("/spritesheets/UI_game_end.png", 144, 32);
 	public final static SpriteSheet startMenu = new SpriteSheet("/spritesheets/startMenu.png", 320, 564);
 	public final static SpriteSheet controls = new SpriteSheet("/spritesheets/controls.png", 1200, 1200);
 	
@@ -29,7 +30,7 @@ public class SpriteSheet {
 		path = p;
 		width = w;
 		height = h;
-		pixels = new int[getWidth() * height];
+		pixels = new int[width * height];
 		load();
 	}
 
@@ -44,6 +45,10 @@ public class SpriteSheet {
 			e.printStackTrace();
 		} catch (Exception e) {
 			System.err.println(" failed!");
+			System.err.println(e);
+			System.err.println(width);
+			System.err.println(height);
+			System.err.println(pixels.length);
 		}
 
 	}

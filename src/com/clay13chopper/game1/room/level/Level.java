@@ -18,6 +18,7 @@ import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.entities.WinLose;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
+import com.clay13chopper.game1.entities.text.GenericUI;
 
 //Can have two types of levels - random generation, and planned data
 public abstract class Level extends Room {
@@ -26,6 +27,7 @@ public abstract class Level extends Room {
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
+	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
 
 	public PathFinder pathFinder;
 	public PathDisplay pathDisplay;
@@ -143,14 +145,15 @@ public abstract class Level extends Room {
 			if (teamId != 0) {
 				levelComplete = 1;
 				add(new WinLose(1, getWidthbyPixel() / 2, getHeightbyPixel() / 2));
+				add(new GenericUI(getWidthbyPixel() / 2, getHeightbyPixel() / 2 + 32, Sprite.winContinue));
 				entities.remove(focus);
 			}
 			else {
 				levelComplete = -1;
 				add(new WinLose(-1, getWidthbyPixel() / 2, getHeightbyPixel() / 2));
-				entities.remove(focus);
-				
+				add(new GenericUI(getWidthbyPixel() / 2, getHeightbyPixel() / 2 + 32, Sprite.loseContinue));
 			}
+			entities.remove(focus);
 		}
 	}
 	
