@@ -150,15 +150,14 @@ public class PathDisplay {
 	
 	// Check the recorded path for an attack space.  
 	// If the unit can't attack from there, set a new path using the default closest tile.
-	// Assumed that path is always set with at least one address.
 	public void confirmAttackDistance(int xGrid, int yGrid, Unit unit, PathFinder pathFinder) {
-		int pastHoveredTile = path.peek();
-		if (pastHoveredTile == -1) {
+		if (path.isEmpty()) {
 
 			int newHoveredTile = pathFinder.prev(xGrid, yGrid);
 			setHoveredTile(newHoveredTile % roomWidth, newHoveredTile / roomWidth, unit, pathFinder);
 		}
 		else {
+			int pastHoveredTile = path.peek();
 			int distance = Math.abs((pastHoveredTile % roomWidth) - xGrid) 
 							+ Math.abs((pastHoveredTile / roomWidth) - yGrid);
 			if (distance < unit.getMinRange() || distance > unit.getMaxRange()) {

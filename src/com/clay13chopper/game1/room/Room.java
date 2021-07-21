@@ -86,6 +86,7 @@ public class Room {
 	public void reset() {
 		changeRoom = null;
 		entities = new ArrayList<Entity>();
+		focus = null;
 	}
 
 }

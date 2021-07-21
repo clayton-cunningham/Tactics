@@ -32,8 +32,6 @@ public class LoadedLevel extends Level {
 		TILE_SIZE_SHIFT = 4;
 		TILE_SIZE = (int) Math.pow(2, TILE_SIZE_SHIFT);
 		loadEntities(pathE);
-		if (focus == null) {focus = new MapCursor(8, 8);
-							add(focus);}
 	}
 	
 	protected void loadLevel(String path) {
@@ -113,6 +111,8 @@ public class LoadedLevel extends Level {
 				add(focus);
 			}
 		}
+		if (focus == null) {focus = new MapCursor(8, 8);
+							add(focus);}
 	}
 	
 	private int iToX(int i) {
