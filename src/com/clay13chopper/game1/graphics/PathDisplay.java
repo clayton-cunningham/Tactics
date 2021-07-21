@@ -7,11 +7,6 @@ import com.clay13chopper.game1.processors.PathFinder;
 
 public class PathDisplay {
 
-	//DoneTODO: Reset path if user leaves movement area (aka. if a cursor select wouldn't do anything)
-	//DoneTODO: Limit path by player's movement
-	//DoneTODO: Decide if I want to hold entire path, or use pathFinder to fill in spots the user didn't go over ---- Done!
-	//OldTODO: Decide if I want to check for path to non-adjacent spot from current path, or just create a new one ---- No, this is a little much.  You're one developer, not a team.  Move on to another part of the development
-	
 	protected Stack<Integer> path;
 	protected int roomWidth;
 	
@@ -44,17 +39,6 @@ public class PathDisplay {
 					chooseSprite(currTile, xGrid, yGrid, aheadTile, behindTile), false, false);
 			aheadTile = currTile;
 		}
-		
-//		if (currTile != -1) currTile = pathFinder.prev(xGrid, yGrid);
-//		while (currTile != -1) {
-//			xGrid = (currTile % roomWidth);
-//			yGrid = (currTile / roomWidth);
-//			behindTile = pathFinder.prev(xGrid, yGrid);
-//			screen.renderSprite(xGrid * tileSize, yGrid * tileSize, 
-//					chooseSprite(currTile, xGrid, yGrid, aheadTile, behindTile, pathFinder), false, false);
-//			aheadTile = currTile;
-//			currTile = pathFinder.prev(xGrid, yGrid);
-//		}
 	}
 	
 	/**
@@ -103,6 +87,7 @@ public class PathDisplay {
 		return Sprite.voidSprite;
 	}
 	
+	// Add the hovered tile to the path.  If the path is empty or invalid, set a new path
 	public void setHoveredTile(int xGrid, int yGrid, Unit unit, PathFinder pathFinder) {
 		
 		int addr = xGrid + (yGrid * roomWidth);
@@ -157,6 +142,8 @@ public class PathDisplay {
 		path.push(xGrid + (yGrid * roomWidth));
 	}
 	
+	// Retrieves the move space the player hovered over
+	// This is used when selecting an attack space, in contrast to using the default from PathFinder
 	public int getHoveredTile() {
 		return path.peek();
 	}
