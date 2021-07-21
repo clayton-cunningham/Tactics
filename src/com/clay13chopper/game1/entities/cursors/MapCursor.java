@@ -27,6 +27,7 @@ public class MapCursor extends Cursor {
 		if (anim % 100 == 50) sprite = Sprite.cursor2; 
 		if (anim % 100 == 0) sprite = Sprite.cursor1; 
 
+		
 		movementEqualize(xa, ya);
 		movementModerateX(xa);
 		movementModerateY(ya);
@@ -108,11 +109,18 @@ public class MapCursor extends Cursor {
 		
 	}
 	
-	public void showPath() {
+	protected boolean checkInBounds(int xa, int ya) {
+		if (level.getTile(xGrid + xa, yGrid + ya).outOfBounds()) {
+			return false;
+		}
+		return true;
+	}
+	
+	protected void showPath() {
 		
 	}
 	
-	public void cursorError() {
+	protected void cursorError() {
 		anim = 25;
 		sprite = Sprite.cursorError1;
 	}

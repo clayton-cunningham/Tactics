@@ -47,13 +47,15 @@ public class Cursor extends Entity {
 	 * @param xa	Input in x direction
 	 */
 	protected void movementModerateX(int xa) {
-		if (xa != 0 && (xHeld == 0 || ((Math.abs(xHeld) > 30) && (xHeld % 5 == 0)))) {
+		if ((xa != 0 && (xHeld == 0 || ((Math.abs(xHeld) > 30) && (xHeld % 5 == 0)))) 
+				&& checkInBounds(xa, 0)) {
 			move(xa, 0);
 		}
 	}
 	
 	protected void movementModerateY(int ya) {
-		if (ya != 0 && (yHeld == 0 || ((Math.abs(yHeld) > 30) && (yHeld % 5 == 0)))) {
+		if ((ya != 0 && (yHeld == 0 || ((Math.abs(yHeld) > 30) && (yHeld % 5 == 0))))
+				&& checkInBounds(0, ya)) {
 			move(0, ya);
 		}
 	}
@@ -88,6 +90,10 @@ public class Cursor extends Entity {
 			yGrid += yC;
 		}
 		signalMoved = true;
+	}
+
+	protected boolean checkInBounds(int xa, int ya) {
+		return true;
 	}
 
 }

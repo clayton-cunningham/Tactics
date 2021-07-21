@@ -42,6 +42,10 @@ public abstract class Tile {
 		return false;
 	}
 	
+	public boolean outOfBounds() {
+		return false;
+	}
+	
 	public boolean breakable() {
 		return false;
 	}

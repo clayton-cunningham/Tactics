@@ -12,4 +12,8 @@ public class VoidTile extends Tile {
 		return true;
 	}
 	
+	public boolean outOfBounds() {
+		return true;
+	}
+	
 }
