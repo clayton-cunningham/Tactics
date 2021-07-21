@@ -55,55 +55,36 @@ public class MapCursor extends Cursor {
 					|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  
 				// 01 or == // move a unit
 				unitChosen.move(xGrid, yGrid);
-				unitChosen = null;
-				level.pathFinder.reset();
-				level.pathDisplay.reset();
+				deselectUnit();
 			}
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
 					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { 
 				//11 && not playable // attacking
 				int ua = level.pathDisplay.getHoveredTile();
-				if (ua == -1) ua = level.pathFinder.prev(xGrid, yGrid);
+				if (ua == -1) ua = level.pathFinder.prev(xGrid, yGrid); // NOTE - this line shouldn't run; pathDisplay should always be set
 				int uXa = ua % level.getWidth();
 				int uYa = ua / level.getWidth();
 				unitChosen.move(uXa, uYa);
 				unitChosen.attack(unitViewed);
-				unitChosen = null;
-				level.pathFinder.reset();
-				level.pathDisplay.reset();
-				
+				deselectUnit();
 			}
 			else {  
 				// 11 && !=  // can't attack or move to team-occupied space
 				cursorError();
 			}
-			
 		}
 		
 		// Deselecting a unit
 		if (Keyboard.getDeselectStart()  && level.getActiveTeam() == Team.BLUE) {
-			unitChosen = null;
-			level.pathFinder.reset();
-			level.pathDisplay.reset();
+			deselectUnit();
 			
 		}
 		
-		// Behavior from cursor hovering
+		// Behavior for when cursor is hovering on a new spot
 		if (signalMoved && unitChosen != null) {
 			
 			// Enable showing path of a unit
-			PathType hoveredTileType = level.pathFinder.getType(xGrid, yGrid);
-			Unit unitViewed = level.getUnit(xGrid, yGrid);
-			if (hoveredTileType == PathType.MOVE 
-					|| hoveredTileType == PathType.HOME) {
-				level.pathDisplay.setHoveredTile(xGrid, yGrid, unitChosen, level.pathFinder);
-			}
-			else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
-				level.pathDisplay.confirmAttackDistance(xGrid, yGrid, unitChosen, level.pathFinder);
-			}
-			else {
-				level.pathDisplay.reset();
-			}
+			updatePath();
 			
 		}
 		
@@ -116,13 +97,30 @@ public class MapCursor extends Cursor {
 		return true;
 	}
 	
-	protected void showPath() {
-		
+	protected void updatePath() {
+		PathType hoveredTileType = level.pathFinder.getType(xGrid, yGrid);
+		Unit unitViewed = level.getUnit(xGrid, yGrid);
+		if (hoveredTileType == PathType.MOVE 
+				|| hoveredTileType == PathType.HOME) {
+			level.pathDisplay.setHoveredTile(xGrid, yGrid, unitChosen, level.pathFinder);
+		}
+		else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
+			level.pathDisplay.confirmAttackDistance(xGrid, yGrid, unitChosen, level.pathFinder);
+		}
+		else {
+			level.pathDisplay.reset();
+		}
 	}
 	
 	protected void cursorError() {
 		anim = 25;
-		sprite = Sprite.cursorError1;
+		sprite = Sprite.cursorError2;
+	}
+	
+	protected void deselectUnit() {
+		unitChosen = null;
+		level.pathFinder.reset();
+		level.pathDisplay.reset();
 	}
 
 }
