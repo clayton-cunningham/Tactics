@@ -27,7 +27,8 @@ public abstract class Level extends Room {
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
-	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
+//	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
+	public static Level levelTest = new RandomLevel(10, 10);
 
 	public PathFinder pathFinder;
 	public PathDisplay pathDisplay;
@@ -46,6 +47,9 @@ public abstract class Level extends Room {
 		teamNumAlive = new int[Unit.Team.values().length];
 		Arrays.fill(teamNumAlive, 0);
 		levelComplete = 0;
+		scale = 6;
+		TILE_SIZE_SHIFT = 4;
+		TILE_SIZE = (int) Math.pow(2, TILE_SIZE_SHIFT);
 	}
 	
 	public void update() {
@@ -204,6 +208,14 @@ public abstract class Level extends Room {
 	
 	public int getLevelComplete() {
 		return levelComplete;
+	}
+	
+	protected int iToX(int i) {
+		return (i % width) * TILE_SIZE + (TILE_SIZE / 2);
+	}
+	
+	protected int iToY(int i) {
+		return (i / width) * TILE_SIZE + (TILE_SIZE / 2);
 	}
 	
 	public void reset() {

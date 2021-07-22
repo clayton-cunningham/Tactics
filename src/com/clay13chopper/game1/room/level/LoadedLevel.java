@@ -28,9 +28,6 @@ public class LoadedLevel extends Level {
 		locations = new Unit[width * height];
 		pathFinder= new PathFinder(width, height, this);
 		pathDisplay = new PathDisplay(width);
-		scale = 6;
-		TILE_SIZE_SHIFT = 4;
-		TILE_SIZE = (int) Math.pow(2, TILE_SIZE_SHIFT);
 		loadEntities(pathE);
 	}
 	
@@ -90,10 +87,10 @@ public class LoadedLevel extends Level {
 		getEntityTypes(loadedEntities);
 	}
 	
-	public void getEntityTypes(int[] loadedEntities) {
+	protected void getEntityTypes(int[] entities) {
 		
-		for (int i = 0; i < loadedEntities.length; i++) {
-			int e = loadedEntities[i];
+		for (int i = 0; i < entities.length; i++) {
+			int e = entities[i];
 			if (e == Entity.colBlueSoldierUnit) add(new Soldier(iToX(i), iToY(i), Team.BLUE));
 			else if (e == Entity.colBlueArcherUnit) add(new Archer(iToX(i), iToY(i), Team.BLUE));
 			else if (e == Entity.colBlueMageUnit) add(new Mage(iToX(i), iToY(i), Team.BLUE));
@@ -113,14 +110,6 @@ public class LoadedLevel extends Level {
 		}
 		if (focus == null) {focus = new MapCursor(8, 8);
 							add(focus);}
-	}
-	
-	private int iToX(int i) {
-		return (i % width) * TILE_SIZE + (TILE_SIZE / 2);
-	}
-	
-	private int iToY(int i) {
-		return (i / width) * TILE_SIZE + (TILE_SIZE / 2);
 	}
 	
 	public void reset() {
