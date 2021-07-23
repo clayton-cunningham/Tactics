@@ -19,6 +19,7 @@ public abstract class Unit extends Mob {
 	protected Sprite downDone2;
 	
 	protected boolean hovered = false;
+	int[] path = new int[0]; // Only used by AI
 	
 	public Unit (int x, int y) {
 		super(x, y);
@@ -38,10 +39,14 @@ public abstract class Unit extends Mob {
 			}
 			
 			if (delay == 2) {
-				level.pathFinder.calcPath(movement, minRange, maxRange, xGrid, yGrid);
+				path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, xGrid, yGrid);
+				level.pathFinder.reset();
+				if (path[0] == -1 && path[1] == xGrid + (yGrid * level.getWidth())) delay = 70;
+				else level.pathFinder.calcPath(movement, minRange, maxRange, xGrid, yGrid);
 			}
-			else if (delay > 80) {
+			if (delay > 80) {
 				act();
+				level.pathFinder.reset();
 				turnDone = true;
 				level.setUnitActing(null);
 			}
@@ -54,8 +59,6 @@ public abstract class Unit extends Mob {
 	}
 	
 	private void act() {
-		level.pathFinder.reset();
-		int[] path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, xGrid, yGrid);
 		if (path[0] != -1)  {
 			int aX = path[0] % level.getWidth();
 			int aY = path[0] / level.getWidth();
