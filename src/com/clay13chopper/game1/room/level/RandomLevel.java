@@ -100,30 +100,28 @@ public class RandomLevel extends Level {
 		if (focus == null) {focus = new MapCursor(8, 8);
 							add(focus);}
 	}
-	
+
+	// Open path to other units, if the new unit is cut off
 	protected void checkPossible(int xGrid, int yGrid) {
 		int[] path = pathFinder.calcDesiredPath(width * height, 1, 1, xGrid, yGrid);
+		// If no other unit exists OR a wall is blocking this one
 		if (path[0] == -1 && path[1] == xGrid + (yGrid * height)) {
-			System.out.println("Stopped\t" + path[0] + "\t  :  " +  + path[1] + "\t  :  " + (xGrid + (yGrid * height)));
-			// Open path to other units
-			// TODO: Serious cleanup
+			
 			pathFinder.openWallsEdit();
 			path = pathFinder.calcDesiredPath(width * height, 1, 1, xGrid, yGrid);
 			pathFinder.closeWallsEdit();
-			System.out.println("Found \t" + path[0] + "\t  :  " +  + path[1] + "\t  :  " + (xGrid + (yGrid * height)));
+			
+			// If another unit exists on the map, open a path to it
 			if (path[0] != -1) {
 				int xGoal = path[1] % width;
 				int yGoal = path[1] / width;
-				int xDir = 1;
-				int yDir = 1;
-				if (xGoal < xGrid) xDir = -1;
-				if (yGoal < yGrid) yDir = -1;
+				int xDir = (xGrid < xGoal) ? 1 : -1;
+				int yDir = (yGrid < yGoal) ? 1 : -1;
 				int x = xGrid;
 				while (x != xGoal) {
 					x += xDir;
 					if (getTile(x, yGrid).solid()) {
 						tiles[x + (yGrid * width)] = 6;
-						System.out.println("Erased \t" + path[0] + "\t  :  " +  (x + (yGrid * width)) + "\t  :  " + (xGrid + (yGrid * height)));
 					}
 					
 				}
@@ -132,7 +130,6 @@ public class RandomLevel extends Level {
 					y += yDir;
 					if (getTile(xGoal, y).solid()) {
 						tiles[xGoal + (y * width)] = 6;
-						System.out.println("Erased \t" + path[0] + "\t  :  " +  (xGoal + (y * width)) + "\t  :  " + (xGrid + (yGrid * height)));
 					}
 				}
 			}
