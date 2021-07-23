@@ -107,9 +107,9 @@ public class MapCursor extends Cursor {
 		else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
 			level.pathDisplay.confirmAttackDistance(xGrid, yGrid, unitChosen, level.pathFinder);
 		}
-		else {
-			level.pathDisplay.reset();
-		}
+//		else {
+//			level.pathDisplay.reset();
+//		}
 	}
 	
 	protected void cursorError() {
