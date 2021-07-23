@@ -20,6 +20,8 @@ public class PathFinder {
 	protected int attackAddr;  				// Set if a unit was found to attack
 	protected boolean attackBlockedSet;		// True if a unit was found to attack, but is blocked
 	protected int attackBlockedAddr;		// Set  if a unit was found to attack, but is blocked
+	
+	protected boolean openWalls = false;	// True if currently editing walls
 
 	
 	public PathFinder(int width, int height, Level l) {
@@ -82,8 +84,7 @@ public class PathFinder {
 		
 		int target = attackAddr;
 		int reqMove = moveLimit - move;
-		int curTile = -1;
-		curTile = prevTile[target];
+		int curTile = prevTile[target];
 		
 		while (distances[curTile] < reqMove || (activeMove[curTile] != PathType.MOVE && activeMove[curTile] != PathType.HOME)) {
 			target = -1;
@@ -107,7 +108,7 @@ public class PathFinder {
 		if (move <= -1) return;                          // Check if too far
 		if (distances[x + (y * width)] >= move) return; // Check if shorter path already found
 		if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() != level.getActiveTeam()) return;  //Cannot move onto a non-playable unit
-		if (level.getTile(x, y).solid()) return;
+		if (level.getTile(x, y).solid() && !openWalls) return;
 		
 		distances[x + (y * width)] = move;              // Mark path distance
 		
@@ -205,6 +206,14 @@ public class PathFinder {
 			}
 		}
 		
+	}
+	
+	public void openWallsEdit() {
+		openWalls = true;
+	}
+	
+	public void closeWallsEdit() {
+		openWalls = false;
 	}
 	
 	public void reset() {

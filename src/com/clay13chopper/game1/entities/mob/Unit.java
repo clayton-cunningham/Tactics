@@ -145,7 +145,8 @@ public abstract class Unit extends Mob {
 		BLUE (0),
 		RED (1),
 		YELLOW (2),
-		GREEN (3);
+		GREEN (3),
+		NONE (4);
 		
 		private final int id;
 		Team(int id) { this.id = id; }

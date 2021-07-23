@@ -6,9 +6,6 @@ import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.processors.PathFinder;
 
 public class PathDisplay {
-
-	//TODO: Allow path to persist while not on move-able spaces, so you can attack from a ranged spot far away
-	//   - Or implement menus now
 	
 	protected Stack<Integer> path;
 	protected int roomWidth;

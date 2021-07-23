@@ -27,8 +27,8 @@ public abstract class Level extends Room {
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
-	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
-//	public static Level levelTest = new RandomLevel(10, 10);
+//	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
+	public static Level levelTest = new RandomLevel(10, 10);
 
 	public PathFinder pathFinder;
 	public PathDisplay pathDisplay;

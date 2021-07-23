@@ -107,6 +107,7 @@ public class MapCursor extends Cursor {
 		else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
 			level.pathDisplay.confirmAttackDistance(xGrid, yGrid, unitChosen, level.pathFinder);
 		}
+		//TODO: After menus are implemented and you can choose where you want to attack from, un-comment this
 //		else {
 //			level.pathDisplay.reset();
 //		}
