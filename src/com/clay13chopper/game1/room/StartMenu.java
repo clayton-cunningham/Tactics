@@ -5,6 +5,7 @@ import com.clay13chopper.game1.entities.text.GenericUI;
 import com.clay13chopper.game1.entities.text.LevelSelector;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
+import com.clay13chopper.game1.room.level.Level;
 
 public class StartMenu extends Room {
 	
@@ -29,6 +30,12 @@ public class StartMenu extends Room {
 	public void update() {
 		
 		super.update();
+		
+		int currSelect = ((MenuCursor) focus).checkTrigger();
+		if (currSelect == 0) changeRoom(Level.level1);
+		if (currSelect == 1) changeRoom(Level.level2);
+		if (currSelect == 2) changeRoom(Level.level3);
+		if (currSelect == 3) changeRoom(Level.levelTest);
 		
 	}
 	

@@ -150,7 +150,7 @@ public abstract class Level extends Room {
 				levelComplete = 1;
 				add(new WinLose(1, getWidthbyPixel() / 2, getHeightbyPixel() / 2));
 				add(new GenericUI(getWidthbyPixel() / 2, getHeightbyPixel() / 2 + 32, Sprite.winContinue));
-				entities.remove(focus);
+				entities.remove(focus); // TODO: This is lazy, find another way to pause the level
 			}
 			else {
 				levelComplete = -1;

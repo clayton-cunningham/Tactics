@@ -2,18 +2,17 @@ package com.clay13chopper.game1.entities.cursors;
 
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.input.Keyboard;
-import com.clay13chopper.game1.room.level.Level;
 
 public class MenuCursor extends Cursor {
-	
-	private int currSelect;
+
+	private int currSelect = 0;
+	private int trigger = -1;
 	private int yLimit;
 	
 	public MenuCursor(int x, int y, int yL) {
 		super(x, y);
 		sprite = Sprite.menuCursorLarge;
 		movement = 250;
-		currSelect = 0;
 		yLimit = yL;
 	}
 	
@@ -25,10 +24,7 @@ public class MenuCursor extends Cursor {
 		
 		// Select a level
 		if (Keyboard.getSelectStart()) {
-			if (currSelect == 0) room.changeRoom(Level.level1);
-			if (currSelect == 1) room.changeRoom(Level.level2);
-			if (currSelect == 2) room.changeRoom(Level.level3);
-			if (currSelect == 3) room.changeRoom(Level.levelTest);
+			trigger = currSelect;
 		}
 		
 	}
@@ -42,6 +38,10 @@ public class MenuCursor extends Cursor {
 		
 		super.move(xC, yC);
 		currSelect += yC;
+	}
+	
+	public int checkTrigger() {
+		return trigger;
 	}
 
 }

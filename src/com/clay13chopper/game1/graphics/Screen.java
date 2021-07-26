@@ -31,6 +31,7 @@ public class Screen {
 		int sW = focus.getSprite().getWidth();
 		int sH = focus.getSprite().getHeight();
 		
+		// TODO: pull scroll amount from focus's movement & room size/scale/something
 		if ((y - (sH / 2)) < yOffset) yOffset -= 4;
 		if ((y + (sH / 2)) > (yOffset + height)) yOffset += 4;
 		if ((x + (sW / 2)) > (xOffset + width)) xOffset += 4;

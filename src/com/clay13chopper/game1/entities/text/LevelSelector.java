@@ -2,12 +2,10 @@ package com.clay13chopper.game1.entities.text;
 
 import com.clay13chopper.game1.graphics.Sprite;
 
-public class LevelSelector extends TextBox {
+public class LevelSelector extends GenericUI {
 	
 	public LevelSelector(int x, int y, Sprite s) {
-		this.x = x;
-		this.y = y;
-		sprite = s;
+		super(x, y, s);
 	}
 	
 	
