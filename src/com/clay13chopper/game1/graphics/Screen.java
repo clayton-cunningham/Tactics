@@ -22,6 +22,7 @@ public class Screen {
 		pixels = new int[w * h];
 	}
 	
+	// Scroll to position of focus
 	public void update(Entity focus) {
 		if (focus == null) return;
 		
@@ -30,10 +31,10 @@ public class Screen {
 		int sW = focus.getSprite().getWidth();
 		int sH = focus.getSprite().getHeight();
 		
-		if ((y - (sH / 2)) < yOffset) yOffset -= 2;
-		if ((y + (sH / 2)) > (yOffset + height)) yOffset += 2;
-		if ((x + (sW / 2)) > (xOffset + width)) xOffset += 2;
-		if ((x - (sW / 2)) < xOffset) xOffset -= 2;
+		if ((y - (sH / 2)) < yOffset) yOffset -= 4;
+		if ((y + (sH / 2)) > (yOffset + height)) yOffset += 4;
+		if ((x + (sW / 2)) > (xOffset + width)) xOffset += 4;
+		if ((x - (sW / 2)) < xOffset) xOffset -= 4;
 	}
 	
 	/**
