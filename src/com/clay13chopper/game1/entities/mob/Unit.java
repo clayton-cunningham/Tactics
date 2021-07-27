@@ -1,6 +1,7 @@
 package com.clay13chopper.game1.entities.mob;
 
 import com.clay13chopper.game1.entities.mob.Mob;
+import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 
 public abstract class Unit extends Mob {
@@ -30,7 +31,7 @@ public abstract class Unit extends Mob {
 		if (health < 1) remove();
 		
 		//Enemy or other non-playable units
-		if (!isPlayable() && team == level.getActiveTeam() && !turnDone && level.getLevelComplete() == 0
+		else if (!isPlayable() && team == level.getActiveTeam() && !turnDone && level.getLevelComplete() == 0
 				&& (level.getUnitActing() == null || level.getUnitActing() == this)) {
 			
 			if (level.getUnitActing() == null) {
@@ -56,6 +57,18 @@ public abstract class Unit extends Mob {
 
 		sprite = getSpriteDown();
 		
+	}
+	
+	public void render(Screen screen) {
+		super.render(screen);
+
+		int sW = sprite.getWidth();
+		int sH = sprite.getHeight();
+		
+		if (getHealthPercent() < 100) {
+			screen.renderSprite(x - (sW / 2) + 1, y + (sH / 2) - 3, Sprite.healthBar, false, false);
+			screen.renderSprite(x - (sW / 2) + 2, y + (sH / 2) - 2, Sprite.showHealth(this), false, false);
+		}
 	}
 	
 	private void act() {

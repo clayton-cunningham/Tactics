@@ -138,6 +138,21 @@ public class Sprite {
 	public static Sprite level3 = new Sprite(320, 141, 0, 2, SpriteSheet.startMenu);
 	public static Sprite levelTest = new Sprite(320, 141, 0, 3, SpriteSheet.startMenu);
 	public static Sprite controls = new Sprite(600, 600, 0, 0, SpriteSheet.controls);
+
+	public static Sprite menuBorderTopLeft = new Sprite(48, 14, 0, 0, SpriteSheet.menu_UI);
+	public static Sprite menuBorderTop = new Sprite(48, 14, 1, 0, SpriteSheet.menu_UI);
+	public static Sprite menuBorderTopRight = new Sprite(48, 14, 2, 0, SpriteSheet.menu_UI);
+	public static Sprite menuBorderLeft = new Sprite(48, 14, 0, 1, SpriteSheet.menu_UI);
+	public static Sprite menuBorderRight = new Sprite(48, 14, 2, 1, SpriteSheet.menu_UI);
+	public static Sprite menuBorderBottomLeft = new Sprite(48, 14, 0, 2, SpriteSheet.menu_UI);
+	public static Sprite menuBorderBottom = new Sprite(48, 14, 1, 2, SpriteSheet.menu_UI);
+	public static Sprite menuBorderBottomRight = new Sprite(48, 14, 2, 2, SpriteSheet.menu_UI);
+	public static Sprite menuSelector = new Sprite(48, 14, 0, 3, SpriteSheet.menu_UI);
+	public static Sprite menuEndTurn = new Sprite(48, 14, 1, 1, SpriteSheet.menu_UI);
+	public static Sprite menuQuit = new Sprite(48, 14, 1, 3, SpriteSheet.menu_UI);
+	public static Sprite menuAttack = new Sprite(48, 14, 2, 3, SpriteSheet.menu_UI);
+	public static Sprite menuWait = new Sprite(48, 14, 0, 4, SpriteSheet.menu_UI);
+	public static Sprite menuCancel = new Sprite(48, 14, 1, 4, SpriteSheet.menu_UI);
 	
 	//Void
 	public static Sprite voidSprite = new Sprite(16, 16, 6, 7, SpriteSheet.background_tiles);

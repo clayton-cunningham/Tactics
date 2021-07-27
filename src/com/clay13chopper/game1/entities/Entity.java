@@ -1,5 +1,6 @@
 package com.clay13chopper.game1.entities;
 
+import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.room.level.Level;
@@ -42,6 +43,10 @@ public abstract class Entity {
 
 	public void update() {
 		if (anim < 3000) anim++; else anim = 0;
+	}
+	
+	public void render(Screen screen) {
+		screen.renderSprite(x - (sprite.getWidth() / 2), y - (sprite.getHeight() / 2), sprite, false, false);
 	}
 	
 	public void remove() {

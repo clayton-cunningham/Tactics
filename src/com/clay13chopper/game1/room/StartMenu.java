@@ -23,7 +23,7 @@ public class StartMenu extends Room {
 		add(new LevelSelector(960, 750, Sprite.level3));
 		add(new LevelSelector(960, 1000, Sprite.levelTest));
 		add(new GenericUI(350, 500, Sprite.controls));
-		focus = new MenuCursor(750, 250, levels.length);
+		focus = new MenuCursor(750, 250, levels.length, 0);
 		add(focus);
 	}
 	

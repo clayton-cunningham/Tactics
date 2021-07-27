@@ -1,7 +1,9 @@
 package com.clay13chopper.game1.entities.cursors;
 
+
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
+import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.input.Keyboard;
 import com.clay13chopper.game1.processors.PathFinder.PathType;
@@ -10,6 +12,8 @@ import com.clay13chopper.game1.room.level.Level;
 public class MapCursor extends Cursor {
 
 	private Unit unitChosen = null;
+	private boolean invisible = false;
+	private boolean locked = false;
 	
 	public MapCursor(int x, int y) {
 		super(x, y);
@@ -23,10 +27,12 @@ public class MapCursor extends Cursor {
 
 	public void update() {
 		super.update();
+		
 		//Animation counter
 		if (anim % 100 == 50) sprite = Sprite.cursor2; 
 		if (anim % 100 == 0) sprite = Sprite.cursor1; 
 
+		if (locked) return;
 		
 		movementEqualize(xa, ya);
 		movementModerateX(xa);
@@ -42,7 +48,8 @@ public class MapCursor extends Cursor {
 			
 			if (unitChosen == null && unitViewed == null) {
 				// 00  // empty space
-				//TODO: enable showing tile info
+				level.createTextBox(x, y, new int[]{0, 1});
+				locked = true;
 			}
 			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { 
 				//10 && playable // selecting a unit
@@ -54,8 +61,8 @@ public class MapCursor extends Cursor {
 					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
 					|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  
 				// 01 or == // move a unit
-				unitChosen.move(xGrid, yGrid);
-				deselectUnit();
+				level.createTextBox(x, y, new int[]{3, 4});
+				locked = true;
 			}
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
 					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { 
@@ -87,7 +94,15 @@ public class MapCursor extends Cursor {
 			updatePath();
 			
 		}
+
+		//TODO: enable showing tile info
+		//if (signalMoved && unitChosen != null && unitViewed == null)
 		
+	}
+	
+	public void render(Screen screen) {
+		if (invisible) return;
+		super.render(screen);
 	}
 	
 	protected boolean checkInBounds(int xa, int ya) {
@@ -122,6 +137,16 @@ public class MapCursor extends Cursor {
 		unitChosen = null;
 		level.pathFinder.reset();
 		level.pathDisplay.reset();
+	}
+	
+	public void unlock() {
+		locked = false;
+	}
+	
+	public void approveMove() {
+		unitChosen.move(xGrid, yGrid);
+		deselectUnit();
+		locked = false;
 	}
 
 }

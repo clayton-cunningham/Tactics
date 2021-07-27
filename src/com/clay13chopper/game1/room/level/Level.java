@@ -1,5 +1,7 @@
 package com.clay13chopper.game1.room.level;
 
+import java.util.ArrayList;
+
 /**
  * Definition:  Collection of all objects in a level
  * 				Assists running of every object's function, such as updating and rendering
@@ -16,9 +18,11 @@ import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.tiles.Tile;
 import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.entities.WinLose;
+import com.clay13chopper.game1.entities.cursors.MenuCursor;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
 import com.clay13chopper.game1.entities.text.GenericUI;
+import com.clay13chopper.game1.entities.text.TextBox;
 
 //Can have two types of levels - random generation, and planned data
 public abstract class Level extends Room {
@@ -40,6 +44,7 @@ public abstract class Level extends Room {
 	protected int[] teamNumAlive;
 	protected int levelComplete;
 	protected Unit unitActing;
+	protected ArrayList<Entity> queuedAdd;
 	
 	public Level() {
 		super();
@@ -47,6 +52,7 @@ public abstract class Level extends Room {
 		teamNumAlive = new int[Unit.Team.values().length];
 		Arrays.fill(teamNumAlive, 0);
 		levelComplete = 0;
+		queuedAdd = new ArrayList<Entity>();
 		scale = 6;
 		TILE_SIZE_SHIFT = 4;
 		TILE_SIZE = (int) Math.pow(2, TILE_SIZE_SHIFT);
@@ -75,6 +81,10 @@ public abstract class Level extends Room {
 			}
 			activeTeam = getNextTeam();
 		}
+		if (!queuedAdd.isEmpty()) {
+			for (Entity e : queuedAdd) add(e);
+			queuedAdd.clear();
+		}
 	}
 	
 	public void render(Screen screen) {
@@ -102,14 +112,7 @@ public abstract class Level extends Room {
 		// Display entities
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
-			Sprite s = e.getSprite();
-			int xPos = e.getX() - (s.getWidth() / 2);
-			int yPos = e.getY() - (s.getHeight() / 2);
-			screen.renderSprite(xPos, yPos, s, false, false);
-			if (e instanceof Unit && ((Unit) e).getHealthPercent() < 100) {
-				screen.renderSprite(xPos + 1, yPos + 13, Sprite.healthBar, false, false);
-				screen.renderSprite(xPos + 2, yPos + 14, Sprite.showHealth((Unit) e), false, false);
-			}
+			e.render(screen);
 		}
 	}
 	
@@ -130,6 +133,22 @@ public abstract class Level extends Room {
 			teamNumAlive[ u.getTeam().getId() ]++;
 		}
 		
+	}
+	
+	public void createTextBox(int x, int y, int[] options) {
+
+		ArrayList<Integer> aL = new ArrayList<Integer>();
+		for (int i = 0; i < options.length; i++) {
+			aL.add(options[i]);
+		}
+		MenuCursor menu = new MenuCursor(x, y, aL.size(), 1);
+		scheduleAdd(new TextBox(x, y, aL, menu));
+		scheduleAdd(menu);
+	}
+	
+	// Queue adding an entity to the level
+	public void scheduleAdd(Entity e) {
+		queuedAdd.add(e);
 	}
 	
 	public void moveUnit(Unit u, int x, int y, int xa, int ya) {
@@ -225,6 +244,7 @@ public abstract class Level extends Room {
 		activeTeam = Team.BLUE;
 		Arrays.fill(teamNumAlive, 0);
 		levelComplete = 0;
+		queuedAdd.clear();
 	}
 
 }
