@@ -18,6 +18,7 @@ import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.tiles.Tile;
 import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.entities.WinLose;
+import com.clay13chopper.game1.entities.cursors.MapCursor;
 import com.clay13chopper.game1.entities.cursors.MenuCursor;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
@@ -201,6 +202,8 @@ public abstract class Level extends Room {
 			}
 		}
 		activeTeam = getNextTeam();
+		if (activeTeam != Team.BLUE) ((MapCursor) focus).lockAndHide();
+		else ((MapCursor) focus).unlockAndUnhide();
 	}
 	
 	public void setUnitActing(Unit u) {

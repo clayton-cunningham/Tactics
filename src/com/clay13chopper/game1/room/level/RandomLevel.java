@@ -39,7 +39,7 @@ public class RandomLevel extends Level {
 		
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				tiles[x + (y * width)] = random.nextInt(6);
+				tiles[x + (y * width)] = random.nextInt(7);
 			}
 		}
 		
@@ -53,9 +53,10 @@ public class RandomLevel extends Level {
 		if (tiles[index] == 1) return Tile.grass1;
 		if (tiles[index] == 2) return Tile.grass2;
 		if (tiles[index] == 3) return Tile.snow;
-		if (tiles[index] == 4) return Tile.ice;
-		if (tiles[index] == 5) return Tile.mountain;
-		if (tiles[index] == 6) return Tile.water;
+		if (tiles[index] == 4) return Tile.sand;
+		if (tiles[index] == 5) return Tile.ice;
+		if (tiles[index] == 6) return Tile.mountain;
+		if (tiles[index] == 7) return Tile.water;
 		return Tile.voidTile;
 	}
 	

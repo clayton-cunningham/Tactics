@@ -66,7 +66,7 @@ public class PathFinder {
 		
 		reset();
 		
-		int moveLimit = width * height;
+		int moveLimit = width * height * 5;
 		
 		calcMove(moveLimit, minRange, maxRange, x, y, -1, 0);
 		
@@ -108,8 +108,9 @@ public class PathFinder {
 	private void calcMove(int move, int minRange, int maxRange, int x, int y, int px, int py) {
 
 		if (x < 0 || y < 0 || x >= width || y >= height) return; // Check bounds of level
-		if (move <= -1) return;                          // Check if too far
-		if (distances[x + (y * width)] >= move) return; // Check if shorter path already found
+		if (homeSet) move -= level.getTile(x, y).moveCostFoot(); // Decrement movement based on tile
+		if (move <= -1) return;                          		 //   ... then check if too far
+		if (distances[x + (y * width)] >= move) return; 		 // Check if shorter path already found
 		if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() != level.getActiveTeam()) return;  //Cannot move onto a non-playable unit
 		if (level.getTile(x, y).solid() && !openWalls) return;
 		
@@ -134,10 +135,10 @@ public class PathFinder {
 
 		// Queue all possible moves (breadth-first)
 		// Better than recursion (depth-first)
-		int[] down = 	{move - 1, x, y + 1, x, y};
-		int[] up = 		{move - 1, x, y - 1, x, y};
-		int[] right = 	{move - 1, x + 1, y, x, y};
-		int[] left = 	{move - 1, x - 1, y, x, y};
+		int[] down = 	{move, x, y + 1, x, y};
+		int[] up = 		{move, x, y - 1, x, y};
+		int[] right = 	{move, x + 1, y, x, y};
+		int[] left = 	{move, x - 1, y, x, y};
 		map.add(move - 1, down);
 		map.add(move - 1, up);
 		map.add(move - 1, right);

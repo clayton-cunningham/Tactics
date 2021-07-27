@@ -41,7 +41,7 @@ public class MapCursor extends Cursor {
 		movementMemoryX(xa);
 		movementMemoryY(ya);
 		
-		//Select or move unit
+		//Selected a space
 		if (Keyboard.getSelectStart()  && level.getActiveTeam() == Team.BLUE) {
 
 			//Recover unit at location
@@ -160,8 +160,18 @@ public class MapCursor extends Cursor {
 		level.pathDisplay.reset();
 	}
 	
+	public void lockAndHide() {
+		locked = true;
+		invisible = true;
+	}
+
 	public void unlock() {
 		locked = false;
+	}
+	
+	public void unlockAndUnhide() {
+		locked = false;
+		invisible = false;
 	}
 	
 	public void approveMove() {

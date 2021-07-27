@@ -13,11 +13,11 @@ public abstract class Tile {
 	public final static Tile grass0 = new GrassTile(Sprite.grass0);
 	public final static Tile grass1 = new GrassTile(Sprite.grass1);
 	public final static Tile grass2 = new GrassTile(Sprite.grass2);
-	public final static Tile snow = new GrassTile(Sprite.snow);
+	public final static Tile snow = new SnowTile(Sprite.snow);
 	public final static Tile ice = new IceTile(Sprite.ice);
 	public final static Tile mountain = new MountainTile(Sprite.mountain);
 	public final static Tile water = new GrassTile(Sprite.water);
-	public final static Tile sand = new GrassTile(Sprite.sand);
+	public final static Tile sand = new SandTile(Sprite.sand);
 	
 	public final static Tile voidTile = new VoidTile(Sprite.voidSprite);
 
@@ -49,5 +49,9 @@ public abstract class Tile {
 	public boolean breakable() {
 		return false;
 	}
+
+	public int moveCostFoot()  {	return 1; }
+	public int moveCostWheel() {	return 1; }
+	public int moveCostHorse() {	return 1; }
 
 }
