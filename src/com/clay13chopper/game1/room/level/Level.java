@@ -31,8 +31,8 @@ public abstract class Level extends Room {
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
-	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
-//	public static Level levelTest = new RandomLevel(10, 10);
+//	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
+	public static Level levelTest = new RandomLevel(10, 10);
 
 	public PathFinder pathFinder;
 	public PathDisplay pathDisplay;
@@ -73,13 +73,7 @@ public abstract class Level extends Room {
 				nextTurn = false;
 		}
 		if (nextTurn) {
-			for (int i = 0; i < entities.size(); i++) {
-				Entity e = entities.get(i);
-				if (e instanceof Unit && ((Unit) e).getTurnDone()) {
-					((Unit) e).resetTurn();
-				}
-			}
-			activeTeam = getNextTeam();
+			nextTurn();
 		}
 		if (!queuedAdd.isEmpty()) {
 			for (Entity e : queuedAdd) add(e);
@@ -191,6 +185,16 @@ public abstract class Level extends Room {
 	private Team getNextTeam() {
 		if (activeTeam == Team.BLUE) return Team.RED;
 		return Team.BLUE;
+	}
+	
+	public void nextTurn() {
+		for (int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			if (e instanceof Unit && ((Unit) e).getTurnDone()) {
+				((Unit) e).resetTurn();
+			}
+		}
+		activeTeam = getNextTeam();
 	}
 	
 	public void setUnitActing(Unit u) {

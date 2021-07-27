@@ -14,6 +14,7 @@ public class MapCursor extends Cursor {
 	private Unit unitChosen = null;
 	private boolean invisible = false;
 	private boolean locked = false;
+	private boolean pathSet = false;
 	
 	public MapCursor(int x, int y) {
 		super(x, y);
@@ -61,19 +62,25 @@ public class MapCursor extends Cursor {
 					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
 					|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  
 				// 01 or == // move a unit
-				level.createTextBox(x, y, new int[]{3, 4});
+				int[] menuOptions;
+				level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2);
+				if (!level.pathFinder.customMoveIsEmpty()) menuOptions = new int[] {2, 3, 4};
+				else menuOptions = new int[] {3, 4};
+				level.pathFinder.clearCustomMove();
+				level.createTextBox(x, y, menuOptions);
 				locked = true;
 			}
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
 					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { 
 				//11 && not playable // attacking
-				int ua = level.pathDisplay.getHoveredTile();
-				if (ua == -1) ua = level.pathFinder.prev(xGrid, yGrid); // NOTE - this line shouldn't run; pathDisplay should always be set
-				int uXa = ua % level.getWidth();
-				int uYa = ua / level.getWidth();
-				unitChosen.move(uXa, uYa);
-				unitChosen.attack(unitViewed);
-				deselectUnit();
+				if (pathSet) {
+					approveAttack();
+					pathSet = false;
+				}
+				else {
+					level.createTextBox(x, y, new int[]{2, 3, 4});
+					locked = true;
+				}
 			}
 			else {  
 				// 11 && !=  // can't attack or move to team-occupied space
@@ -83,7 +90,11 @@ public class MapCursor extends Cursor {
 		
 		// Deselecting a unit
 		if (Keyboard.getDeselectStart()  && level.getActiveTeam() == Team.BLUE) {
-			deselectUnit();
+			if (pathSet) {
+				level.pathFinder.clearCustomMove();
+				pathSet = false;
+			}
+			else deselectUnit();
 			
 		}
 		
@@ -113,6 +124,8 @@ public class MapCursor extends Cursor {
 	}
 	
 	protected void updatePath() {
+		if (pathSet) return;
+		
 		PathType hoveredTileType = level.pathFinder.getType(xGrid, yGrid);
 		Unit unitViewed = level.getUnit(xGrid, yGrid);
 		if (hoveredTileType == PathType.MOVE 
@@ -123,14 +136,22 @@ public class MapCursor extends Cursor {
 			level.pathDisplay.confirmAttackDistance(xGrid, yGrid, unitChosen, level.pathFinder);
 		}
 		//TODO: After menus are implemented and you can choose where you want to attack from, un-comment this
-//		else {
-//			level.pathDisplay.reset();
-//		}
+		else {
+			level.pathDisplay.reset();
+		}
 	}
 	
 	protected void cursorError() {
 		anim = 25;
 		sprite = Sprite.cursorError2;
+	}
+	
+	private void moveUnit() {
+		int ua = level.pathDisplay.getHoveredTile();
+		if (ua == -1) ua = level.pathFinder.prev(xGrid, yGrid); // NOTE - this line shouldn't run; pathDisplay should always be set
+		int uXa = ua % level.getWidth();
+		int uYa = ua / level.getWidth();
+		unitChosen.move(uXa, uYa);
 	}
 	
 	protected void deselectUnit() {
@@ -144,8 +165,24 @@ public class MapCursor extends Cursor {
 	}
 	
 	public void approveMove() {
-		unitChosen.move(xGrid, yGrid);
+		moveUnit();
 		deselectUnit();
+		locked = false;
+	}
+	
+	public void approveAttack() {
+		Unit unitViewed = level.getUnit(xGrid, yGrid);
+		
+		if (unitViewed == null || unitViewed == unitChosen) {  	// Case 0: Chose move space, now need to choose attack space
+			level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2);
+			pathSet = true;
+		}
+		else {						// Case 1: Chose attack space, complete action
+			moveUnit();
+			unitChosen.attack(unitViewed);
+			deselectUnit();
+		}
+		
 		locked = false;
 	}
 

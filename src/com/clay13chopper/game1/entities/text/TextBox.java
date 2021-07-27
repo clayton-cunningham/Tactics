@@ -9,6 +9,7 @@ import com.clay13chopper.game1.entities.cursors.MenuCursor;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.room.StartMenu;
+import com.clay13chopper.game1.room.level.Level;
 
 public class TextBox extends Entity {
 
@@ -81,8 +82,19 @@ public class TextBox extends Entity {
 	
 	// Performs an action based on the trigger
 	private void doAction(int action) {
-		if (action == 1) {
+		if (action == 0) {
+			cursor.remove();
+			this.remove();
+			((Level) room).nextTurn();
+			((MapCursor) room.getFocus()).unlock();
+		}
+		else if (action == 1) {
 			room.changeRoom(new StartMenu());
+		}
+		else if (action == 2) {
+			cursor.remove();
+			this.remove();
+			((MapCursor) room.getFocus()).approveAttack();
 		}
 		else if (action == 3) {
 			cursor.remove();
