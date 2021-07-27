@@ -22,7 +22,7 @@ public class TextBox extends Entity {
 	public TextBox(int x, int y, List<Integer> cases, MenuCursor c) {
 		spriteWidth = Sprite.menuBorderTop.getWidth();
 		spriteHeight = Sprite.menuBorderTop.getHeight();
-		this.x = x - (2 * spriteWidth / 3);
+		this.x = x - spriteWidth;
 		this.y = y - spriteHeight;
 		sprites.add(Sprite.menuBorderTopLeft);
 		sprites.add(Sprite.menuBorderTop);

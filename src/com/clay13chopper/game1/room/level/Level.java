@@ -135,8 +135,14 @@ public abstract class Level extends Room {
 		for (int i = 0; i < options.length; i++) {
 			aL.add(options[i]);
 		}
-		MenuCursor menu = new MenuCursor(x, y, aL.size(), 1);
-		scheduleAdd(new TextBox(x, y, aL, menu));
+		int xMenu = x;
+		int yMenu = y;
+		int menuWidth = Sprite.menuBorderTop.getWidth();
+		int menuHeight = Sprite.menuBorderTop.getHeight() * options.length;
+		if (x + menuWidth > (width * TILE_SIZE)) xMenu -= (menuWidth + (2 * TILE_SIZE));
+		if (y + menuHeight > (height * TILE_SIZE)) yMenu -= menuHeight;
+		MenuCursor menu = new MenuCursor(xMenu, yMenu, aL.size(), 1);
+		scheduleAdd(new TextBox(xMenu, yMenu, aL, menu));
 		scheduleAdd(menu);
 	}
 	

@@ -18,7 +18,7 @@ public class MenuCursor extends Cursor {
 				break;
 			case 1: // In-game menu
 				sprite = Sprite.menuSelector;
-				this.x += (sprite.getWidth() * 5 / 6);
+				this.x += sprite.getWidth() / 2;
 				this.y += sprite.getHeight() / 2;
 				movement = 14;
 		}

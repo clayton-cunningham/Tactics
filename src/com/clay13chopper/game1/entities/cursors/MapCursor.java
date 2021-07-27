@@ -49,7 +49,7 @@ public class MapCursor extends Cursor {
 			
 			if (unitChosen == null && unitViewed == null) {
 				// 00  // empty space
-				level.createTextBox(x, y, new int[]{0, 1});
+				level.createTextBox(x + level.getTileSize(), y, new int[]{0, 1});
 				locked = true;
 			}
 			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { 
@@ -67,7 +67,7 @@ public class MapCursor extends Cursor {
 				if (!level.pathFinder.customMoveIsEmpty()) menuOptions = new int[] {2, 3, 4};
 				else menuOptions = new int[] {3, 4};
 				level.pathFinder.clearCustomMove();
-				level.createTextBox(x, y, menuOptions);
+				level.createTextBox(x + level.getTileSize(), y, menuOptions);
 				locked = true;
 			}
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
@@ -78,7 +78,7 @@ public class MapCursor extends Cursor {
 					pathSet = false;
 				}
 				else {
-					level.createTextBox(x, y, new int[]{2, 3, 4});
+					level.createTextBox(x + level.getTileSize(), y, new int[]{2, 3, 4});
 					locked = true;
 				}
 			}
