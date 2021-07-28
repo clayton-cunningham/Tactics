@@ -40,10 +40,10 @@ public abstract class Unit extends Mob {
 			}
 			
 			if (delay == 2) {
-				path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, xGrid, yGrid);
+				path = level.pathFinder.calcDesiredPath(movement, minRange, maxRange, xGrid, yGrid, team);
 				level.pathFinder.reset();
-				if (path[0] == -1 && path[1] == xGrid + (yGrid * level.getWidth())) delay = 70;
-				else level.pathFinder.calcPath(movement, minRange, maxRange, xGrid, yGrid);
+				if (path[0] == -1 && path[1] == xGrid + (yGrid * level.getWidth())) delay = 60;
+				else level.pathFinder.calcPath(movement, minRange, maxRange, xGrid, yGrid, team);
 			}
 			if (delay > 80) {
 				act();

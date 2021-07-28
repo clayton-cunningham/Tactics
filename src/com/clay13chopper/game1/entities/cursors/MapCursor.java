@@ -55,15 +55,22 @@ public class MapCursor extends Cursor {
 			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { 
 				//10 && playable // selecting a unit
 				unitChosen = unitViewed;
-				level.pathFinder.calcPath(unitChosen.getMovement(), unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid);
+				level.pathFinder.calcPath(unitChosen.getMovement(), 
+						unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, unitChosen.getTeam());
 				level.pathDisplay.setHoveredTile(xGrid, yGrid, unitChosen, level.pathFinder);
+			}
+			else if (unitChosen == null && unitViewed != null && !unitViewed.isPlayable()) {
+				//10 && not playable // showing enemy paths
+				level.pathFinder.calcPath(unitViewed.getMovement(), 
+						unitViewed.getMinRange(), unitViewed.getMaxRange(), xGrid, yGrid, unitViewed.getTeam());
+				level.pathFinder.enemyShown();
 			}
 			else if ((unitViewed == null || unitViewed == unitChosen) 
 					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
 					|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  
 				// 01 or == // move a unit
 				int[] menuOptions;
-				level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2);
+				level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2, unitChosen.getTeam());
 				if (!level.pathFinder.customMoveIsEmpty()) menuOptions = new int[] {2, 3, 4};
 				else menuOptions = new int[] {3, 4};
 				level.pathFinder.clearCustomMove();
@@ -87,6 +94,13 @@ public class MapCursor extends Cursor {
 				cursorError();
 			}
 		}
+		else if (Keyboard.getSelectRelease()){
+			//Reset anemy paths
+			if (unitChosen == null) {
+				level.pathFinder.reset();
+				level.pathFinder.enemyNotShown();
+			}
+		}
 		
 		// Deselecting a unit
 		if (Keyboard.getDeselectStart()  && level.getActiveTeam() == Team.BLUE) {
@@ -99,11 +113,11 @@ public class MapCursor extends Cursor {
 		}
 		
 		// Behavior for when cursor is hovering on a new spot
-		if (signalMoved && unitChosen != null) {
-			
-			// Enable showing path of a unit
-			updatePath();
-			
+		if (signalMoved) {
+			if (unitChosen != null) {
+				// Showing path of a unit
+				updatePath();
+			}
 		}
 
 		//TODO: enable showing tile info
@@ -184,7 +198,7 @@ public class MapCursor extends Cursor {
 		Unit unitViewed = level.getUnit(xGrid, yGrid);
 		
 		if (unitViewed == null || unitViewed == unitChosen) {  	// Case 0: Chose move space, now need to choose attack space
-			level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2);
+			level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2, unitChosen.getTeam());
 			pathSet = true;
 		}
 		else {						// Case 1: Chose attack space, complete action

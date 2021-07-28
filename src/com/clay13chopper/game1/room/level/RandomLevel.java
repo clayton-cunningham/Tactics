@@ -104,12 +104,12 @@ public class RandomLevel extends Level {
 
 	// Open path to other units, if the new unit is cut off
 	protected void checkPossible(int xGrid, int yGrid) {
-		int[] path = pathFinder.calcDesiredPath(width * height, 1, 1, xGrid, yGrid);
+		int[] path = pathFinder.calcDesiredPath(width * height, 1, 1, xGrid, yGrid, Team.NONE);
 		// If no other unit exists OR a wall is blocking this one
 		if (path[0] == -1 && path[1] == xGrid + (yGrid * height)) {
 			
 			pathFinder.openWallsEdit();
-			path = pathFinder.calcDesiredPath(width * height, 1, 1, xGrid, yGrid);
+			path = pathFinder.calcDesiredPath(width * height, 1, 1, xGrid, yGrid, Team.NONE);
 			pathFinder.closeWallsEdit();
 			
 			// If another unit exists on the map, open a path to it
@@ -122,7 +122,7 @@ public class RandomLevel extends Level {
 				while (x != xGoal) {
 					x += xDir;
 					if (getTile(x, yGrid).solid()) {
-						tiles[x + (yGrid * width)] = 6;
+						tiles[x + (yGrid * width)] = 7; // TODO: find better way to make paths
 					}
 					
 				}
@@ -130,7 +130,7 @@ public class RandomLevel extends Level {
 				while (y != yGoal ) {
 					y += yDir;
 					if (getTile(xGoal, y).solid()) {
-						tiles[xGoal + (y * width)] = 6;
+						tiles[xGoal + (y * width)] = 7;
 					}
 				}
 			}

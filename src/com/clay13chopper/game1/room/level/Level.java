@@ -97,7 +97,8 @@ public abstract class Level extends Room {
 				 * Works by using the (address / 16) to get the tile from the array.
 				 * Since we need that coordinate, he uses (that * 16) to get the top left corner of the tile location
 				 */
-				getTile(x, y).render(x << TILE_SIZE_SHIFT, y << TILE_SIZE_SHIFT, screen, pathFinder.getType(x, y)); 
+				getTile(x, y).render(x << TILE_SIZE_SHIFT, y << TILE_SIZE_SHIFT, 
+						screen, pathFinder.getType(x, y), pathFinder.getEnemyShown()); 
 			}
 		}
 		

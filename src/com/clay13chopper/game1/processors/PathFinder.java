@@ -3,6 +3,7 @@ package com.clay13chopper.game1.processors;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import com.clay13chopper.game1.entities.mob.Unit.Team;
 import com.clay13chopper.game1.room.level.Level;
 
 public class PathFinder {
@@ -22,8 +23,9 @@ public class PathFinder {
 	protected int attackAddr;  				// Set if a unit was found to attack
 	protected boolean attackBlockedSet;		// True if a unit was found to attack, but is blocked
 	protected int attackBlockedAddr;		// Set  if a unit was found to attack, but is blocked
-	
+
 	protected boolean openWalls = false;	// True if currently editing walls
+	protected boolean enemyShown = false;	// True if path is for non-active team
 
 	
 	public PathFinder(int width, int height, Level l) {
@@ -46,36 +48,36 @@ public class PathFinder {
 	
 	// Calculates the paths available
 	// Calls calcMove repeatedly until QueueMap is empty
-	public void calcPath(int move, int minRange, int maxRange, int x, int y) {
+	public void calcPath(int move, int minRange, int maxRange, int x, int y, Team team) {
 		
 		reset();
 		
-		calcMove(move, minRange, maxRange, x, y, -1, 0);
+		calcMove(move, minRange, maxRange, x, y, -1, 0, team);
 		
 		while (true) {
 			int[] next = map.next();
 			if (next == null) {
 				break;
 			}
-			calcMove(next[0], minRange, maxRange, next[1], next[2], next[3], next[4]);
+			calcMove(next[0], minRange, maxRange, next[1], next[2], next[3], next[4], team);
 		}
 		
 	}
 	
-	public int[] calcDesiredPath(int move, int minRange, int maxRange, int x, int y) {
+	public int[] calcDesiredPath(int move, int minRange, int maxRange, int x, int y, Team team) {
 		
 		reset();
 		
 		int moveLimit = width * height * 5;
 		
-		calcMove(moveLimit, minRange, maxRange, x, y, -1, 0);
+		calcMove(moveLimit, minRange, maxRange, x, y, -1, 0, team);
 		
 		while (!attackSet) {
 			int[] next = map.next();
 			if (next == null) {
 				break;
 			}
-			calcMove(next[0], minRange, maxRange, next[1], next[2], next[3], next[4]);
+			calcMove(next[0], minRange, maxRange, next[1], next[2], next[3], next[4], team);
 		}
 		
 		if (!attackSet) attackAddr = attackBlockedAddr;
@@ -105,30 +107,30 @@ public class PathFinder {
 	//		receive input to move the unit.
 	// Also labels those spaces with amount of movement left
 	// Every iteration is for a spot to move to
-	private void calcMove(int move, int minRange, int maxRange, int x, int y, int px, int py) {
+	private void calcMove(int move, int minRange, int maxRange, int x, int y, int px, int py, Team team) {
 
 		if (x < 0 || y < 0 || x >= width || y >= height) return; // Check bounds of level
 		if (homeSet) move -= level.getTile(x, y).moveCostFoot(); // Decrement movement based on tile
 		if (move <= -1) return;                          		 //   ... then check if too far
 		if (distances[x + (y * width)] >= move) return; 		 // Check if shorter path already found
-		if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() != level.getActiveTeam()) return;  //Cannot move onto a non-playable unit
+		if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() != team) return;  //Cannot move onto a non-playable unit
 		if (level.getTile(x, y).solid() && !openWalls) return;
 		
 		distances[x + (y * width)] = move;              // Mark path distance
 		
 		if (!homeSet) {  // First space - can attack from here, but this unit is here too
 			activeMove[x + (y * width)] = PathType.HOME;
-			calcAttack(minRange, maxRange, x, y, 0);
+			calcAttack(minRange, maxRange, x, y, 0, team);
 			homeSet = true;
 		}  			// Cannot attack from another unit's space, so keep moving
-		else if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() == level.getActiveTeam()) { 
+		else if (level.getUnit(x, y) != null && level.getUnit(x, y).getTeam() == team) { 
 			activeMove[x + (y * width)] = PathType.PASS;
-			calcAttack(minRange, maxRange, x, y, 1);
+			calcAttack(minRange, maxRange, x, y, 1, team);
 			
 		}
 		else {		// Mark move, calculate attack
 			activeMove[x + (y * width)] = PathType.MOVE;
-			calcAttack(minRange, maxRange, x, y, 0);
+			calcAttack(minRange, maxRange, x, y, 0, team);
 		}
 		
 		prevTile[x + ((y) * width)] = (px + (py * width));
@@ -150,7 +152,7 @@ public class PathFinder {
 	// Type 0: Regular pathfinding
 	// Type 1: Blocked pathfinding
 	// Type 2: Single space search
-	public void calcAttack(int minRange, int maxRange, int x, int y, int type) {
+	public void calcAttack(int minRange, int maxRange, int x, int y, int type, Team team) {
 		
 		for (int range = minRange; range <= maxRange; range++) {
 
@@ -170,9 +172,9 @@ public class PathFinder {
 				if (xTile < 0 || yTile < 0 || xTile >= width || yTile >= height) continue;
 				
 				switch (type) {
-				case 0: checkAttackSpace(xTile, yTile, x, y); break;
-				case 1: checkBlockedAttackSpace(xTile, yTile, x, y); break;
-				case 2: checkAttackforOneSpace(xTile, yTile, x, y); break;
+				case 0: checkAttackSpace(xTile, yTile, x, y, team); break;
+				case 1: checkBlockedAttackSpace(xTile, yTile, x, y, team); break;
+				case 2: checkAttackforOneSpace(xTile, yTile, x, y, team); break;
 				}
 				
 			}
@@ -181,33 +183,33 @@ public class PathFinder {
 		
 	}
 	
-	private void checkAttackSpace(int xTile, int yTile, int x, int y) {
+	private void checkAttackSpace(int xTile, int yTile, int x, int y, Team team) {
 		int index = xTile + (yTile * width);
 		if (activeMove[index] == PathType.NONE) {
 			activeMove[index] = PathType.ATTACK;
 			prevTile[index] = (x + (y * width));
-			if (level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != level.getActiveTeam()) {
+			if (level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != team) {
 				attackSet = true;
 				attackAddr = index;
 			}
 		}
 	}
 	
-	private void checkBlockedAttackSpace(int xTile, int yTile, int x, int y) {
+	private void checkBlockedAttackSpace(int xTile, int yTile, int x, int y, Team team) {
 		int index = xTile + (yTile * width);
 		if (activeMove[index] == PathType.NONE) {
 			prevTile[index] = (x + (y * width));
-			if (level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != level.getActiveTeam()) {
+			if (level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != team) {
 				attackBlockedSet = true;
 				attackBlockedAddr = index;
 			}
 		}
 	}
 	
-	private void checkAttackforOneSpace(int xTile, int yTile, int x, int y) {
+	private void checkAttackforOneSpace(int xTile, int yTile, int x, int y, Team team) {
 		int index = xTile + (yTile * width);
 		if (activeMove[index] == PathType.ATTACK && 
-				level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != level.getActiveTeam()) {
+				level.getUnit(xTile, yTile) != null && level.getUnit(xTile, yTile).getTeam() != team) {
 			customMoveDisplay.put(index, PathType.ATTACK);
 		}
 	}
@@ -218,6 +220,18 @@ public class PathFinder {
 	
 	public void closeWallsEdit() {
 		openWalls = false;
+	}
+	
+	public void enemyShown() {
+		enemyShown = true;
+	}
+	
+	public boolean getEnemyShown() {
+		return enemyShown;
+	}
+	
+	public void enemyNotShown() {
+		enemyShown = false;
 	}
 	
 	public void reset() {

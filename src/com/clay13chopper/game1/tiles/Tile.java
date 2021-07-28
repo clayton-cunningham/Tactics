@@ -32,9 +32,11 @@ public abstract class Tile {
 		sprite = s;
 	}
 
-	public void render(int x, int y, Screen screen, PathType type) {
+	public void render(int x, int y, Screen screen, PathType type, boolean enemyShown) {
 		screen.renderSprite(x, y, this.sprite, false, false);
-		if (type == PathType.MOVE) screen.renderSprite(x, y, Sprite.moveSpace, false, false);
+		if (enemyShown && type == PathType.MOVE) screen.renderSprite(x, y, Sprite.enemyMoveSpace, false, false);
+		else if (enemyShown && type == PathType.ATTACK) screen.renderSprite(x, y, Sprite.enemyAttackSpace, false, false);
+		else if (type == PathType.MOVE) screen.renderSprite(x, y, Sprite.moveSpace, false, false);
 		else if (type == PathType.ATTACK) screen.renderSprite(x, y, Sprite.attackSpace, false, false);
 	}
 	

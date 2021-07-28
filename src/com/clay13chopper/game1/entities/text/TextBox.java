@@ -85,8 +85,8 @@ public class TextBox extends Entity {
 		if (action == 0) {
 			cursor.remove();
 			this.remove();
-			((Level) room).nextTurn();
 			((MapCursor) room.getFocus()).unlock();
+			((Level) room).nextTurn();
 		}
 		else if (action == 1) {
 			room.changeRoom(new StartMenu());

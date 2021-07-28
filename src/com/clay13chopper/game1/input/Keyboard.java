@@ -12,10 +12,12 @@ public class Keyboard implements KeyListener {
 	private static boolean zOld, xOld;
 	private static boolean upStart, downStart, leftStart, rightStart;
 	private static boolean zStart, xStart;
+	private static boolean zRelease, xRelease;
 
 	public void update() {
 		setKeys();
 		setKeysStart();
+		setKeysRelease();
 		setOldKeys();
 	}
 	
@@ -35,6 +37,11 @@ public class Keyboard implements KeyListener {
 		if (!rightOld && right) rightStart = true;	else rightStart = false;
 		if (!zOld && z) zStart = true; 				else zStart = false;
 		if (!xOld && x) xStart = true; 				else xStart = false;
+	}
+	
+	private void setKeysRelease() {
+		if (zOld && !z) zRelease = true; 			else zRelease = false;
+		if (xOld && !x) xRelease = true; 			else xRelease = false;
 	}
 	
 	private void setOldKeys() {
@@ -113,6 +120,14 @@ public class Keyboard implements KeyListener {
 
 	public static boolean getDeselectStart() {
 		return xStart;
+	}
+
+	public static boolean getSelectRelease() {
+		return zRelease;
+	}
+
+	public static boolean getDeselectRelease() {
+		return xRelease;
 	}
 	
 }
