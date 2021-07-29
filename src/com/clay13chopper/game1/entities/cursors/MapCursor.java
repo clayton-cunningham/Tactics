@@ -203,7 +203,7 @@ public class MapCursor extends Cursor {
 		}
 		else {						// Case 1: Chose attack space, complete action
 			moveUnit();
-			unitChosen.attack(unitViewed);
+			unitChosen.attack(unitViewed, level.getTile(xGrid, yGrid).defense());
 			deselectUnit();
 		}
 		

@@ -9,5 +9,7 @@ public class SnowTile extends Tile {
 	}
 
 	public int moveCostFoot()  {	return 2; }
+
+	public int defense()	  {	return 1; }
 	
 }

@@ -75,7 +75,7 @@ public abstract class Unit extends Mob {
 		if (path[0] != -1)  {
 			int aX = path[0] % level.getWidth();
 			int aY = path[0] / level.getWidth();
-			attack(level.getUnit(aX, aY));
+			attack(level.getUnit(aX, aY), level.getTile(aX, aY).defense());
 		}
 		int mX = path[1] % level.getWidth();
 		int mY = path[1] / level.getWidth();
@@ -94,12 +94,12 @@ public abstract class Unit extends Mob {
 		else return sprite;
 	}
 	
-	public void attack(Unit target) {
-		target.reduceHealth(this.attack);
+	public void attack(Unit target, int tileDefense) {
+		target.reduceHealth(this.attack - tileDefense);
 	}
 	
 	public void reduceHealth(int damage) {
-		health -= damage;
+		if (damage > 0) health -= damage;
 	}
 	
 	//Returns whether the unit is playable for the current team

@@ -12,4 +12,6 @@ public class MountainTile extends Tile {
 		return true;
 	}
 
+	public int defense()	  {	return 3; }
+	
 }

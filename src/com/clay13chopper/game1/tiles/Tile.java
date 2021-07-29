@@ -52,6 +52,8 @@ public abstract class Tile {
 		return false;
 	}
 
+	public int defense()  		{	return 0; }
+
 	public int moveCostFoot()  {	return 1; }
 	public int moveCostWheel() {	return 1; }
 	public int moveCostHorse() {	return 1; }
