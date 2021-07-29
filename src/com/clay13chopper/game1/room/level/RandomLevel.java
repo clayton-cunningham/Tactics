@@ -39,7 +39,10 @@ public class RandomLevel extends Level {
 		
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				tiles[x + (y * width)] = random.nextInt(7);
+				int chance = random.nextInt(3);
+				if (chance == 0 && x > 0) tiles[x + (y * width)] = tiles[(x - 1) + (y * width)];
+				else if (chance == 1 && y > 0) tiles[x + (y * width)] = tiles[x + ((y - 1) * width)];
+				else tiles[x + (y * width)] = random.nextInt(7);
 			}
 		}
 		
@@ -67,8 +70,10 @@ public class RandomLevel extends Level {
 				if (!getTile(x, y).solid()) {
 					int index = x + (y * width);
 					generatedEntities[index] = random.nextInt(40);
-					if (generatedEntities[index] < 11) checkPossible(x, y);
-					addEntityType(generatedEntities[index], iToX(index), iToY(index));
+					if (generatedEntities[index] < 11) {
+						checkPossible(x, y);
+						addEntityType(generatedEntities[index], iToX(index), iToY(index));
+					}
 				}
 				
 			}
