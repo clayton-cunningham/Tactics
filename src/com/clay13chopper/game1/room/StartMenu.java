@@ -1,8 +1,8 @@
 package com.clay13chopper.game1.room;
 
 import com.clay13chopper.game1.entities.cursors.MenuCursor;
-import com.clay13chopper.game1.entities.text.GenericUI;
-import com.clay13chopper.game1.entities.text.LevelSelector;
+import com.clay13chopper.game1.entities.displays.GenericUI;
+import com.clay13chopper.game1.entities.displays.LevelSelector;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.room.level.Level;

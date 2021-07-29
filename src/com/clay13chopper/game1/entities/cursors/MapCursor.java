@@ -201,7 +201,7 @@ public class MapCursor extends Cursor {
 			level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2, unitChosen.getTeam());
 			pathSet = true;
 		}
-		else {						// Case 1: Chose attack space, complete action
+		else {													// Case 1: Chose attack space, complete action
 			moveUnit();
 			unitChosen.attack(unitViewed, level.getTile(xGrid, yGrid).defense());
 			deselectUnit();

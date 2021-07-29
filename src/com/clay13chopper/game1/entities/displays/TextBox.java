@@ -1,4 +1,4 @@
-package com.clay13chopper.game1.entities.text;
+package com.clay13chopper.game1.entities.displays;
 
 import java.util.ArrayList;
 import java.util.List;

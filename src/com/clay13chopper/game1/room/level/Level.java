@@ -17,13 +17,13 @@ import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.tiles.Tile;
 import com.clay13chopper.game1.entities.Entity;
-import com.clay13chopper.game1.entities.WinLose;
 import com.clay13chopper.game1.entities.cursors.MapCursor;
 import com.clay13chopper.game1.entities.cursors.MenuCursor;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
-import com.clay13chopper.game1.entities.text.GenericUI;
-import com.clay13chopper.game1.entities.text.TextBox;
+import com.clay13chopper.game1.entities.displays.GenericUI;
+import com.clay13chopper.game1.entities.displays.TextBox;
+import com.clay13chopper.game1.entities.displays.WinLose;
 
 //Can have two types of levels - random generation, and planned data
 public abstract class Level extends Room {
@@ -131,6 +131,7 @@ public abstract class Level extends Room {
 		
 	}
 	
+	// Creates a text box with the options requested
 	public void createTextBox(int x, int y, int[] options) {
 
 		ArrayList<Integer> aL = new ArrayList<Integer>();

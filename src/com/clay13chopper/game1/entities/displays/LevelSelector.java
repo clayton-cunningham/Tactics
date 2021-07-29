@@ -1,4 +1,4 @@
-package com.clay13chopper.game1.entities.text;
+package com.clay13chopper.game1.entities.displays;
 
 import com.clay13chopper.game1.graphics.Sprite;
 

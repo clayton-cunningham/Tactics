@@ -1,5 +1,6 @@
-package com.clay13chopper.game1.entities;
+package com.clay13chopper.game1.entities.displays;
 
+import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.input.Keyboard;
 import com.clay13chopper.game1.room.StartMenu;
