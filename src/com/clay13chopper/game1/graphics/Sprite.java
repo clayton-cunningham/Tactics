@@ -149,12 +149,26 @@ public class Sprite {
 	public static Sprite menuBorderBottomLeft = new Sprite(48, 14, 0, 2, SpriteSheet.menu_UI);
 	public static Sprite menuBorderBottom = new Sprite(48, 14, 1, 2, SpriteSheet.menu_UI);
 	public static Sprite menuBorderBottomRight = new Sprite(48, 14, 2, 2, SpriteSheet.menu_UI);
+	public static Sprite menuBorderTopLeftSmall = new Sprite(16, 14, 2, 0, SpriteSheet.menu_UI);
+	public static Sprite menuBorderTopSmall = new Sprite(16, 14, 3, 0, SpriteSheet.menu_UI);
+	public static Sprite menuBorderTopRightSmall = new Sprite(16, 14, 6, 0, SpriteSheet.menu_UI);
+	public static Sprite menuBorderLeftSmall = new Sprite(16, 14, 2, 1, SpriteSheet.menu_UI);
+	public static Sprite menuBorderRightSmall = new Sprite(16, 14, 6, 1, SpriteSheet.menu_UI);
+	public static Sprite menuBorderBottomLeftSmall = new Sprite(16, 14, 2, 2, SpriteSheet.menu_UI);
+	public static Sprite menuBorderBottomSmall = new Sprite(16, 14, 3, 2, SpriteSheet.menu_UI);
+	public static Sprite menuBorderBottomRightSmall = new Sprite(16, 14, 6, 2, SpriteSheet.menu_UI);
 	public static Sprite menuSelector = new Sprite(48, 14, 0, 3, SpriteSheet.menu_UI);
+	public static Sprite menuBlank = new Sprite(48, 14, 1, 3, SpriteSheet.menu_UI);
+	public static Sprite menuBlankSmall = new Sprite(16, 14, 3, 3, SpriteSheet.menu_UI);
 	public static Sprite menuEndTurn = new Sprite(48, 14, 1, 1, SpriteSheet.menu_UI);
-	public static Sprite menuQuit = new Sprite(48, 14, 1, 3, SpriteSheet.menu_UI);
-	public static Sprite menuAttack = new Sprite(48, 14, 2, 3, SpriteSheet.menu_UI);
-	public static Sprite menuWait = new Sprite(48, 14, 0, 4, SpriteSheet.menu_UI);
-	public static Sprite menuCancel = new Sprite(48, 14, 1, 4, SpriteSheet.menu_UI);
+	public static Sprite menuQuit = new Sprite(48, 14, 2, 3, SpriteSheet.menu_UI);
+	public static Sprite menuAttack = new Sprite(48, 14, 0, 4, SpriteSheet.menu_UI);
+	public static Sprite menuWait = new Sprite(48, 14, 1, 4, SpriteSheet.menu_UI);
+	public static Sprite menuCancel = new Sprite(48, 14, 2, 4, SpriteSheet.menu_UI);
+	public static Sprite menuTileDefenseSmall = new Sprite(8, 14, 0, 5, SpriteSheet.menu_UI);
+	public static Sprite menuTileDefense = new Sprite(16, 14, 3, 5, SpriteSheet.menu_UI);
+	public static Sprite menuUnitHealth = new Sprite(16, 14, 4, 5, SpriteSheet.menu_UI);
+	public static Sprite menuUnitAttack = new Sprite(16, 14, 5, 5, SpriteSheet.menu_UI);
 	
 	//Void
 	public static Sprite voidSprite = new Sprite(16, 16, 6, 7, SpriteSheet.background_tiles);

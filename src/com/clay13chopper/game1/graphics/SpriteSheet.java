@@ -20,7 +20,7 @@ public class SpriteSheet {
 	public final static SpriteSheet cursorsLarge = new SpriteSheet("/spritesheets/cursorsLarge.png", 240, 240);
 	public final static SpriteSheet health_UI = new SpriteSheet("/spritesheets/UI_health.png", 64, 3);
 	public final static SpriteSheet gameEnd_UI = new SpriteSheet("/spritesheets/UI_game_end.png", 144, 32);
-	public final static SpriteSheet menu_UI = new SpriteSheet("/spritesheets/UI_menus.png", 144, 70);
+	public final static SpriteSheet menu_UI = new SpriteSheet("/spritesheets/UI_menus.png", 144, 84);
 	public final static SpriteSheet startMenu = new SpriteSheet("/spritesheets/startMenu.png", 320, 564);
 	public final static SpriteSheet controls = new SpriteSheet("/spritesheets/controls.png", 1200, 1200);
 	
