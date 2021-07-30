@@ -32,8 +32,8 @@ public abstract class Level extends Room {
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
-//	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
-	public static Level levelTest = new RandomLevel(10, 10);
+	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
+//	public static Level levelTest = new RandomLevel(10, 10);
 
 	public PathFinder pathFinder;
 	public PathDisplay pathDisplay;
@@ -83,12 +83,12 @@ public abstract class Level extends Room {
 	}
 	
 	public void render(Screen screen) {
-		int xOff = screen.getXOffset();
-		int yOff = screen.getYOffset();
+		int xOff = Screen.getXOffset();
+		int yOff = Screen.getYOffset();
 		int x0 = xOff >> TILE_SIZE_SHIFT;
 		int y0 = yOff >> TILE_SIZE_SHIFT;
-		int xF = ((screen.getWidth() - 1) + xOff) >> TILE_SIZE_SHIFT;
-		int yF = ((screen.getHeight() - 1) + yOff) >> TILE_SIZE_SHIFT;
+		int xF = ((Screen.getWidth() - 1) + xOff) >> TILE_SIZE_SHIFT;
+		int yF = ((Screen.getHeight() - 1) + yOff) >> TILE_SIZE_SHIFT;
 		
 		// Display background
 		for (int y = y0; y <= yF; y++) {
@@ -138,14 +138,18 @@ public abstract class Level extends Room {
 		for (int i = 0; i < options.length; i++) {
 			aL.add(options[i]);
 		}
-		int xMenu = x;
-		int yMenu = y;
+		// TODO: this address calculation is specific to the in-game menu.  Move the formula or change the function name
+
+		int screenMaxX = Screen.getWidth() + Screen.getXOffset();
+		int screenMaxY = Screen.getHeight() + Screen.getYOffset();
+		
 		int menuWidth = Sprite.menuBorderTop.getWidth();
 		int menuHeight = Sprite.menuBorderTop.getHeight() * options.length;
-		if (x + menuWidth > (width * TILE_SIZE)) xMenu -= (menuWidth + (2 * TILE_SIZE));
-		if (y + menuHeight > (height * TILE_SIZE)) yMenu -= menuHeight;
-		MenuCursor menu = new MenuCursor(xMenu, yMenu, aL.size(), 1);
-		scheduleAdd(new TextBox(xMenu, yMenu, aL, menu));
+		if (x + menuWidth > screenMaxX) x -= (menuWidth + (2 * TILE_SIZE));
+		if (y + menuHeight > screenMaxY) y -= menuHeight;
+		
+		MenuCursor menu = new MenuCursor(x, y, aL.size(), 1);
+		scheduleAdd(new TextBox(x, y, aL, menu));
 		scheduleAdd(menu);
 	}
 	

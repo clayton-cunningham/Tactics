@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.entities.cursors.MapCursor;
+import com.clay13chopper.game1.entities.displays.TileInfo;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
 import com.clay13chopper.game1.entities.mob.player_units.Archer;
@@ -29,6 +30,7 @@ public class RandomLevel extends Level {
 		locations = new Unit[width * height];
 		pathFinder= new PathFinder(width, height, this);
 		pathDisplay = new PathDisplay(width);
+		add(new TileInfo(width, height));
 		activeTeam = Team.NONE;
 		generateLevel();
 		generateEntities();

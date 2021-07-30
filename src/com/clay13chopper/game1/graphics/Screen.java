@@ -10,11 +10,11 @@ import com.clay13chopper.game1.entities.Entity;
 
 public class Screen {
 	
-	private int width, height;
+	private static int width, height;
 	public static final int MAX_WIDTH = 1920;
 	public static final int MAX_HEIGHT = 1536;
-	private int[] pixels;
-	private int xOffset = 0, yOffset = 0;
+	private static int[] pixels;
+	private static int xOffset = 0, yOffset = 0;
 	
 	public Screen(int w, int h) {
 		setWidth(w);
@@ -82,16 +82,16 @@ public class Screen {
 		}
 	}
 	
-	public void setOffset(int xOff, int yOff) {
+	public static void setOffset(int xOff, int yOff) {
 		xOffset = xOff;
 		yOffset = yOff;
 	}
 	
-	public int getXOffset() {
+	public static int getXOffset() {
 		return xOffset;
 	}
 	
-	public int getYOffset() {
+	public static int getYOffset() {
 		return yOffset;
 	}
 	
@@ -99,20 +99,20 @@ public class Screen {
 		return pixels[i];
 	}
 
-	public int getWidth() {
+	public static int getWidth() {
 		return width;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
+	public static void setWidth(int w) {
+		width = w;
 	}
 
-	public int getHeight() {
+	public static int getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
+	public static void setHeight(int h) {
+		height = h;
 	}
 
 }

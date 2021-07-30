@@ -57,5 +57,10 @@ public abstract class Tile {
 	public int moveCostFoot()  {	return 1; }
 	public int moveCostWheel() {	return 1; }
 	public int moveCostHorse() {	return 1; }
+	
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
 
 }

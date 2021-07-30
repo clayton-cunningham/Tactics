@@ -57,4 +57,7 @@ public class MenuCursor extends Cursor {
 		return trigger;
 	}
 
+	public void setX(int x) { this.x = x; }
+	public void setY(int y) { this.y = y; }
+
 }

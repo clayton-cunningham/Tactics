@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.entities.cursors.MapCursor;
+import com.clay13chopper.game1.entities.displays.TileInfo;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
 import com.clay13chopper.game1.entities.mob.player_units.Archer;
@@ -15,6 +16,7 @@ import com.clay13chopper.game1.entities.mob.player_units.Mage;
 import com.clay13chopper.game1.entities.mob.player_units.Runner;
 import com.clay13chopper.game1.entities.mob.player_units.Soldier;
 import com.clay13chopper.game1.graphics.PathDisplay;
+import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.tiles.Tile;
 
@@ -115,6 +117,10 @@ public class LoadedLevel extends Level {
 	public void reset() {
 		super.reset();
 		getEntityTypes(loadedEntities);
+	}
+	
+	public void prep() {
+		add(new TileInfo(TILE_SIZE, Screen.getHeight() - TILE_SIZE));
 	}
 
 }

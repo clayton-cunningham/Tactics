@@ -94,6 +94,7 @@ public class Game extends Canvas implements Runnable {
 		setPreferredSize(size);
 
 		screen = new Screen(width, height);
+		room.prep();
 
 		this.frame.setSize(size);
 		

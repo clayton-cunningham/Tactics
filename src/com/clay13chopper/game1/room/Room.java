@@ -87,6 +87,11 @@ public class Room {
 		changeRoom = null;
 		entities = new ArrayList<Entity>();
 		focus = null;
+		Screen.setOffset(0, 0);
+	}
+	
+	public void prep() {
+		
 	}
 
 }

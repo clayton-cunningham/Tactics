@@ -24,13 +24,7 @@ public class TextBox extends Entity {
 		spriteHeight = Sprite.menuBorderTop.getHeight();
 		this.x = x - spriteWidth;
 		this.y = y - spriteHeight;
-		sprites.add(Sprite.menuBorderTopLeft);
-		sprites.add(Sprite.menuBorderTop);
-		sprites.add(Sprite.menuBorderTopRight);
 		fillSprites(cases);
-		sprites.add(Sprite.menuBorderBottomLeft);
-		sprites.add(Sprite.menuBorderBottom);
-		sprites.add(Sprite.menuBorderBottomRight);
 		if (c != null) {
 			cursor = c;
 		}
@@ -56,6 +50,8 @@ public class TextBox extends Entity {
 	}
 	
 	public void render(Screen screen) {
+		
+		
 		int xa = 0;
 		int ya = 0;
 		for (Sprite s : sprites) {
@@ -66,11 +62,17 @@ public class TextBox extends Entity {
 	}
 	
 	private void fillSprites(List<Integer> cases) {
+		sprites.add(Sprite.menuBorderTopLeft);
+		sprites.add(Sprite.menuBorderTop);
+		sprites.add(Sprite.menuBorderTopRight);
 		if (cases.contains(0)) add(0, Sprite.menuEndTurn);
 		if (cases.contains(1)) add(1, Sprite.menuQuit);
 		if (cases.contains(2)) add(2, Sprite.menuAttack);
 		if (cases.contains(3)) add(3, Sprite.menuWait);
 		if (cases.contains(4)) add(4, Sprite.menuCancel);
+		sprites.add(Sprite.menuBorderBottomLeft);
+		sprites.add(Sprite.menuBorderBottom);
+		sprites.add(Sprite.menuBorderBottomRight);
 	}
 	
 	private void add(int key, Sprite s) {
