@@ -120,7 +120,7 @@ public class LoadedLevel extends Level {
 	}
 	
 	public void prep() {
-		add(new TileInfo(TILE_SIZE, Screen.getHeight() - TILE_SIZE));
+		add(new TileInfo(TILE_SIZE, Screen.getHeight() - (TILE_SIZE * 2), (MapCursor) focus));
 	}
 
 }

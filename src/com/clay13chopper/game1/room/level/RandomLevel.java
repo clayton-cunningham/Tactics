@@ -13,6 +13,7 @@ import com.clay13chopper.game1.entities.mob.player_units.Mage;
 import com.clay13chopper.game1.entities.mob.player_units.Runner;
 import com.clay13chopper.game1.entities.mob.player_units.Soldier;
 import com.clay13chopper.game1.graphics.PathDisplay;
+import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.tiles.Tile;
 
@@ -30,7 +31,6 @@ public class RandomLevel extends Level {
 		locations = new Unit[width * height];
 		pathFinder= new PathFinder(width, height, this);
 		pathDisplay = new PathDisplay(width);
-		add(new TileInfo(width, height));
 		activeTeam = Team.NONE;
 		generateLevel();
 		generateEntities();
@@ -147,5 +147,9 @@ public class RandomLevel extends Level {
 	public void reset() {
 		super.reset();
 		reloadEntities();
+	}
+	
+	public void prep() {
+		add(new TileInfo(TILE_SIZE, Screen.getHeight() - (TILE_SIZE * 2), (MapCursor) focus));
 	}
 }

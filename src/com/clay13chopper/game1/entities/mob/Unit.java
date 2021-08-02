@@ -118,14 +118,6 @@ public abstract class Unit extends Mob {
 		turnDone = true;
 	}
 	
-	public int getXGrid() {
-		return xGrid;
-	}
-	
-	public int getYGrid() {
-		return yGrid;
-	}
-	
 	public int getMovement() {
 		return movement;
 	}

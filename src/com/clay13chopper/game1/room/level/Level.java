@@ -22,7 +22,7 @@ import com.clay13chopper.game1.entities.cursors.MenuCursor;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.entities.mob.Unit.Team;
 import com.clay13chopper.game1.entities.displays.GenericUI;
-import com.clay13chopper.game1.entities.displays.TextBox;
+import com.clay13chopper.game1.entities.displays.TextMenu;
 import com.clay13chopper.game1.entities.displays.WinLose;
 
 //Can have two types of levels - random generation, and planned data
@@ -32,8 +32,8 @@ public abstract class Level extends Room {
 	public static Level level1 = new LoadedLevel("/levels/map1.png", "/levels/entities1.png");
 	public static Level level2 = new LoadedLevel("/levels/map2.png", "/levels/entities2.png");
 	public static Level level3 = new LoadedLevel("/levels/map3.png", "/levels/entities3.png");
-	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
-//	public static Level levelTest = new RandomLevel(10, 10);
+//	public static Level levelTest = new LoadedLevel("/levels/mapTest.png", "/levels/entitiesTest.png");
+	public static Level levelTest = new RandomLevel(10, 10);
 
 	public PathFinder pathFinder;
 	public PathDisplay pathDisplay;
@@ -143,13 +143,13 @@ public abstract class Level extends Room {
 		int screenMaxX = Screen.getWidth() + Screen.getXOffset();
 		int screenMaxY = Screen.getHeight() + Screen.getYOffset();
 		
-		int menuWidth = Sprite.menuBorderTop.getWidth();
+		int menuWidth = Sprite.menuAttack.getWidth();
 		int menuHeight = Sprite.menuBorderTop.getHeight() * options.length;
 		if (x + menuWidth > screenMaxX) x -= (menuWidth + (2 * TILE_SIZE));
 		if (y + menuHeight > screenMaxY) y -= menuHeight;
 		
 		MenuCursor menu = new MenuCursor(x, y, aL.size(), 1);
-		scheduleAdd(new TextBox(x, y, aL, menu));
+		scheduleAdd(new TextMenu(x, y, aL, menu));
 		scheduleAdd(menu);
 	}
 	

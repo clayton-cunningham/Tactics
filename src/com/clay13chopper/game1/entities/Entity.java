@@ -87,4 +87,12 @@ public abstract class Entity {
 		return y;
 	}
 	
+	public int getXGrid() {
+		return xGrid;
+	}
+	
+	public int getYGrid() {
+		return yGrid;
+	}
+	
 }
