@@ -27,6 +27,8 @@ public class TileInfo extends TextBox {
 		cursor = c;
 	}
 	
+	// TODO: make TileInfo move if cursor goes near it
+	
 	public void update() {
 		super.update();
 		
