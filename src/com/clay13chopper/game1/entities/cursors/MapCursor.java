@@ -49,7 +49,7 @@ public class MapCursor extends Cursor {
 			
 			if (unitChosen == null && unitViewed == null) {
 				// 00  // empty space
-				level.createTextBox(x + level.getTileSize(), y, new int[]{0, 1});
+				level.createTextBox(x + level.getTileSize(), y, new int[]{0, 1, 4});
 				locked = true;
 			}
 			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { 
@@ -85,7 +85,7 @@ public class MapCursor extends Cursor {
 					pathSet = false;
 				}
 				else {
-					level.createTextBox(x + level.getTileSize(), y, new int[]{2, 3, 4});
+					level.createTextBox(x + level.getTileSize(), y, new int[]{2, 4});
 					locked = true;
 				}
 			}

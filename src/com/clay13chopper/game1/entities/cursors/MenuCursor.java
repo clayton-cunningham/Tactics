@@ -3,6 +3,12 @@ package com.clay13chopper.game1.entities.cursors;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.input.Keyboard;
 
+/**
+ * A cursor that exists for navigating menus
+ * 		Currently compatible with the start menu and in-game menu
+ * @author Clayton Cunningham
+ *
+ */
 public class MenuCursor extends Cursor {
 
 	private int currSelect = 0;
@@ -32,7 +38,7 @@ public class MenuCursor extends Cursor {
 		movementMemoryY(ya);
 		
 		trigger = -1;
-		// Select a level
+		// Check for input
 		if (Keyboard.getSelectStart()) {
 			trigger = currSelect;
 		}
@@ -41,23 +47,33 @@ public class MenuCursor extends Cursor {
 		}
 		
 	}
-	
-	//xC, yC is the change
-	public void move(int xC, int yC) {
-		
-		if (currSelect + yC < 0 || currSelect + yC >= yLimit) {
-			return;
-		}
-		
-		super.move(xC, yC);
-		currSelect += yC;
+
+	/**
+	 * Move according to the requested x/y change (format is -1/0/+1)
+	 * 		Overrides so we can update current selection
+	 * @param xa	change in x requested
+	 * @param ya	change in y requested
+	 */
+	public void move(int xa, int ya) {
+		super.move(xa, ya);
+		currSelect += ya;
 	}
 	
-	public int checkTrigger() {
-		return trigger;
+	/**
+	 * Check if within the bounds of the cursor's container
+	 * 		Since this will depend on where the cursor is used,
+	 * 		it must be implemented for each type individually.
+	 * @param xa	change in x
+	 * @param ya	change in y
+	 * @return		true if within bounds
+	 */
+	protected boolean checkInBounds(int xa, int ya) {
+		return (currSelect + ya >= 0 && currSelect + ya < yLimit);
 	}
 
-	public void setX(int x) { this.x = x; }
-	public void setY(int y) { this.y = y; }
+	// Get and set methods
+	public int 	checkTrigger() 	{	return trigger;	}
+	public void setX(int x) 	{ 	this.x = x; 	}
+	public void setY(int y) 	{ 	this.y = y; 	}
 
 }

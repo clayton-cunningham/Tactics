@@ -3,8 +3,16 @@ package com.clay13chopper.game1.entities.cursors;
 import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.input.Keyboard;
 
-public class Cursor extends Entity {
+/**
+ * Parent class for any cursor type
+ * 		Programs movement behavior to be smooth and user friendly
+ * @author Clayton Cunningham
+ *
+ */
+public abstract class Cursor extends Entity {
 
+	// xa/ya		are the requested change (+1/0/-1) based on player input
+	// xHeld/yHeld 	are the x/y values from the previous frame
 	int xa, ya, xHeld, yHeld;
 	boolean signalMoved = false;
 	
@@ -79,21 +87,31 @@ public class Cursor extends Entity {
 	}
 	
 	
-	//xC, yC is the change
-	public void move(int xC, int yC) {
-		if (xC != 0) {
-			x += xC * movement;
-			xGrid += xC;
+	/**
+	 * Move according to the requested x/y change (format is -1/0/+1)
+	 * @param xa	change in x requested
+	 * @param ya	change in y requested
+	 */
+	public void move(int xa, int ya) {
+		if (xa != 0) {
+			x += xa * movement;
+			xGrid += xa;
 		}
-		if (yC != 0) {
-			y += yC * movement;
-			yGrid += yC;
+		if (ya != 0) {
+			y += ya * movement;
+			yGrid += ya;
 		}
 		signalMoved = true;
 	}
 
-	protected boolean checkInBounds(int xa, int ya) {
-		return true;
-	}
+	/**
+	 * Check if within the bounds of the cursor's container
+	 * 		Since this will depend on where the cursor is used,
+	 * 		it must be implemented for each type individually.
+	 * @param xa	change in x
+	 * @param ya	change in y
+	 * @return		true if within bounds
+	 */
+	protected abstract boolean checkInBounds(int xa, int ya);
 
 }
