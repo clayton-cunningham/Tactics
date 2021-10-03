@@ -139,15 +139,6 @@ public abstract class Unit extends Mob {
 	}
 	
 	/**
-	 * Returns whether the unit is playable for the current team
-	 * Right now, only Blue team is playable.  Further support will be needed.
-	 * @return whether this Unit is playable or not
-	 */
-	public boolean isPlayable() {
-		return team == Team.BLUE;
-	}
-	
-	/**
 	 * Moves the Unit to the address specified
 	 * The Unit's turn is ended once moved
 	 * Address is read in grid format
@@ -164,26 +155,13 @@ public abstract class Unit extends Mob {
 		turnDone = true;
 	}
 	
-	// Get methods
-	
-	public int getMovement() {
-		return movement;
-	}
-	
-	public int getMinRange() {
-		return minRange;
-	}
-	
-	public int getMaxRange() {
-		return maxRange;
-	}
-	
-	public boolean getTurnDone() {
-		return turnDone;
-	}
-	
-	public Team getTeam() {
-		return team;
+	/**
+	 * Returns whether the unit is playable for the current team
+	 * Right now, only Blue team is playable.  Further support will be needed.
+	 * @return whether this Unit is playable or not
+	 */
+	public boolean isPlayable() {
+		return team == Team.BLUE;
 	}
 	
 	/**
@@ -203,6 +181,13 @@ public abstract class Unit extends Mob {
 	public int getHealthPercent() {
 		return (health * 100) / maxHealth;
 	}
+	
+	// Get methods
+	public int 		getMovement() 		{	return movement;	}
+	public int 		getMinRange() 		{	return minRange;	}
+	public int 		getMaxRange() 		{	return maxRange;	}
+	public boolean 	getTurnDone() 		{	return turnDone;	}
+	public Team 	getTeam() 			{	return team;		}
 	
 	/**
 	 * Team enumeration
