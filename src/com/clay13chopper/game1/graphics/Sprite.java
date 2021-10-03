@@ -133,8 +133,8 @@ public class Sprite {
 	public static Sprite healthLow = new Sprite(16, 1, 3, 0, SpriteSheet.health_UI);
 	public static Sprite win = new Sprite(48, 16, 0, 0, SpriteSheet.gameEnd_UI);
 	public static Sprite lose = new Sprite(48, 16, 1, 0, SpriteSheet.gameEnd_UI);
-	public static Sprite winContinue = new Sprite(48, 16, 0, 1, SpriteSheet.gameEnd_UI);
-	public static Sprite loseContinue = new Sprite(48, 16, 1, 1, SpriteSheet.gameEnd_UI);
+	public static Sprite winInstructions = new Sprite(48, 16, 0, 1, SpriteSheet.gameEnd_UI);
+	public static Sprite loseInstructions = new Sprite(48, 16, 1, 1, SpriteSheet.gameEnd_UI);
 	public static Sprite level1 = new Sprite(320, 141, 0, 0, SpriteSheet.startMenu);
 	public static Sprite level2 = new Sprite(320, 141, 0, 1, SpriteSheet.startMenu);
 	public static Sprite level3 = new Sprite(320, 141, 0, 2, SpriteSheet.startMenu);
