@@ -7,6 +7,12 @@ import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 
+/**
+ * UI parent class for text box UI
+ * 		Contains behavior to build a text box of varying size
+ * @author Clayton Cunningham
+ *
+ */
 public class TextBox extends Entity {
 
 	protected List<Sprite> boxSprites = new ArrayList<Sprite>();
@@ -14,7 +20,13 @@ public class TextBox extends Entity {
 	protected int spriteWidth;
 	protected int spriteHeight;
 	
-	// Renders a text box for in-game UI
+	/**
+	 * Renders a text box for in-game UI
+	 * 		(x,y) refers to top left corner
+	 * @param screen	The game's screen
+	 * @param x			x position to build the box at
+	 * @param y			y position to build the box at
+	 */
 	protected void renderBox(Screen screen, int x, int y) {
 
 		int xa = 0;
@@ -27,7 +39,9 @@ public class TextBox extends Entity {
 		
 	}
 
-	// Adds the menu sprites to an array for rendering later.  Order matters!
+	/**
+	 * Adds the menu sprites to an array for rendering later.  Order matters!
+	 */
 	protected void fillBoxSprites() {
 		
 		boxSprites.clear();

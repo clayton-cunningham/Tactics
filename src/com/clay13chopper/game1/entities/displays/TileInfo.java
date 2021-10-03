@@ -6,6 +6,11 @@ import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.tiles.Tile;
 
+/**
+ * Shows info about the tile and unit currently hovered over
+ * @author Clayton Cunningham
+ *
+ */
 public class TileInfo extends TextBox {
 	
 	private Sprite tileSprite;
@@ -13,7 +18,6 @@ public class TileInfo extends TextBox {
 	private Sprite unitSprite;
 	private MapCursor cursor;
 	
-	//TODO: Cleanup! 
 	public TileInfo(int x, int y, MapCursor c) {
 		spriteWidth = Sprite.menuBorderTop.getWidth();
 		spriteHeight = Sprite.menuBorderTop.getHeight();
@@ -26,10 +30,14 @@ public class TileInfo extends TextBox {
 	public void update() {
 		super.update();
 		
+		// TODO: Should we have tile and unit be global?
+		
+		// Retrieve the current tile's data
 		Tile tile = level.getTile(cursor.getXGrid(), cursor.getYGrid());
 		tileSprite = tile.getSprite();
 		tileDefense = tile.defense();
 		
+		// Retrieve the current unit's data
 		Unit unit = level.getUnit(cursor.getXGrid(), cursor.getYGrid());
 		if (unit != null) {
 			unitSprite = unit.getSprite();
@@ -49,14 +57,17 @@ public class TileInfo extends TextBox {
 
 		renderBox(screen, xOffset, yOffset);
 		
+		// Display unit
 		if (unitSprite != null) {
 			screen.renderSprite(xOffset + spriteWidth, yOffset, unitSprite, false, false);
 		}
 		
+		// Display tile and tile's defense values
 		screen.renderSprite(xOffset, yOffset, tileSprite, false, false);
 		for (int i = 0; i < tileDefense; i++) {
-			screen.renderSprite(xOffset + ((i % 2) * spriteWidth / 2), yOffset + tileSprite.getHeight() + ((i / 2) * spriteWidth / 2), 
-					Sprite.menuTileDefenseSmall, false, false);
+			int xi = xOffset 							+ ((i % 2) * spriteWidth / 2);
+			int yi = yOffset + tileSprite.getHeight() 	+ ((i / 2) * spriteWidth / 2);
+			screen.renderSprite(xi, yi, Sprite.menuTileDefenseSmall, false, false);
 		}
 		
 	}

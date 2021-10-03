@@ -3,6 +3,16 @@ package com.clay13chopper.game1.entities.mob.player_units;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.graphics.Sprite;
 
+/**
+ * Archer: balanced ranged unit
+ * 		   cannot hit adjacent tiles
+ * 		8  Health
+ * 		3  Movement
+ * 		2  Range
+ * 		3  Attack
+ * @author Clayton Cunningham
+ *
+ */
 public class Archer extends Unit {
 	
 	public Archer(int x, int y, Team t) {

@@ -3,6 +3,15 @@ package com.clay13chopper.game1.entities.mob.player_units;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.graphics.Sprite;
 
+/**
+ * Runner: fast unit
+ * 		10 Health
+ * 		4  Movement
+ * 		1  Range
+ * 		3  Attack
+ * @author Clayton Cunningham
+ *
+ */
 public class Runner extends Unit {
 	
 	public Runner(int x, int y, Team t) {

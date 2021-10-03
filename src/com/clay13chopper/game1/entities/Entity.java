@@ -5,6 +5,13 @@ import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.room.Room;
 import com.clay13chopper.game1.room.level.Level;
 
+/**
+ * Parent class detailing behavior present in all entities
+ * 		This includes: Units, particles, UI, 
+ * 						or anything else with a position and sprite
+ * @author Clayton Cunningham
+ *
+ */
 public abstract class Entity {
 
 	protected Sprite sprite;
@@ -16,6 +23,8 @@ public abstract class Entity {
 	protected Level level;
 	protected Room room;
 
+	// Colors used to read level files
+	// TODO: Should this be in LoadedLevel? Or maybe another "directory" class?
 	public final static int colBlueSoldierUnit = 0xff0000ff;
 	public final static int colRedSoldierUnit = 0xffff0000;
 	public final static int colBlueArcherUnit = 0xff5050ff;
@@ -30,6 +39,16 @@ public abstract class Entity {
 	public final static int colGreenUnit = 0xff00ff00;
 	public final static int colCursor = 0xff01aaff;
 
+	/**
+	 * Connects the entity to the level (or room).  Used by:
+	 * 		entities for tile collision
+	 * 		tileInfo for checking current tile
+	 * 		units for map details and other unit locations
+	 * 		mapCursor for all of the above, other level objects, and more
+	 * TODO: Is there some way to move this functionality elsewhere?
+	 * 			Having entities not require the level class would give looser coupling
+	 * @param l	Level the entity is in
+	 */
 	public void init(Level l) {
 		level = l;
 		room = l;
@@ -37,6 +56,12 @@ public abstract class Entity {
 		yGrid = y >> l.getShift();
 	}
 	
+	/**
+	 * Connects the entity to the room.  Used by:
+	 * 		TextMenu to signal the cursor to lock or unlock
+	 * 		WinLose to signal the room to change
+	 * @param r Room the entity is part of
+	 */
 	public void init(Room r) {
 		room = r;
 	}
@@ -49,17 +74,21 @@ public abstract class Entity {
 		screen.renderSprite(x - (sprite.getWidth() / 2), y - (sprite.getHeight() / 2), sprite, false, false);
 	}
 	
+	/**
+	 * Tags the entity to be removed by the Level
+	 */
 	public void remove() {
 		removed = true;
 	}
 	
-	public boolean isRemoved() {
-		return removed;
-	}
-	
-
-	//Checks for collision on adjacent tiles
-	protected boolean tileCollision(int xC, int yC) {
+	/**
+	 * Checks for collision on adjacent tiles
+	 * 		TODO: This isn't used anymore.  Do I need it?
+	 * @param xa	Change in x
+	 * @param ya	Change in y
+	 * @return		Whether there is a collision after the input change
+	 */
+	protected boolean tileCollision(int xa, int ya) {
 
 		int sW = sprite.getWidth();
 		int sH = sprite.getHeight();
@@ -67,32 +96,20 @@ public abstract class Entity {
 		//For [i % 2, i / 2] : [0,0], [1,0], [0,1], [1,1]
 		for (int i = 0; i < 4; i++) {
 			// Start at 0,0 of sprite, then add width/height alternatively
-			int xi = (x + xC - (sW / 2) + (i % 2 * (sW - 1))) >> 4;
-			int yi = (y + yC - (sH / 2) + (i / 2 * (sH - 1))) >> 4;
+			int xi = (x + xa - (sW / 2) + (i % 2 * (sW - 1))) >> 4;
+			int yi = (y + ya - (sH / 2) + (i / 2 * (sH - 1))) >> 4;
 			
 			if (level.getTile(xi, yi).solid()) return true; 
 		}
 		return false;
 	}
 	
-	public Sprite getSprite() {
-		return sprite;
-	}
-	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
-	}
-	
-	public int getXGrid() {
-		return xGrid;
-	}
-	
-	public int getYGrid() {
-		return yGrid;
-	}
+	// Get methods
+	public boolean 	isRemoved() {	return removed;	}
+	public Sprite	getSprite() {	return sprite;	}
+	public int 		getX() 		{	return x;		}
+	public int 		getY() 		{	return y;		}
+	public int 		getXGrid() 	{	return xGrid;	}
+	public int 		getYGrid() 	{	return yGrid;	}
 	
 }

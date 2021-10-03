@@ -174,6 +174,7 @@ public abstract class Level extends Room {
 		if (teamNumAlive[ teamId ] < 1) {
 			if (teamId != 0) {
 				levelComplete = 1;
+				// TODO: why WinLose not a UI?
 				add(new WinLose(1, getWidthbyPixel() / 2, getHeightbyPixel() / 2));
 				add(new GenericUI(getWidthbyPixel() / 2, getHeightbyPixel() / 2 + 32, Sprite.winContinue));
 				entities.remove(focus); // TODO: This is lazy, find another way to pause the level

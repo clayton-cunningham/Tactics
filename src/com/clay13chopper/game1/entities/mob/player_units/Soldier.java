@@ -3,6 +3,15 @@ package com.clay13chopper.game1.entities.mob.player_units;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.graphics.Sprite;
 
+/**
+ * Soldier: regular well-rounded unit
+ * 		10 Health
+ * 		3  Movement
+ * 		1  Range
+ * 		3  Attack
+ * @author Clayton Cunningham
+ *
+ */
 public class Soldier extends Unit {
 
 	public Soldier(int x, int y, Team t) {

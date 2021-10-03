@@ -3,6 +3,15 @@ package com.clay13chopper.game1.entities.mob.player_units;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.graphics.Sprite;
 
+/**
+ * Mage: ranged glass cannon
+ * 		6    Health
+ * 		3    Movement
+ * 		1-2  Range
+ * 		4    Attack
+ * @author Clayton Cunningham
+ *
+ */
 public class Mage extends Unit {
 	
 	public Mage(int x, int y, Team t) {
@@ -11,7 +20,7 @@ public class Mage extends Unit {
 		sprite = getSpriteDown();
 		maxHealth = health = 6;
 		movement = 3;
-		attack = 3;
+		attack = 4;
 		minRange = 1;
 		maxRange = 2;
 		if (t == Team.BLUE) {

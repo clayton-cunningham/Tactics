@@ -3,6 +3,15 @@ package com.clay13chopper.game1.entities.mob.player_units;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.graphics.Sprite;
 
+/**
+ * Heavy: slow defensive unit
+ * 		15 Health
+ * 		2  Movement
+ * 		1  Range
+ * 		3  Attack
+ * @author Clayton Cunningham
+ *
+ */
 public class Heavy extends Unit {
 	
 	public Heavy(int x, int y, Team t) {

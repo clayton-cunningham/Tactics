@@ -10,6 +10,12 @@ import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.room.StartMenu;
 import com.clay13chopper.game1.room.level.Level;
 
+/**
+ * Shows a menu of in-game actions.  This includes:
+ * 		Attack; Wait (Move); End turn; Quit; Cancel (closes menu);
+ * @author Clayton Cunningham
+ *
+ */
 public class TextMenu extends TextBox {
 
 	private List<Sprite> sprites = new ArrayList<Sprite>();
@@ -33,11 +39,12 @@ public class TextMenu extends TextBox {
 	public void update() {
 		super.update();
 		
-		// Check for no signal or return key
+		// Check for no action to perform (nothing selected yet, or action not implemented)
 		int trigger = cursor.checkTrigger();
 		if (trigger == -1) {
 			return;
 		}
+		// Check if player input to go back
 		else if (trigger == -2) {
 			cursor.remove();
 			this.remove();
@@ -45,6 +52,7 @@ public class TextMenu extends TextBox {
 			return;
 		}
 		
+		// Perform menu action selected
 		int action = actions.get(trigger);
 		doAction(action);
 	}
@@ -53,7 +61,7 @@ public class TextMenu extends TextBox {
 
 		renderBox(screen, x, y);
 		
-		int xa = 0; // Currently unused, but holding in case we implement a more complicated menu 
+		int xa = 0; // X is currently unused, but held in case we implement a menu with horizontal choice movement 
 		int ya = 0;
 		for (Sprite s : sprites) {
 			screen.renderSprite(x + (xa * spriteWidth), y + (ya * spriteHeight), s, false, false);
@@ -61,6 +69,10 @@ public class TextMenu extends TextBox {
 		}
 	}
 	
+	/**
+	 * Parse input for what actions to add to the menu
+	 * @param cases		Integers representing which actions to add to menu
+	 */
 	private void fillSprites(List<Integer> cases) {
 		if (cases.contains(0)) add(0, Sprite.menuEndTurn);
 		if (cases.contains(1)) add(1, Sprite.menuQuit);
@@ -69,32 +81,45 @@ public class TextMenu extends TextBox {
 		if (cases.contains(4)) add(4, Sprite.menuCancel);
 	}
 	
+	/**
+	 * Add an action to the menu
+	 * @param key	integer representation for action
+	 * @param s		Sprite of action
+	 */
 	private void add(int key, Sprite s) {
 		sprites.add(s);
 		actions.add(key);
 	}
 	
-	// Performs an action based on the trigger
+	/**
+	 * Performs an action based on the trigger
+	 * @param action	action to perform
+	 */
 	private void doAction(int action) {
+		// End Turn
 		if (action == 0) {
 			cursor.remove();
 			this.remove();
 			((MapCursor) room.getFocus()).unlock();
 			((Level) room).nextTurn();
 		}
+		// Quit
 		else if (action == 1) {
 			room.changeRoom(new StartMenu());
 		}
+		// Attack
 		else if (action == 2) {
 			cursor.remove();
 			this.remove();
 			((MapCursor) room.getFocus()).approveAttack();
 		}
+		// Wait
 		else if (action == 3) {
 			cursor.remove();
 			this.remove();
 			((MapCursor) room.getFocus()).approveMove();
 		}
+		// Cancel
 		else if (action == 4) {
 			cursor.remove();
 			this.remove();
