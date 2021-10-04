@@ -9,12 +9,17 @@ import com.clay13chopper.game1.input.Keyboard;
 import com.clay13chopper.game1.processors.PathFinder.PathType;
 import com.clay13chopper.game1.room.level.Level;
 
+/**
+ * A cursor that navigates levels
+ * @author Clayton Cunningham
+ *
+ */
 public class MapCursor extends Cursor {
 
 	private Unit unitChosen = null;
-	private boolean invisible = false;
-	private boolean locked = false;
-	private boolean pathSet = false;
+	private boolean invisible = false;	// If true, the cursor is invisible (i.e. during enemy turns)
+	private boolean locked = false;		// If true, the cursor is locked (i.e. the game is focused on the in-game menu)
+	private boolean pathSet = false;	// If true, the pathfinder has been setup for movement to an attack space
 	
 	public MapCursor(int x, int y) {
 		super(x, y);
@@ -35,40 +40,42 @@ public class MapCursor extends Cursor {
 
 		if (locked) return;
 		
+		// Movement
 		movementEqualize(xa, ya);
 		movementModerateX(xa);
 		movementModerateY(ya);
 		movementMemoryX(xa);
 		movementMemoryY(ya);
 		
-		//Selected a space
+		//Selecting a space
 		if (Keyboard.getSelectStart()  && level.getActiveTeam() == Team.BLUE) {
 
 			//Recover unit at location
 			Unit unitViewed = level.getUnit(xGrid, yGrid);
-			
+
+			// 00  // empty space
 			if (unitChosen == null && unitViewed == null) {
-				// 00  // empty space
+				// Display options
 				level.createTextBox(x + level.getTileSize(), y, new int[]{0, 1, 4});
 				locked = true;
 			}
+			//10 && playable // selecting a unit
 			else if (unitChosen == null && unitViewed.isPlayable() && !unitViewed.getTurnDone()) { 
-				//10 && playable // selecting a unit
 				unitChosen = unitViewed;
 				level.pathFinder.calcPath(unitChosen.getMovement(), 
 						unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, unitChosen.getTeam());
 				level.pathDisplay.setHoveredTile(xGrid, yGrid, unitChosen, level.pathFinder);
 			}
+			//10 && not playable // showing enemy paths
 			else if (unitChosen == null && unitViewed != null && !unitViewed.isPlayable()) {
-				//10 && not playable // showing enemy paths
 				level.pathFinder.calcPath(unitViewed.getMovement(), 
 						unitViewed.getMinRange(), unitViewed.getMaxRange(), xGrid, yGrid, unitViewed.getTeam());
 				level.pathFinder.enemyShown();
 			}
+			// 01 or == // move a unit
 			else if ((unitViewed == null || unitViewed == unitChosen) 
 					&& (level.pathFinder.getType(xGrid, yGrid) == PathType.MOVE 
 					|| level.pathFinder.getType(xGrid, yGrid) == PathType.HOME)) {  
-				// 01 or == // move a unit
 				int[] menuOptions;
 				level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2, unitChosen.getTeam());
 				if (!level.pathFinder.customMoveIsEmpty()) menuOptions = new int[] {2, 3, 4};
@@ -77,25 +84,27 @@ public class MapCursor extends Cursor {
 				level.createTextBox(x + level.getTileSize(), y, menuOptions);
 				locked = true;
 			}
+			//11 && not playable // attacking
 			else if (unitChosen != null && unitViewed != null && !unitViewed.isPlayable() 
 					&& level.pathFinder.getType(xGrid, yGrid) == PathType.ATTACK) { 
-				//11 && not playable // attacking
+				// If movement was already chosen, just attack from space chosen
 				if (pathSet) {
 					approveAttack();
 					pathSet = false;
 				}
+				// If movement not chosen, confirm in in-game menu
 				else {
 					level.createTextBox(x + level.getTileSize(), y, new int[]{2, 4});
 					locked = true;
 				}
 			}
+			// 11 && !=  // can't attack or move to team-occupied space
 			else {  
-				// 11 && !=  // can't attack or move to team-occupied space
 				cursorError();
 			}
 		}
 		else if (Keyboard.getSelectRelease()){
-			//Reset anemy paths
+			// Reset enemy paths (if player selected an enemy to view their movements)
 			if (unitChosen == null) {
 				level.pathFinder.reset();
 				level.pathFinder.enemyNotShown();
@@ -104,18 +113,20 @@ public class MapCursor extends Cursor {
 		
 		// Deselecting a unit
 		if (Keyboard.getDeselectStart()  && level.getActiveTeam() == Team.BLUE) {
+			// If movement space was selected, go back to selecting movement
 			if (pathSet) {
 				level.pathFinder.clearCustomMove();
 				pathSet = false;
 			}
+			// If not, unselect unit entirely
 			else deselectUnit();
 			
 		}
 		
 		// Behavior for when cursor is hovering on a new spot
 		if (signalMoved) {
-			if (unitChosen != null) {
-				// Showing path of a unit
+			if (unitChosen != null && !pathSet) {
+				// Update path of a chosen unit
 				updatePath();
 			}
 		}
@@ -130,6 +141,12 @@ public class MapCursor extends Cursor {
 		super.render(screen);
 	}
 	
+	/**
+	 * Check if within the bounds of the map
+	 * @param xa	change in x
+	 * @param ya	change in y
+	 * @return		true if within bounds
+	 */
 	protected boolean checkInBounds(int xa, int ya) {
 		if (level.getTile(xGrid + xa, yGrid + ya).outOfBounds()) {
 			return false;
@@ -137,28 +154,39 @@ public class MapCursor extends Cursor {
 		return true;
 	}
 	
+	/**
+	 * Updates the selected unit's path every time the cursor moves
+	 */
 	protected void updatePath() {
-		if (pathSet) return;
 		
 		PathType hoveredTileType = level.pathFinder.getType(xGrid, yGrid);
 		Unit unitViewed = level.getUnit(xGrid, yGrid);
-		if (hoveredTileType == PathType.MOVE 
-				|| hoveredTileType == PathType.HOME) {
+		// Movement space: just update recorded tile
+		if (hoveredTileType == PathType.MOVE || hoveredTileType == PathType.HOME) {
 			level.pathDisplay.setHoveredTile(xGrid, yGrid, unitChosen, level.pathFinder);
 		}
+		// Attack space: update the path to be in range
 		else if (hoveredTileType == PathType.ATTACK && unitViewed != null && !unitViewed.isPlayable()) {
 			level.pathDisplay.confirmAttackDistance(xGrid, yGrid, unitChosen, level.pathFinder);
 		}
+		// Unreachable space: remove record
 		else {
 			level.pathDisplay.reset();
 		}
 	}
 	
+	/**
+	 * Changes the cursor to red to show the user input was invalid
+	 */
 	protected void cursorError() {
 		anim = 25;
 		sprite = Sprite.cursorError2;
 	}
 	
+	/**
+	 * Move the unit to the recorded space
+	 * 		Nothing is input now, since the last tile hovered over is recorded
+	 */
 	private void moveUnit() {
 		int ua = level.pathDisplay.getHoveredTile();
 		if (ua == -1) ua = level.pathFinder.prev(xGrid, yGrid); // NOTE - this line shouldn't run; pathDisplay should always be set
@@ -167,40 +195,61 @@ public class MapCursor extends Cursor {
 		unitChosen.move(uXa, uYa);
 	}
 	
+	/**
+	 * Deselect the currently chosen unit
+	 */
 	protected void deselectUnit() {
 		unitChosen = null;
 		level.pathFinder.reset();
 		level.pathDisplay.reset();
 	}
 	
+	/**
+	 * Lock and hide the cursor, so it is invisible and cannot be controlled
+	 * 		This is done during non-player turns
+	 */
 	public void lockAndHide() {
 		locked = true;
 		invisible = true;
 	}
 
+	/**
+	 * Restore control to the user
+	 */
 	public void unlock() {
 		locked = false;
 	}
 	
+	/**
+	 * Restore control to the user and show the cursor again
+	 */
 	public void unlockAndUnhide() {
 		locked = false;
 		invisible = false;
 	}
 	
+	/**
+	 * Move the chosen unit to the chosen space
+	 */
 	public void approveMove() {
 		moveUnit();
 		deselectUnit();
 		locked = false;
 	}
 	
+	/**
+	 * Attack the chosen enemy with the chosen unit
+	 */
 	public void approveAttack() {
 		Unit unitViewed = level.getUnit(xGrid, yGrid);
 		
-		if (unitViewed == null || unitViewed == unitChosen) {  	// Case 0: Chose move space, now need to choose attack space
+		// Case 0: Chose move space, now need to choose attack space
+		if (unitViewed == null || unitViewed == unitChosen) {  	
 			level.pathFinder.calcAttack(unitChosen.getMinRange(), unitChosen.getMaxRange(), xGrid, yGrid, 2, unitChosen.getTeam());
 			pathSet = true;
 		}
-		else {													// Case 1: Chose attack space, complete action
+		// Case 1: Chose attack space, complete action
+		else {													
 			moveUnit();
 			unitChosen.attack(unitViewed, level.getTile(xGrid, yGrid).defense());
 			deselectUnit();

@@ -60,9 +60,7 @@ public class MenuCursor extends Cursor {
 	}
 	
 	/**
-	 * Check if within the bounds of the cursor's container
-	 * 		Since this will depend on where the cursor is used,
-	 * 		it must be implemented for each type individually.
+	 * Check if within the bounds of the menu's list
 	 * @param xa	change in x
 	 * @param ya	change in y
 	 * @return		true if within bounds
