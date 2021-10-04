@@ -25,19 +25,19 @@ public abstract class Entity {
 
 	// Colors used to read level files
 	// TODO: Should this be in LoadedLevel? Or maybe another "directory" class?
-	public final static int colBlueSoldierUnit = 0xff0000ff;
-	public final static int colRedSoldierUnit = 0xffff0000;
-	public final static int colBlueArcherUnit = 0xff5050ff;
-	public final static int colRedArcherUnit = 0xffff5050;
-	public final static int colBlueMageUnit = 0xff9090ff;
-	public final static int colRedMageUnit = 0xffff9090;
-	public final static int colBlueHeavyUnit = 0xff0000a0;
-	public final static int colRedHeavyUnit = 0xffa00000;
-	public final static int colBlueRunnerUnit = 0xff000060;
-	public final static int colRedRunnerUnit = 0xff600000;
-	public final static int colYellowUnit = 0xff00ffdd;
-	public final static int colGreenUnit = 0xff00ff00;
-	public final static int colCursor = 0xff01aaff;
+	public final static int colBlueSoldierUnit 	= 0xff0000ff;
+	public final static int colRedSoldierUnit 	= 0xffff0000;
+	public final static int colBlueArcherUnit 	= 0xff5050ff;
+	public final static int colRedArcherUnit 	= 0xffff5050;
+	public final static int colBlueMageUnit 	= 0xff9090ff;
+	public final static int colRedMageUnit 		= 0xffff9090;
+	public final static int colBlueHeavyUnit 	= 0xff0000a0;
+	public final static int colRedHeavyUnit 	= 0xffa00000;
+	public final static int colBlueRunnerUnit 	= 0xff000060;
+	public final static int colRedRunnerUnit 	= 0xff600000;
+	public final static int colYellowUnit 		= 0xff00ffdd;
+	public final static int colGreenUnit 		= 0xff00ff00;
+	public final static int colCursor 			= 0xff01aaff;
 
 	/**
 	 * Connects the entity to the level (or room).  Used by:

@@ -194,11 +194,11 @@ public abstract class Unit extends Mob {
 	 * 	Sets up Team label with integers for more readable checks
 	 */
 	public enum Team {
-		BLUE (0),
-		RED (1),
-		YELLOW (2),
-		GREEN (3),
-		NONE (4);
+		BLUE	(0),
+		RED 	(1),
+		YELLOW 	(2),
+		GREEN 	(3),
+		NONE 	(4);
 		
 		private final int id;
 		Team(int id) { this.id = id; }
