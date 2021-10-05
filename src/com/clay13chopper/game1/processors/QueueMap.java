@@ -10,7 +10,7 @@ import java.util.Queue;
  * 		to an Integer value.
  * Purpose is to match with PathFinder, and map 
  * 		movement values to corresponding board locations.
- * @author Me
+ * @author Clayton Cunningham
  *
  * @param <E> 
  */
