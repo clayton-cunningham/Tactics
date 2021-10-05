@@ -3,16 +3,15 @@ package com.clay13chopper.game1.graphics;
 import com.clay13chopper.game1.entities.Entity;
 
 /**
+ * This class records the pixels necessary to display for each frame.  Expand comment for more detail;
+ * 
  * Definition:	Screen does not have access to most other objects.
- * 				Most actions here require input from elsewhere to specify what to show.
- * 				There may be some exceptions (such as player input).
+ * 				Screen is built to be able to render any sprite and address
  */
 
 public class Screen {
 	
 	private static int width, height;
-	public static final int MAX_WIDTH = 1920;
-	public static final int MAX_HEIGHT = 1536;
 	private static int[] pixels;
 	private static int xOffset = 0, yOffset = 0;
 	
@@ -22,7 +21,12 @@ public class Screen {
 		pixels = new int[w * h];
 	}
 	
-	// Scroll to position of focus
+	/**
+	 * Scrolls screen to position of focus
+	 * 		This means the screen only requires the focus to be on screen
+	 * 		instead of following every change the focus makes.
+	 * @param focus
+	 */
 	public void update(Entity focus) {
 		if (focus == null) return;
 		
@@ -76,43 +80,25 @@ public class Screen {
 		}
 	}
 
+	/**
+	 * Resets the screen - used at the beginning of every loop
+	 */
 	public void clear() {
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = 0;
 		}
 	}
 	
-	public static void setOffset(int xOff, int yOff) {
-		xOffset = xOff;
-		yOffset = yOff;
-	}
 	
-	public static int getXOffset() {
-		return xOffset;
-	}
+	// Get and set methods
+	public static int getXOffset() 		{	return xOffset;		}
+	public static int getYOffset() 		{	return yOffset;		}
+	public int getPixel(int i) 			{	return pixels[i];	}
+	public static int getWidth() 		{	return width;		}
+	public static void setWidth(int w) 	{	width = w;			}
+	public static int getHeight() 		{	return height;		}
+	public static void setHeight(int h) {	height = h;			}
 	
-	public static int getYOffset() {
-		return yOffset;
-	}
-	
-	public int getPixel(int i) {
-		return pixels[i];
-	}
-
-	public static int getWidth() {
-		return width;
-	}
-
-	public static void setWidth(int w) {
-		width = w;
-	}
-
-	public static int getHeight() {
-		return height;
-	}
-
-	public static void setHeight(int h) {
-		height = h;
-	}
+	public static void setOffset(int xOff, int yOff)	{	xOffset = xOff;	yOffset = yOff;	}
 
 }

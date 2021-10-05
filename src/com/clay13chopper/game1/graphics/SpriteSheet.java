@@ -4,13 +4,18 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * This class loads all sprite sheets for reference during runtime 
+ * @author Clayton Cunningham
+ *
+ */
 public class SpriteSheet {
 	
 	private final String path;
 	private final int[] pixels;
 	private final int width, height;
 
-	//int is (sprites * pixels) = 8 * 16 = 128
+	// Length/width are calculated by: (sprites * pixels) => 8 * 16 = 128
 	public final static SpriteSheet background_tiles = new SpriteSheet("/spritesheets/background_tiles.png", 128, 128);
 	public final static SpriteSheet example_player = new SpriteSheet("/spritesheets/rpg_16x16.png", 96, 144);
 	public final static SpriteSheet example_player_done = new SpriteSheet("/spritesheets/rpg_16x16_done.png", 96, 144);
@@ -24,7 +29,7 @@ public class SpriteSheet {
 	public final static SpriteSheet startMenu = new SpriteSheet("/spritesheets/startMenu.png", 320, 564);
 	public final static SpriteSheet controls = new SpriteSheet("/spritesheets/controls.png", 1200, 1200);
 	
-	// Backgrounds - maybe change to different class?
+	// Backgrounds - TODO: maybe change to different class?
 	public final static SpriteSheet background_start = new SpriteSheet("/spritesheets/background_start.png", 1920, 1080);
 	
 	public SpriteSheet(String p, int w, int h) {
@@ -35,7 +40,9 @@ public class SpriteSheet {
 		load();
 	}
 
-	//Used once to get the sprite sheet
+	/**
+	 * Used once to load the sprite sheet from a local file
+	 */
 	private void load() {
 		try {
 			System.out.print("Trying to load: " + path + "...");
@@ -54,15 +61,9 @@ public class SpriteSheet {
 
 	}
 
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public int getPixel(int position) {
-		return pixels[position];
-	}
+	// Get methods
+	public int getWidth() 				{	return width;				}
+	public int getHeight() 				{	return height;				}
+	public int getPixel(int position) 	{	return pixels[position];	}
+	
 }

@@ -2,6 +2,11 @@ package com.clay13chopper.game1.graphics;
 
 import com.clay13chopper.game1.entities.mob.Unit;
 
+/**
+ * This class holds all sprites for reference during runtime
+ * @author Clayton Cunningham
+ *
+ */
 public class Sprite {
 
 	private final int x, y;
@@ -178,7 +183,9 @@ public class Sprite {
 		load();
 	}
 
-	//Used once to get the sprite
+	/**
+	 * Used once at load time to load the sprite from its sprite sheet
+	 */
 	private void load() {
 		for (int yy = 0; yy < height; yy++) {
 			for (int xx = 0; xx < width; xx++) {
@@ -187,18 +194,11 @@ public class Sprite {
 		}
 	}
 	
-	public int getWidth() {
-		return width;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
-	
-	public int getPixel(int location) {
-		return pixels[location];
-	}
-	
+	/**
+	 * Designs a health bar to be displayed for the input Unit
+	 * @param u		Unit in need of a health bar
+	 * @return		A custom health bar based on the Unit's health
+	 */
 	public static Sprite showHealth(Unit u) {
 
 		int healthPercent = u.getHealthPercent();
@@ -216,5 +216,10 @@ public class Sprite {
 			return healthLow;
 		}
 	}
+	
+	// Get methods
+	public int getWidth() 				{	return width;				}
+	public int getHeight() 				{	return height;				}
+	public int getPixel(int location) 	{	return pixels[location];	}
 
 }

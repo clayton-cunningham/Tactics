@@ -5,9 +5,14 @@ import java.util.Stack;
 import com.clay13chopper.game1.entities.mob.Unit;
 import com.clay13chopper.game1.processors.PathFinder;
 
+/**
+ * This class records and displays the path of the currently selected unit
+ * @author Clayton Cunningham
+ *
+ */
 public class PathDisplay {
 	
-	protected Stack<Integer> path;
+	protected Stack<Integer> path;		// List of path spaces in order 0 --> n :: start --> target
 	protected int roomWidth;
 	
 	public PathDisplay(int width) {
@@ -16,9 +21,8 @@ public class PathDisplay {
 	}
 	
 	/**
-	 * Displays the player's path while selecting an action
+	 * Displays a unit's path while the player is selecting an action
 	 * 
-	 * @param roomWidth		width of the room
 	 * @param tileSize		size of tiles in the level
 	 * @param screen		a link to the room's screen
 	 */
@@ -29,6 +33,7 @@ public class PathDisplay {
 		int behindTile = -1;
 		int xGrid = -1, yGrid = -1;
 		
+		// Go through path stack in opposite order (n --> 0)
 		for (int i = path.size() - 1; i >= 0; i--) {
 			currTile = path.get(i);
 			xGrid = (currTile % roomWidth);
@@ -48,11 +53,10 @@ public class PathDisplay {
 	 * @param xGrid				x position
 	 * @param yGrid				y position
 	 * @param aheadTile		tile ahead of this one (also, last tile analyzed)
-	 * @param roomWidth		width of the room
+	 * @param behindTile	tile behind of this one (also, next tile to be analyzed)
 	 * @return				the sprite chosen to use
 	 */
 	public Sprite chooseSprite(int hoveredTile, int xGrid, int yGrid, int aheadTile, int behindTile) {
-//		int behindTile = pathFinder.prev(xGrid, yGrid);
 		if (behindTile == -1 && aheadTile == -1) return Sprite.pathBlueStart;
 		if (behindTile == -1) {
 			int ax = (aheadTile % roomWidth);
@@ -87,16 +91,24 @@ public class PathDisplay {
 		return Sprite.voidSprite;
 	}
 	
-	// Add the hovered tile to the path.  If the path is empty or invalid, set a new path
+	/**
+	 * Add the hovered tile to the path.  If the path is empty or invalid, set a new path
+	 * @param xGrid		x location in grid format
+	 * @param yGrid		y location in grid format
+	 * @param unit		Unit that has been chosen
+	 * @param pathFinder	the level's pathFinder 
+	 */
 	public void setHoveredTile(int xGrid, int yGrid, Unit unit, PathFinder pathFinder) {
 		
 		int addr = xGrid + (yGrid * roomWidth);
+		
+		// If empty, start a new stack
 		if (path.isEmpty()) {
 			recordNewPath(xGrid, yGrid, pathFinder);
 			return;
 		}
 		
-		// Check if address is already part of the path
+		// Check if address is already part of the path.  If so, remove anything after it in the stack
 		int pastTile = path.peek();
 		if (pastTile == addr) return;
 		if (path.contains(addr)) {
@@ -106,10 +118,9 @@ public class PathDisplay {
 			return;
 		}
 		
-		// If not adjacent to last spot or too queue is too long, reset the path
-		// Size technically is 1 larger than movement required since it includes the "HOME" space,
-		//   but that's what we want;  we know we're adding a new adjacent space here,
-		//   and this check is done before the addition instead of after
+		// If not adjacent to last spot or stack is too big, reset the path
+		// Since the path stack holds the HOME space, the max size is unit's movement + 1
+		// TODO: allow diagonal movement - requires building the path to get there
 		int pXGrid = pastTile % roomWidth;
 		int pYGrid = pastTile / roomWidth;
 		if ((Math.abs(pXGrid - xGrid) != 1 || pYGrid != yGrid) && (Math.abs(pYGrid - yGrid) != 1 || pXGrid != xGrid)
@@ -117,17 +128,21 @@ public class PathDisplay {
 			path.clear();
 			recordNewPath(xGrid, yGrid, pathFinder);
 		}
+		// Else, add new space to the path
 		else { 
-			// Case: nothing special, simply moving to the new adjacent legal move spot
-			// Add new address
 			path.push(addr);
 		}
 		
 		
 	}
 	
-	// Builds a new path whenever we need to reset the queue.
-	// Since this is recursive, we cannot clear the queue in this method.
+	/**
+	 * Builds a new path from the address.
+	 * Note: Since this is recursive, do NOT clear the queue in this method.
+	 * @param xGrid			x address in grid format
+	 * @param yGrid			y address in grid format
+	 * @param pathFinder	level's pathFinder
+	 */
 	protected void recordNewPath(int xGrid, int yGrid, PathFinder pathFinder) {
 		
 		int pastTile = pathFinder.prev(xGrid, yGrid);
@@ -142,14 +157,23 @@ public class PathDisplay {
 		path.push(xGrid + (yGrid * roomWidth));
 	}
 	
-	// Retrieves the move space the player hovered over
-	// This is used when selecting an attack space, in contrast to using the default from PathFinder
+	/**
+	 * Retrieves the move space the player hovered over
+	 * This is used when selecting an attack space, in contrast to using the default from PathFinder
+	 * @return	top of path stack / end of the path
+	 */
 	public int getHoveredTile() {
 		return path.peek();
 	}
 	
-	// Check the recorded path for an attack space.  
-	// If the unit can't attack from there, set a new path using the default closest tile.
+	/**
+	 * Check the top of the stack to see if it can attack the address.  
+	 * If the unit can't attack from there, set a new path using the default closest tile.
+	 * @param xGrid			x address of target in grid format
+	 * @param yGrid			y address of target in grid format
+	 * @param unit			Unit we selected
+	 * @param pathFinder	level's pathFinder
+	 */
 	public void confirmAttackDistance(int xGrid, int yGrid, Unit unit, PathFinder pathFinder) {
 		if (path.isEmpty()) {
 
@@ -167,6 +191,9 @@ public class PathDisplay {
 		}
 	}
 	
+	/**
+	 * Clear the stack
+	 */
 	public void reset() {
 		path.clear();
 	}

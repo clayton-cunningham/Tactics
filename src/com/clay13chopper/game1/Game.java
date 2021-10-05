@@ -74,8 +74,8 @@ public class Game extends Canvas implements Runnable {
 
 		scale = room.getScale();
 		// Sets the game screen's width and height
-		width = Math.min(room.getWidthbyPixel(), Screen.MAX_WIDTH / scale); 
-		height = Math.min(room.getHeightbyPixel(), Screen.MAX_HEIGHT / scale); // Note: could set to dependent on width i.e. (w*9/16)
+		width = Math.min(room.getWidthbyPixel(), (int)computerScreenWidth / scale); 
+		height = Math.min(room.getHeightbyPixel(), (int)computerScreenHeight / scale); // Note: could set to dependent on width i.e. (w*9/16)
 
 		// Reduces the scale if necessary to make sure the room fits on screen
 		double widthDif = computerScreenWidth / width;
