@@ -7,6 +7,11 @@ import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 import com.clay13chopper.game1.room.level.Level;
 
+/**
+ * A screen which displays controls and several levels to choose from
+ * @author Clayton Cunningham
+ *
+ */
 public class StartMenu extends Room {
 	
 	protected Sprite background;
@@ -31,6 +36,7 @@ public class StartMenu extends Room {
 		
 		super.update();
 		
+		// Check any user selection to potentially move to a level
 		int currSelect = ((MenuCursor) focus).checkTrigger();
 		if (currSelect == 0) changeRoom(Level.level1);
 		if (currSelect == 1) changeRoom(Level.level2);

@@ -20,6 +20,11 @@ import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.tiles.Tile;
 
+/**
+ * Loads a level from a local file
+ * @author Clayton Cunningham
+ *
+ */
 public class LoadedLevel extends Level {
 	
 	private int[] loadedEntities = new int[0];
@@ -33,6 +38,10 @@ public class LoadedLevel extends Level {
 		loadEntities(pathE);
 	}
 	
+	/**
+	 * Loads level data from the input path
+	 * @param path	path to retrieve the file from
+	 */
 	protected void loadLevel(String path) {
 		try {
 			System.out.print("Trying to load: " + path + "...");
@@ -54,6 +63,12 @@ public class LoadedLevel extends Level {
 		}
 	}
 	
+	/**
+	 * Returns the tile type at the input address
+	 * @param x	address 
+	 * @param y address
+	 * @returns Tile type at address
+	 */
 	public Tile getTile(int x, int y) {
 		//This will prevent the map from being rendered out of bounds
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
@@ -67,6 +82,10 @@ public class LoadedLevel extends Level {
 		return Tile.voidTile;
 	}
 	
+	/**
+	 * Loads starting entity data for a level from the input path
+	 * @param path	path to retrieve file from
+	 */
 	protected void loadEntities(String path) {
 		try {
 			System.out.print("Trying to load: " + path + "...");
@@ -89,6 +108,11 @@ public class LoadedLevel extends Level {
 		getEntityTypes(loadedEntities);
 	}
 	
+	/**
+	 * Reads storage of starting entities to add entities to level
+	 * 		This is run whenever the level is started/restarted
+	 * @param entities	array of starting entities
+	 */
 	protected void getEntityTypes(int[] entities) {
 		
 		for (int i = 0; i < entities.length; i++) {
@@ -114,11 +138,19 @@ public class LoadedLevel extends Level {
 							add(focus);}
 	}
 	
+	/**
+	 * Resets the level
+	 */
 	public void reset() {
 		super.reset();
 		getEntityTypes(loadedEntities);
 	}
 	
+	/**
+	 * Prepares the level with anything that cannot be done during creation
+	 * 		Right now that involves creating the TileInfo object, which requires the Screen to be set for the level
+	 * 		TODO: Should this include anything done to start the level i.e. adding units?
+	 */
 	public void prep() {
 		add(new TileInfo(TILE_SIZE, Screen.getHeight() - (TILE_SIZE * 2), (MapCursor) focus));
 	}

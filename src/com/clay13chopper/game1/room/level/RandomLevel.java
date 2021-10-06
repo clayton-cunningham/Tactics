@@ -17,6 +17,12 @@ import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.processors.PathFinder;
 import com.clay13chopper.game1.tiles.Tile;
 
+/**
+ * Creates a level with semi-randomly generated tiles and entities
+ * Further development is planned to allow random levels to be more controlled/recognizable
+ * @author Clayton Cunningham
+ *
+ */
 public class RandomLevel extends Level {
 
 	private int[] generatedEntities = new int[0];
@@ -37,23 +43,33 @@ public class RandomLevel extends Level {
 		activeTeam = Team.BLUE;
 	}
 	
+	/**
+	 * Generates a level's layout
+	 * Current modifications: tiles are likely to repeat adjacent tiles
+	 */
 	protected void generateLevel() {
 		
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
+		for (int yG = 0; yG < height; yG++) {
+			for (int xG = 0; xG < width; xG++) {
 				int chance = random.nextInt(3);
-				if (chance == 0 && x > 0) tiles[x + (y * width)] = tiles[(x - 1) + (y * width)];
-				else if (chance == 1 && y > 0) tiles[x + (y * width)] = tiles[x + ((y - 1) * width)];
-				else tiles[x + (y * width)] = random.nextInt(7);
+				if (chance == 0 && xG > 0) tiles[xG + (yG * width)] = tiles[(xG - 1) + (yG * width)];
+				else if (chance == 1 && yG > 0) tiles[xG + (yG * width)] = tiles[xG + ((yG - 1) * width)];
+				else tiles[xG + (yG * width)] = random.nextInt(7);
 			}
 		}
 		
 	}
-	
-	public Tile getTile(int x, int y) {
+
+	/**
+	 * Returns the tile type at the input address
+	 * @param xGrid	address in grid format
+	 * @param yGrid address in grid format
+	 * @returns Tile type at address
+	 */
+	public Tile getTile(int xGrid, int yGrid) {
 		//This will prevent the map from being rendered out of bounds
-		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
-		int index = x + (y * width);
+		if (xGrid < 0 || yGrid < 0 || xGrid >= width || yGrid >= height) return Tile.voidTile;
+		int index = xGrid + (yGrid * width);
 		if (tiles[index] == 0) return Tile.grass0;
 		if (tiles[index] == 1) return Tile.grass1;
 		if (tiles[index] == 2) return Tile.grass2;
@@ -65,15 +81,19 @@ public class RandomLevel extends Level {
 		return Tile.voidTile;
 	}
 	
+	/**
+	 * Generates entities randomly throughout the level
+	 * Also destroys walls in the level as necessary to make sure it is playable
+	 */
 	protected void generateEntities() {
 		
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				if (!getTile(x, y).solid()) {
-					int index = x + (y * width);
+		for (int yG = 0; yG < height; yG++) {
+			for (int xG = 0; xG < width; xG++) {
+				if (!getTile(xG, yG).solid()) {
+					int index = xG + (yG * width);
 					generatedEntities[index] = random.nextInt(40);
 					if (generatedEntities[index] < 11) {
-						checkPossible(x, y);
+						checkPossible(xG, yG);
 						addEntityType(generatedEntities[index], iToX(index), iToY(index));
 					}
 				}
@@ -85,6 +105,12 @@ public class RandomLevel extends Level {
 		
 	}
 	
+	/**
+	 * Adds a specified entity to the level at the input address
+	 * @param entity	integer representing the entity to add
+	 * @param x	address NOT in grid format
+	 * @param y address NOT in grid format
+	 */
 	protected void addEntityType(int entity, int x, int y) {
 		if (entity == 1) add(new Soldier(x, y, Team.BLUE));
 		else if (entity == 2) add(new Archer(x, y, Team.BLUE));
@@ -100,6 +126,9 @@ public class RandomLevel extends Level {
 		else if (entity == Entity.colGreenUnit) ;
 	}
 	
+	/**
+	 * Reloads entities in the level
+	 */
 	protected void reloadEntities() {
 		for (int i = 0; i < generatedEntities.length; i++) {
 			int e = generatedEntities[i];
@@ -109,7 +138,11 @@ public class RandomLevel extends Level {
 							add(focus);}
 	}
 
-	// Open path to other units, if the new unit is cut off
+	/**
+	 * Open path to other units, if the new unit is cut off
+	 * @param xGrid	address in grid format
+	 * @param yGrid	address in grid format
+	 */
 	protected void checkPossible(int xGrid, int yGrid) {
 		int[] path = pathFinder.calcDesiredPath(width * height, 1, 1, xGrid, yGrid, Team.NONE);
 		// If no other unit exists OR a wall is blocking this one
@@ -144,11 +177,19 @@ public class RandomLevel extends Level {
 		}
 	}
 	
+	/**
+	 * Reset the level
+	 */
 	public void reset() {
 		super.reset();
 		reloadEntities();
 	}
-	
+
+	/**
+	 * Prepares the level with anything that cannot be done during creation
+	 * 		Right now that involves creating the TileInfo object, which requires the Screen to be set for the level
+	 * 		TODO: Should this include anything done to start the level i.e. adding units?
+	 */
 	public void prep() {
 		add(new TileInfo(TILE_SIZE, Screen.getHeight() - (TILE_SIZE * 2), (MapCursor) focus));
 	}

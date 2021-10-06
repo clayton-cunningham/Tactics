@@ -25,7 +25,12 @@ import com.clay13chopper.game1.entities.displays.GenericUI;
 import com.clay13chopper.game1.entities.displays.TextMenu;
 import com.clay13chopper.game1.entities.displays.WinLose;
 
-//Can have two types of levels - random generation, and planned data
+/**
+ * Creates a level for the game
+ * 		Can have two types of levels - random generation, and planned data
+ * @author Clayton Cunningham
+ *
+ */
 public abstract class Level extends Room {
 
 	public static Level levelRandom = new RandomLevel(10, 10);
@@ -61,21 +66,26 @@ public abstract class Level extends Room {
 	
 	public void update() {
 		boolean nextTurn = true;
+		// Iterate through all entities in the level
 		// We need to use an iterator to safely remove from the list in this loop
 		for (Iterator<Entity> iterator = entities.iterator(); iterator.hasNext();) {
 			Entity e = iterator.next();
 			e.update();
+			// Remove a unit if it should be removed
 			if (e.isRemoved()) {
 				iterator.remove();
 				if (e instanceof Unit) removeUnit((Unit)e);
 				if (levelComplete != 0) return;
 			}
+			// Check if all entities on a turn have acted
 			else if (e instanceof Unit && ((Unit) e).getTeam() == activeTeam && !((Unit) e).getTurnDone()) 
 				nextTurn = false;
 		}
 		if (nextTurn) {
 			nextTurn();
 		}
+		
+		// Adding is at the end of the update cycle, so it doesn't interfere with the iterator
 		if (!queuedAdd.isEmpty()) {
 			for (Entity e : queuedAdd) add(e);
 			queuedAdd.clear();
@@ -112,11 +122,10 @@ public abstract class Level extends Room {
 		}
 	}
 	
-	public Tile getTile(int x, int y) {
-		return Tile.voidTile;
-	}
-	
-	// Add an entity to the level
+	/**
+	 * Add an entity to the level
+	 * @param e	Entity to add
+	 */
 	public void add(Entity e) {
 		
 		entities.add(e);
@@ -131,7 +140,20 @@ public abstract class Level extends Room {
 		
 	}
 	
-	// Creates a text box with the options requested
+	/**
+	 * Queue adding an entity to the level
+	 * @param e	Entity to add
+	 */
+	public void scheduleAdd(Entity e) {
+		queuedAdd.add(e);
+	}
+	
+	/**
+	 * Creates a text box with the options requested
+	 * @param x	address
+	 * @param y address
+	 * @param options	to have in the text box
+	 */
 	public void createTextBox(int x, int y, int[] options) {
 
 		ArrayList<Integer> aL = new ArrayList<Integer>();
@@ -153,16 +175,23 @@ public abstract class Level extends Room {
 		scheduleAdd(menu);
 	}
 	
-	// Queue adding an entity to the level
-	public void scheduleAdd(Entity e) {
-		queuedAdd.add(e);
-	}
-	
+	/**
+	 * Move a unit from the first address to the second address
+	 * @param u		Unit to move
+	 * @param x		address Unit was at
+	 * @param y		address Unit was at 
+	 * @param xa	address Unit is moving to
+	 * @param ya	address Unit is moving to
+	 */
 	public void moveUnit(Unit u, int x, int y, int xa, int ya) {
 		locations[x + (y * width)] = null;
 		locations[xa + (ya * width)] = u;
 	}
 	
+	/**
+	 * Remove Unit from level
+	 * @param u		Unit to remove
+	 */
 	public void removeUnit(Unit u) {
 		int x = u.getXGrid();
 		int y = u.getYGrid();
@@ -187,19 +216,9 @@ public abstract class Level extends Room {
 		}
 	}
 	
-	public Unit getUnit(int x, int y) {
-		return locations[ x + (y * width)];
-	}
-	
-	public Team getActiveTeam() {
-		return activeTeam;
-	}
-	
-	private Team getNextTeam() {
-		if (activeTeam == Team.BLUE) return Team.RED;
-		return Team.BLUE;
-	}
-	
+	/**
+	 * Move to the next team's turn
+	 */
 	public void nextTurn() {
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -211,51 +230,34 @@ public abstract class Level extends Room {
 		if (activeTeam != Team.BLUE) ((MapCursor) focus).lockAndHide();
 		else ((MapCursor) focus).unlockAndUnhide();
 	}
+
+	// Get and set methods
 	
-	public void setUnitActing(Unit u) {
-		unitActing = u;
-	}
+	public Unit getUnit(int x, int y) 	{	return locations[ x + (y * width)];	}
+	public Tile getTile(int x, int y) 	{	return Tile.voidTile;	}
 	
-	public Unit getUnitActing() {
-		return unitActing;
-	}
+	public Team getActiveTeam() 		{	return activeTeam;									}
+	private Team getNextTeam() 			{	if (activeTeam == Team.BLUE) 	return Team.RED;
+											else							return Team.BLUE;	}
+	public void setUnitActing(Unit u) 	{	unitActing = u;		}
+	public Unit getUnitActing() 		{	return unitActing;	}
 	
-	public int getWidth() {
-		return width;
-	}
+	public int getWidth() 			{	return width;				}
+	public int getHeight() 			{	return height;				}
+	public int getWidthbyPixel() 	{	return width * TILE_SIZE;	}
+	public int getHeightbyPixel() 	{	return height * TILE_SIZE;	}
 	
-	public int getHeight() {
-		return height;
-	}
+	public int getTileSize()	{	return TILE_SIZE;		}
+	public int getShift() 		{	return TILE_SIZE_SHIFT;	}
 	
-	public int getWidthbyPixel() {
-		return width * TILE_SIZE;
-	}
+	public int getLevelComplete() 	{	return levelComplete;	}
 	
-	public int getHeightbyPixel() {
-		return height * TILE_SIZE;
-	}
+	protected int iToX(int i) 	{	return (i % width) * TILE_SIZE + (TILE_SIZE / 2);	}
+	protected int iToY(int i) 	{	return (i / width) * TILE_SIZE + (TILE_SIZE / 2);	}
 	
-	public int getTileSize() {
-		return TILE_SIZE;
-	}
-	
-	public int getShift() {
-		return TILE_SIZE_SHIFT;
-	}
-	
-	public int getLevelComplete() {
-		return levelComplete;
-	}
-	
-	protected int iToX(int i) {
-		return (i % width) * TILE_SIZE + (TILE_SIZE / 2);
-	}
-	
-	protected int iToY(int i) {
-		return (i / width) * TILE_SIZE + (TILE_SIZE / 2);
-	}
-	
+	/**
+	 * Reset the level
+	 */
 	public void reset() {
 		super.reset();
 		Arrays.fill(locations, null);

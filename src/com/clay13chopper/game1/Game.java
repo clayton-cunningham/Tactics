@@ -24,7 +24,7 @@ import com.clay13chopper.game1.room.StartMenu;
  *  		run "set path=C:\Program Files\Java\jdk1.8.0_121\bin" to set the java file path
  *  		run the command "java -jar [filename].jar"
  *  
- * @author Me
+ * @author Clayton Cunningham
  *
  */
 public class Game extends Canvas implements Runnable {
@@ -69,6 +69,10 @@ public class Game extends Canvas implements Runnable {
 		addKeyListener(key);
 	}
 	
+	/**
+	 * Sets a new room or level to move to in the game
+	 * @param r		Room to move to
+	 */
 	public void setRoom(Room r) {
 		room = r;
 
@@ -139,6 +143,9 @@ public class Game extends Canvas implements Runnable {
 		
 	}
 	
+	/**
+	 * This cycle tells the keyboard, screen and room to update continuously
+	 */
 	public void update() {
 		Room r = room.getChangeRoom();
 		if (r != null) setRoom(r);
@@ -149,6 +156,9 @@ public class Game extends Canvas implements Runnable {
 		
 	}
 	
+	/**
+	 * This cycle tells the room to re-render after every update
+	 */
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
@@ -187,6 +197,9 @@ public class Game extends Canvas implements Runnable {
 
 	}
 
+	/**
+	 * Starts the game
+	 */
 	public void start() {
 		running = true;
 
@@ -195,6 +208,9 @@ public class Game extends Canvas implements Runnable {
 
 	}
 
+	/**
+	 * Stops the game
+	 */
 	public void stop() {
 		running = false;
 

@@ -7,6 +7,13 @@ import com.clay13chopper.game1.entities.Entity;
 import com.clay13chopper.game1.graphics.Screen;
 import com.clay13chopper.game1.graphics.Sprite;
 
+/**
+ * Rooms: areas the game displays which can contain multiple entities, backgrounds, etc. at once
+ * 		to provide an interactive experience
+ * 		i.e. various Levels, the start screen, etc.
+ * @author Clayton Cunningham
+ *
+ */
 public class Room {
 	
 	protected int width, height;
@@ -45,6 +52,10 @@ public class Room {
 		
 	}
 	
+	/**
+	 * Adds an entity to the room
+	 * @param e Entity to dd
+	 */
 	public void add(Entity e) {
 		
 		entities.add(e);
@@ -52,24 +63,15 @@ public class Room {
 		
 	}
 	
-	public Entity getFocus() {
-		return focus;
-	}
+	// Get and set methods
 	
-	public int getWidthbyPixel() {
-		return width;
-	}
+	public Entity getFocus() 		{	return focus;	}
+	public int getWidthbyPixel() 	{	return width;	}
+	public int getHeightbyPixel() 	{	return height;	}
+	public int getScale() 			{	return scale;	}
 	
-	public int getHeightbyPixel() {
-		return height;
-	}
-	
-	public int getScale() {
-		return scale;
-	}
-	
-	public void changeRoom(Room r) {
-		changeRoom = r;
+	public void changeRoom(Room r) 	{	
+		changeRoom = r;	
 	}
 	
 	/**
@@ -83,6 +85,9 @@ public class Room {
 		return r;
 	}
 	
+	/**
+	 * Resets the room
+	 */
 	public void reset() {
 		changeRoom = null;
 		entities = new ArrayList<Entity>();
@@ -90,6 +95,9 @@ public class Room {
 		Screen.setOffset(0, 0);
 	}
 	
+	/**
+	 * Prepares the room on entry
+	 */
 	public void prep() {
 		
 	}
