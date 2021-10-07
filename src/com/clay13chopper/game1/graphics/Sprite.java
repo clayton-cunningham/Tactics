@@ -29,6 +29,7 @@ public class Sprite {
 	public static Sprite attackSpace = new Sprite(16, 16,  1, 7, SpriteSheet.background_tiles);
 	public static Sprite enemyMoveSpace = new Sprite(16, 16,  2, 7, SpriteSheet.background_tiles);
 	public static Sprite enemyAttackSpace = new Sprite(16, 16,  3, 7, SpriteSheet.background_tiles);
+	public static Sprite enemyAttackSpace2 = new Sprite(16, 16,  3, 6, SpriteSheet.background_tiles);
 
 	//Mobs
 	public static Sprite blueSoldierDown0 = new Sprite(16, 16,  0, 0, SpriteSheet.example_player);

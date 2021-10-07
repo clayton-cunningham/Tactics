@@ -41,7 +41,7 @@ public abstract class Tile {
 		
 		// Render the path, if anything exists here
 		if 		(enemyShown && type == PathType.MOVE) 	screen.renderSprite(x, y, Sprite.enemyMoveSpace, false, false);
-		else if (enemyShown && type == PathType.ATTACK) screen.renderSprite(x, y, Sprite.enemyAttackSpace, false, false);
+		else if (enemyShown && type == PathType.ATTACK) screen.renderSprite(x, y, Sprite.attackSpace, false, false);
 		else if (			   type == PathType.MOVE) 	screen.renderSprite(x, y, Sprite.moveSpace, false, false);
 		else if (			   type == PathType.ATTACK) screen.renderSprite(x, y, Sprite.attackSpace, false, false);
 	}
